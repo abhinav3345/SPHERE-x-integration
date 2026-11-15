@@ -1,0 +1,1036 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Tombaugh comparator, Blink on a phone</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/comparator/assets/Hand-off/tokens.css">
+<link rel="stylesheet" href="ds/comparator/components/bundle.css">
+<script src="ds/comparator/components/bundle.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400&amp;family=Source+Sans+3:wght@400;600&amp;display=swap">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="position: relative; box-sizing: border-box; width: 390px; height: {{ g.H }}; min-height: {{ g.minH }}; overflow-x: hidden; overflow-y: {{ g.ov }}; background: var(--color-bg); color: var(--color-text); font-family: var(--font-ui); font-size: 16px; line-height: 24px; font-variant-numeric: var(--numeric)" onKeyDown="{{ onRootKey }}">
+
+<header class="bc-appbar">
+<a class="bc-wordmark" href="#">Tombaugh</a>
+<span class="bc-appbar__end">
+<span class="bc-copy__status" role="status" aria-live="polite" style="text-align: end">{{ copy.status }}</span>
+<sc-if value="{{ chip.recorded }}" hint-placeholder-val="{{ true }}"><span class="bc-chip bc-chip--qualifier"><span class="bc-mark"></span>Recorded field</span></sc-if>
+<sc-if value="{{ chip.live }}" hint-placeholder-val="{{ false }}"><span class="bc-chip"><span class="bc-mark bc-mark--full"></span>Live data</span></sc-if>
+<button class="bc-button bc-button--quiet bc-button--icon" type="button" aria-label="Copy link" onClick="{{ doCopy }}"><svg class="bc-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M8.6 11.4a3 3 0 0 0 4.2 0l2.6-2.6a3 3 0 0 0-4.2-4.2l-1 1"></path><path d="M11.4 8.6a3 3 0 0 0-4.2 0l-2.6 2.6a3 3 0 0 0 4.2 4.2l1-1"></path></svg></button>
+</span>
+</header>
+
+<!-- TITLE: what is on screen. The search field itself is at the foot; "Change" jumps to it. -->
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 50px; padding: 0 16px">
+<div style="min-width: 0">
+<h1 class="bc-title">{{ t.title }}</h1>
+<p class="bc-value" style="font-size: var(--text-caption); line-height: var(--leading-caption); color: var(--color-text-muted); white-space: pre-wrap">{{ t.pos }}</p>
+</div>
+<a class="bc-link bc-link--target" href="#tb-go">Change</a>
+</div>
+
+<!-- A notice with an action goes above the image. Any other notice goes under the playback. -->
+<sc-if value="{{ n.archive }}" hint-placeholder-val="{{ false }}">
+<div style="padding: 0 16px 12px">
+<div class="bc-notice bc-notice--warning" role="status">
+<svg class="bc-icon" viewBox="0 0 20 20" role="img" aria-label="Warning"><path d="M10 3l7.5 13.5h-15z"></path><path d="M10 8v4"></path><circle class="bc-icon__solid" cx="10" cy="14.2" r="0.9"></circle></svg>
+<div>
+<p>The archive is not responding. Showing the recorded field instead.</p>
+<div class="bc-notice__actions"><button class="bc-button" type="button" onClick="{{ retry }}">Try again</button></div>
+</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ n.jump }}" hint-placeholder-val="{{ false }}">
+<div style="padding: 0 16px 12px">
+<div class="bc-notice" role="status">
+<svg class="bc-icon" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7"></circle><path d="M10 9v5"></path><circle class="bc-icon__solid" cx="10" cy="6.3" r="0.9"></circle></svg>
+<div>
+<p>WISE 0855-0714 was here in 2010. It is now 126″ to the west.</p>
+<div class="bc-notice__actions"><button class="bc-button bc-button--primary" type="button" onClick="{{ jump }}">Go to where it is now</button></div>
+</div>
+</div>
+</div>
+</sc-if>
+
+<section aria-label="Image" style="position: relative">
+
+<sc-if value="{{ vw.one }}" hint-placeholder-val="{{ true }}">
+<div class="bc-frame" tabindex="0" role="group" aria-label="{{ fr.aria }}" onKeyDown="{{ onFrameKey }}">
+<sc-if value="{{ fr.image }}" hint-placeholder-val="{{ true }}">
+<div class="bc-frame__stage">
+<div class="bc-frame__plate" style="width: {{ pl.size }}; height: {{ pl.size }}; overflow: hidden" onClick="{{ onPlate }}">
+<!-- REAL FRAMES GO HERE: one <img class="bc-frame__image"> per slot, 119 × 119 px source, drawn at pl.img with image-rendering: pixelated. Until they arrive the system's flat block stands in. -->
+<div style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; background: {{ im.bg }}"></div>
+<span class="bc-frame__label"><span>real frame, 119 × 119 px<br>{{ im.slot }}</span></span>
+<sc-for list="{{ im.hatch }}" as="h" hint-placeholder-count="0"><span style="position: absolute; left: {{ h.l }}; top: {{ h.t }}; width: {{ h.s }}; height: {{ h.s }}; background: {{ h.bg }}"></span></sc-for>
+<sc-if value="{{ ov.spot }}" hint-placeholder-val="{{ false }}"><svg class="bc-frame__overlay" viewBox="{{ ov.vb }}" aria-hidden="true"><path class="bc-spotlight" style="fill-rule: evenodd" d="{{ ov.spotD }}"></path><path class="bc-spotlight__ring bc-spotlight__ring--casing" d="{{ ov.spotRing }}"></path><path class="bc-spotlight__ring" d="{{ ov.spotRing }}"></path></svg></sc-if>
+<sc-if value="{{ ov.was }}" hint-placeholder-val="{{ true }}"><svg class="bc-frame__overlay" viewBox="{{ ov.vb }}" aria-hidden="true"><g class="bc-mk bc-mk--was" transform="{{ ov.wasT }}"><path class="bc-mk__casing" d="M-11 -11H11V11H-11Z"></path><path class="bc-mk__ink" d="M-11 -11H11V11H-11Z"></path></g></svg></sc-if>
+<sc-if value="{{ ov.ring }}" hint-placeholder-val="{{ true }}"><svg class="bc-frame__overlay" viewBox="{{ ov.vb }}" aria-hidden="true"><g class="bc-mk bc-mk--position" transform="{{ ov.ringT }}"><path class="bc-mk__casing" d="M-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path><path class="bc-mk__ink" d="M-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path></g></svg></sc-if>
+<sc-if value="{{ ov.cur }}" hint-placeholder-val="{{ false }}"><svg class="bc-frame__overlay" viewBox="{{ ov.vb }}" aria-hidden="true"><g class="bc-mk bc-mk--position"><path class="bc-mk__casing" d="{{ ov.curD }}"></path><path class="bc-mk__ink" d="{{ ov.curD }}"></path></g></svg></sc-if>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ fr.building }}" hint-placeholder-val="{{ false }}">
+<div class="bc-frame__state">
+<div class="bc-progress" role="status" aria-live="polite">
+<ol class="bc-steps">
+<li class="{{ bs.c1 }}" aria-current="{{ bs.a1 }}"><span class="bc-mark"></span><span>Finding exposures</span></li>
+<li class="{{ bs.c2 }}" aria-current="{{ bs.a2 }}"><span class="bc-mark"></span><span>{{ bs.l2 }}<span class="bc-value">{{ bs.v2 }}</span></span></li>
+<li class="{{ bs.c3 }}" aria-current="{{ bs.a3 }}"><span class="bc-mark"></span><span>{{ bs.l3 }}<span class="bc-value">{{ bs.v3 }}</span></span></li>
+</ol>
+<div class="bc-bar" role="progressbar" aria-label="{{ bs.barLabel }}" aria-valuemin="0" aria-valuemax="258" aria-valuenow="{{ bs.now }}"><span class="bc-bar__fill" style="width: {{ bs.pct }}"></span></div>
+<p class="bc-note">The first build takes about a minute; it is saved, so next time this position opens at once.</p>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ fr.nocov }}" hint-placeholder-val="{{ false }}">
+<div class="bc-frame__state">
+<div class="bc-notice bc-notice--plain" role="status">
+<svg class="bc-icon" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7"></circle><path d="M10 9v5"></path><circle class="bc-icon__solid" cx="10" cy="6.3" r="0.9"></circle></svg>
+<div>
+<p>No public SPHEREx image covers this position yet.</p>
+<p class="bc-note">Try one of the targets below, or come back after the next release.</p>
+<div class="bc-notice__actions"><a class="bc-button" href="#tb-targets">See the targets</a></div>
+</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ fr.busy }}" hint-placeholder-val="{{ false }}">
+<div class="bc-frame__state">
+<div class="bc-notice bc-notice--plain" role="status">
+<svg class="bc-icon" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7"></circle><path d="M10 9v5"></path><circle class="bc-icon__solid" cx="10" cy="6.3" r="0.9"></circle></svg>
+<div>
+<p>Too many requests are being built. Try again in <span class="bc-value bc-fixed bc-fixed--end" style="min-width: 2ch">20</span> seconds.</p>
+<div class="bc-notice__actions"><button class="bc-button" type="button" aria-disabled="true">Try again</button></div>
+</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ fr.nopos }}" hint-placeholder-val="{{ false }}">
+<div class="bc-frame__state">
+<div class="bc-notice bc-notice--plain" role="status">
+<svg class="bc-icon" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7"></circle><path d="M10 9v5"></path><circle class="bc-icon__solid" cx="10" cy="6.3" r="0.9"></circle></svg>
+<div>
+<p>No position chosen yet.</p>
+<p class="bc-note">Type a position or a name, or pick one of the five targets.</p>
+<div class="bc-notice__actions"><a class="bc-button" href="#tb-targets">See the targets</a></div>
+</div>
+</div>
+</div>
+</sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{ vw.two }}" hint-placeholder-val="{{ false }}">
+<div class="{{ two.aCls }}" role="group" aria-label="{{ two.aAria }}">
+<div class="bc-frame__stage">
+<div class="bc-frame__plate" style="width: {{ pl.size }}; height: {{ pl.size }}; overflow: hidden" onClick="{{ onPlate }}">
+<div style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; background: {{ im.bg }}"></div>
+<span class="bc-frame__label"><span>real frame, 119 × 119 px<br>{{ two.aSlot }}</span></span>
+<sc-for list="{{ two.aHatch }}" as="h" hint-placeholder-count="0"><span style="position: absolute; left: {{ h.l }}; top: {{ h.t }}; width: {{ h.s }}; height: {{ h.s }}; background: {{ h.bg }}"></span></sc-for>
+<sc-if value="{{ ov.spot }}" hint-placeholder-val="{{ false }}"><svg class="bc-frame__overlay" viewBox="{{ ov.vb }}" aria-hidden="true"><path class="bc-spotlight" style="fill-rule: evenodd" d="{{ ov.spotD }}"></path><path class="bc-spotlight__ring bc-spotlight__ring--casing" d="{{ ov.spotRing }}"></path><path class="bc-spotlight__ring" d="{{ ov.spotRing }}"></path></svg></sc-if>
+<sc-if value="{{ ov.was }}" hint-placeholder-val="{{ false }}"><svg class="bc-frame__overlay" viewBox="{{ ov.vb }}" aria-hidden="true"><g class="bc-mk bc-mk--was" transform="{{ ov.wasT }}"><path class="bc-mk__casing" d="M-11 -11H11V11H-11Z"></path><path class="bc-mk__ink" d="M-11 -11H11V11H-11Z"></path></g></svg></sc-if>
+<sc-if value="{{ ov.ring }}" hint-placeholder-val="{{ false }}"><svg class="bc-frame__overlay" viewBox="{{ ov.vb }}" aria-hidden="true"><g class="bc-mk bc-mk--position" transform="{{ ov.ringT }}"><path class="bc-mk__casing" d="M-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path><path class="bc-mk__ink" d="M-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path></g></svg></sc-if>
+</div>
+</div>
+</div>
+<div class="{{ two.aLabCls }}" style="margin-top: 8px">
+<div class="bc-framelabel__chips">
+<sc-if value="{{ two.side }}" hint-placeholder-val="{{ false }}"><span class="bc-epochtag"><span class="bc-swatch bc-swatch--a"></span>A</span></sc-if>
+<sc-if value="{{ two.old }}" hint-placeholder-val="{{ false }}"><span class="bc-chip bc-chip--qualifier">Its own brightness scale</span></sc-if>
+<sc-if value="{{ two.aPartial }}" hint-placeholder-val="{{ false }}"><span class="bc-chip bc-chip--qualifier">Partial frame</span></sc-if>
+<sc-if value="{{ two.sat }}" hint-placeholder-val="{{ false }}"><span class="bc-chip bc-chip--qualifier"><span class="bc-mark bc-mark--hatch"></span>Saturated core</span></sc-if>
+</div>
+<sc-if value="{{ two.side }}" hint-placeholder-val="{{ false }}"><p class="bc-framelabel__when">{{ two.aWhen }}</p><p class="bc-framelabel__facts"><span>{{ two.aRange }}</span><span>{{ two.aCount }}</span></p></sc-if>
+<sc-if value="{{ two.old }}" hint-placeholder-val="{{ false }}"><p class="bc-framelabel__source">{{ other.survey }}</p><p class="bc-note">Other survey</p></sc-if>
+</div>
+<div class="bc-frame" role="group" aria-label="{{ two.bAria }}" style="margin-top: 16px">
+<div class="bc-frame__stage">
+<div class="bc-frame__plate" style="width: {{ pl.size }}; height: {{ pl.size }}; overflow: hidden" onClick="{{ onPlate }}">
+<div style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; background: {{ im.bg }}"></div>
+<span class="bc-frame__label"><span>real frame, 119 × 119 px<br>{{ two.bSlot }}</span></span>
+<sc-for list="{{ two.bHatch }}" as="h" hint-placeholder-count="0"><span style="position: absolute; left: {{ h.l }}; top: {{ h.t }}; width: {{ h.s }}; height: {{ h.s }}; background: {{ h.bg }}"></span></sc-for>
+<sc-if value="{{ ov.spot }}" hint-placeholder-val="{{ false }}"><svg class="bc-frame__overlay" viewBox="{{ ov.vb }}" aria-hidden="true"><path class="bc-spotlight" style="fill-rule: evenodd" d="{{ ov.spotD }}"></path><path class="bc-spotlight__ring bc-spotlight__ring--casing" d="{{ ov.spotRing }}"></path><path class="bc-spotlight__ring" d="{{ ov.spotRing }}"></path></svg></sc-if>
+<sc-if value="{{ ov.was }}" hint-placeholder-val="{{ false }}"><svg class="bc-frame__overlay" viewBox="{{ ov.vb }}" aria-hidden="true"><g class="bc-mk bc-mk--was" transform="{{ ov.wasT }}"><path class="bc-mk__casing" d="M-11 -11H11V11H-11Z"></path><path class="bc-mk__ink" d="M-11 -11H11V11H-11Z"></path></g></svg></sc-if>
+<sc-if value="{{ ov.ring }}" hint-placeholder-val="{{ false }}"><svg class="bc-frame__overlay" viewBox="{{ ov.vb }}" aria-hidden="true"><g class="bc-mk bc-mk--position" transform="{{ ov.ringT }}"><path class="bc-mk__casing" d="M-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path><path class="bc-mk__ink" d="M-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path></g></svg></sc-if>
+</div>
+</div>
+</div>
+</sc-if>
+
+<div class="bc-framefoot">
+<span class="bc-scalebar" role="img" aria-label="{{ sb.aria }}">
+<svg width="{{ sb.w }}" height="9" viewBox="{{ sb.vb }}" aria-hidden="true"><path d="{{ sb.d }}"></path></svg>
+<span aria-hidden="true"><span class="bc-fixed" style="min-width: 5ch">{{ sb.len }}</span><span class="bc-fixed bc-muted" style="min-width: 3ch">{{ sb.k }}</span></span>
+</span>
+<svg class="bc-compass" viewBox="0 0 44 44" role="img" aria-label="North is up, east is left"><path d="M32.5 36V12M29 16l3.5-4 3.5 4M32.5 36H10M14 32.5l-4 3.5 4 3.5"></path><text x="32.5" y="9" style="text-anchor: middle">N</text><text x="4" y="40" style="text-anchor: middle">E</text></svg>
+</div>
+
+<sc-if value="{{ vw.diff }}" hint-placeholder-val="{{ false }}">
+<div class="bc-diffscale" style="margin: 0 16px 8px">
+<div class="bc-diffscale__ends"><span>Brighter earlier</span><span>Brighter later</span></div>
+<div class="bc-diffscale__bar"></div>
+<div class="bc-diffscale__ticks" aria-hidden="true"><span>−5σ</span><span>−4σ</span><span>−3σ</span><span>−2σ</span><span>−1σ</span><span>0</span><span>+1σ</span><span>+2σ</span><span>+3σ</span><span>+4σ</span><span>+5σ</span></div>
+<p class="bc-note">Later minus earlier, in units of noise (σ)</p>
+</div>
+</sc-if>
+
+<div class="bc-legend" style="min-height: 18px; margin-bottom: 4px; padding: 0 16px">
+<sc-if value="{{ lg.pos }}" hint-placeholder-val="{{ true }}"><span class="bc-legend__item"><svg class="bc-key" viewBox="0 0 16 16" aria-hidden="true"><g class="bc-mk bc-mk--position"><path class="bc-mk__casing" d="M3 8a5 5 0 1 0 10 0a5 5 0 1 0 -10 0"></path><path class="bc-mk__ink" d="M3 8a5 5 0 1 0 10 0a5 5 0 1 0 -10 0"></path></g></svg><span>Your position</span></span></sc-if>
+<sc-if value="{{ lg.was }}" hint-placeholder-val="{{ true }}"><span class="bc-legend__item"><svg class="bc-key" viewBox="0 0 16 16" aria-hidden="true"><g class="bc-mk bc-mk--was"><path class="bc-mk__casing" d="M3 3H13V13H3Z"></path><path class="bc-mk__ink" d="M3 3H13V13H3Z"></path></g></svg><span>Where it was in 2010</span></span></sc-if>
+<sc-if value="{{ lg.nodata }}" hint-placeholder-val="{{ false }}"><span class="bc-legend__item"><span class="bc-swatch bc-swatch--nodata"></span><span>No data</span></span></sc-if>
+<sc-if value="{{ lg.rgb }}" hint-placeholder-val="{{ false }}"><span class="bc-legend__item"><span class="bc-swatch bc-swatch--r"></span><span>Red</span><span class="bc-value">3.8 to 5.0 µm</span></span><span class="bc-legend__item"><span class="bc-swatch bc-swatch--g"></span><span>Green</span><span class="bc-value">1.6 to 3.8 µm</span></span><span class="bc-legend__item"><span class="bc-swatch bc-swatch--b3"></span><span>Blue</span><span class="bc-value">0.74 to 1.65 µm</span></span></sc-if>
+</div>
+
+<sc-if value="{{ rb.show }}" hint-placeholder-val="{{ true }}">
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; min-height: 44px; padding: 0 16px">
+<button class="bc-button" type="button" aria-pressed="{{ rb.spot }}" onClick="{{ toggleSpot }}">Spotlight</button>
+<button class="bc-button" type="button" aria-pressed="{{ rb.spec }}" onClick="{{ toggleSpec }}">Spectrum</button>
+<sc-if value="{{ rb.rec }}" hint-placeholder-val="{{ false }}"><button class="bc-button" type="button" aria-label="Recentre the field on the ring" onClick="{{ recentre }}">Recentre</button></sc-if>
+</div>
+</sc-if>
+<sc-if value="{{ rb.none }}" hint-placeholder-val="{{ false }}"><div style="min-height: 44px"></div></sc-if>
+
+<p class="bc-readout" aria-live="off">
+<span class="bc-readout__field" style="min-width: 14ch"><span class="bc-readout__key">RA </span>{{ ro.ra }}</span>
+<span class="bc-readout__field" style="min-width: 13ch"><span class="bc-readout__key">Dec </span>{{ ro.dec }}</span>
+<span class="bc-readout__field" style="min-width: 12ch">{{ ro.val }}</span>
+</p>
+
+<sc-if value="{{ lab.one }}" hint-placeholder-val="{{ true }}">
+<div class="bc-framelabel" aria-live="off" style="margin-top: 8px">
+<div class="bc-framelabel__chips">
+<sc-if value="{{ lab.partial }}" hint-placeholder-val="{{ false }}"><span class="bc-chip bc-chip--qualifier">Partial frame</span></sc-if>
+<sc-if value="{{ lab.thin }}" hint-placeholder-val="{{ false }}"><span class="bc-chip bc-chip--qualifier">Thin frame</span></sc-if>
+<sc-if value="{{ lab.sat }}" hint-placeholder-val="{{ false }}"><span class="bc-chip bc-chip--qualifier"><span class="bc-mark bc-mark--hatch"></span>Saturated core</span></sc-if>
+<sc-if value="{{ lab.example }}" hint-placeholder-val="{{ false }}"><span class="bc-chip bc-chip--qualifier">Example values for layout, not a measurement</span></sc-if>
+<sc-if value="{{ lab.newest }}" hint-placeholder-val="{{ false }}"><span class="bc-chip">Newest SPHEREx image: <span class="bc-value">5 Oct 2026</span></span></sc-if>
+</div>
+<p class="bc-framelabel__when">{{ lab.when }}</p>
+<p class="bc-framelabel__facts"><span>{{ lab.range }}</span><span>{{ lab.count }}</span></p>
+<p class="bc-note">Resampled to 3.075″ per pixel; native pixel 6.15″</p>
+</div>
+</sc-if>
+
+<sc-if value="{{ lab.diff }}" hint-placeholder-val="{{ false }}">
+<div class="bc-framelabel" style="margin-top: 8px">
+<p style="display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px"><span class="bc-epochtag"><span class="bc-swatch bc-swatch--b"></span>B<span class="bc-value">{{ pair.bShort }}</span></span><span class="bc-note">minus</span><span class="bc-epochtag"><span class="bc-swatch bc-swatch--a"></span>A<span class="bc-value">{{ pair.aShort }}</span></span></p>
+<p class="bc-note">Pairs half a year apart leave small marks on bright stars.</p>
+</div>
+</sc-if>
+
+<sc-if value="{{ lab.two }}" hint-placeholder-val="{{ false }}">
+<div class="bc-framelabel" style="margin-top: 8px">
+<div class="bc-framelabel__chips">
+<sc-if value="{{ two.side }}" hint-placeholder-val="{{ false }}"><span class="bc-epochtag"><span class="bc-swatch bc-swatch--b"></span>B</span></sc-if>
+<sc-if value="{{ two.old }}" hint-placeholder-val="{{ false }}"><span class="bc-chip">SPHEREx</span></sc-if>
+<sc-if value="{{ two.bPartial }}" hint-placeholder-val="{{ false }}"><span class="bc-chip bc-chip--qualifier">Partial frame</span></sc-if>
+<sc-if value="{{ two.sat }}" hint-placeholder-val="{{ false }}"><span class="bc-chip bc-chip--qualifier"><span class="bc-mark bc-mark--hatch"></span>Saturated core</span></sc-if>
+</div>
+<p class="bc-framelabel__when">{{ two.bWhen }}</p>
+<p class="bc-framelabel__facts"><span>{{ two.bRange }}</span><span>{{ two.bCount }}</span></p>
+<sc-if value="{{ two.old }}" hint-placeholder-val="{{ false }}"><p class="bc-note">Only positions compare. Each survey keeps its own brightness scale.</p></sc-if>
+</div>
+</sc-if>
+
+<!-- THE DOCK: the flip key pins to the foot of the screen whenever this slot is below the fold. -->
+<sc-if value="{{ vw.blink }}" hint-placeholder-val="{{ true }}">
+<div style="position: sticky; bottom: 0; z-index: 2; margin-top: 8px; padding: 8px 16px; background: var(--color-bg); border-top: 1px solid var(--color-line)">
+<button class="bc-flip" type="button" aria-pressed="{{ flip.pressed }}" disabled="{{ pb.off }}" onPointerDown="{{ flip.down }}" onPointerUp="{{ flip.up }}" onPointerLeave="{{ flip.up }}" onPointerCancel="{{ flip.up }}" onBlur="{{ flip.up }}" onKeyDown="{{ flip.keyDown }}" onKeyUp="{{ flip.keyUp }}" onContextMenu="{{ flip.menu }}"><svg class="bc-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M3.5 7h12"></path><path d="M12.5 4l3 3-3 3"></path><path d="M16.5 13h-12"></path><path d="M7.5 10l-3 3 3 3"></path></svg>Hold to flip</button>
+</div>
+</sc-if>
+
+</section>
+
+<div style="display: grid; grid-template-columns: minmax(0, 1fr); gap: 24px; padding: 8px 16px 32px">
+
+<sc-if value="{{ vw.blink }}" hint-placeholder-val="{{ true }}">
+<div class="bc-playback">
+<div class="bc-transport">
+<button class="bc-button bc-button--icon" type="button" aria-label="Previous frame" disabled="{{ pb.off }}" onClick="{{ tr.prev }}"><svg class="bc-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 4.5v11"></path><path d="M15 4.5v11L7.5 10z"></path></svg></button>
+<sc-if value="{{ pb.motion }}" hint-placeholder-val="{{ true }}"><button class="bc-button bc-button--icon" type="button" aria-label="{{ tr.playLabel }}" aria-pressed="{{ tr.playing }}" disabled="{{ pb.off }}" onClick="{{ tr.toggle }}"><sc-if value="{{ tr.isPaused }}" hint-placeholder-val="{{ true }}"><svg class="bc-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M6.5 4.5v11l9-5.5z"></path></svg></sc-if><sc-if value="{{ tr.isPlaying }}" hint-placeholder-val="{{ false }}"><svg class="bc-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M6 4.5h2.5v11H6zM11.5 4.5H14v11h-2.5z"></path></svg></sc-if></button></sc-if>
+<button class="bc-button bc-button--icon" type="button" aria-label="Next frame" disabled="{{ pb.off }}" onClick="{{ tr.next }}"><svg class="bc-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M15 4.5v11"></path><path d="M5 4.5v11l7.5-5.5z"></path></svg></button>
+<span class="bc-transport__count bc-fixed bc-fixed--end" style="min-width: 14ch">{{ tr.count }}</span>
+</div>
+<sc-if value="{{ pb.motion }}" hint-placeholder-val="{{ true }}">
+<div class="bc-speed">
+<label for="tb-speed">Speed</label>
+<div>
+<input class="bc-slider" id="tb-speed" type="range" min="1" max="6" step="1" value="{{ speed.v }}" onChange="{{ setSpeed }}" disabled="{{ pb.off }}">
+<div class="bc-ticks bc-ticks--labelled" aria-hidden="true"><span><i>1</i></span><span><i>2</i></span><span><i>3</i></span><span><i>4</i></span><span><i>5</i></span><span><i>6</i></span></div>
+</div>
+<output class="bc-fixed" style="min-width: 12ch" for="tb-speed">{{ speed.label }}</output>
+</div>
+</sc-if>
+<sc-if value="{{ pb.reduced }}" hint-placeholder-val="{{ false }}"><p class="bc-note">Reduced motion is on, so frames change only when you step or hold.</p></sc-if>
+<sc-if value="{{ pb.off }}" hint-placeholder-val="{{ false }}"><p class="bc-note">{{ pb.why }}</p></sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{ vw.side }}" hint-placeholder-val="{{ false }}">
+<div class="bc-stack">
+<span class="bc-group__label">The pair on screen</span>
+<span class="bc-epochtag"><span class="bc-swatch bc-swatch--a"></span>A<span class="bc-value">{{ pair.aWhen }}</span></span>
+<span class="bc-epochtag"><span class="bc-swatch bc-swatch--b"></span>B<span class="bc-value">{{ pair.bWhen }}</span></span>
+<p class="bc-note">A is always the earlier frame. Choose a frame below and it takes the place of the one you chose before.</p>
+</div>
+</sc-if>
+
+<sc-if value="{{ vw.diff }}" hint-placeholder-val="{{ false }}">
+<div class="bc-stack">
+<span class="bc-group__label">Later minus earlier</span>
+<span class="bc-epochtag"><span class="bc-swatch bc-swatch--b"></span>B<span class="bc-value">{{ pair.bWhen }}</span></span>
+<span class="bc-epochtag"><span class="bc-swatch bc-swatch--a"></span>A<span class="bc-value">{{ pair.aWhen }}</span></span>
+<p class="bc-note">Choose a frame below and it takes the place of the one you chose before.</p>
+</div>
+</sc-if>
+
+<sc-if value="{{ vw.old }}" hint-placeholder-val="{{ false }}">
+<div class="bc-stack">
+<span class="bc-group__label">Then and now</span>
+<p class="bc-framelabel__source">Then: {{ other.survey }}</p>
+<p class="bc-framelabel__source">Now: the SPHEREx frame chosen below</p>
+</div>
+</sc-if>
+
+<sc-if value="{{ rr.spec }}" hint-placeholder-val="{{ false }}">
+<section class="bc-panel" aria-labelledby="tb-sp-title">
+<div class="bc-panel__head">
+<h3 class="bc-heading" id="tb-sp-title">Spectrum at your position</h3>
+<div class="bc-segmented" role="radiogroup" aria-label="Show the spectrum as">
+<button class="bc-option" type="button" role="radio" aria-checked="{{ sp.chartOn }}" onClick="{{ sp.pickChart }}">Chart</button>
+<button class="bc-option" type="button" role="radio" aria-checked="{{ sp.tableOn }}" onClick="{{ sp.pickTable }}">Table</button>
+</div>
+</div>
+<div class="bc-chips"><span class="bc-chip bc-chip--qualifier">Example values for layout, not a measurement</span></div>
+<sc-if value="{{ sp.sat }}" hint-placeholder-val="{{ false }}">
+<div class="bc-notice bc-notice--warning" role="status"><svg class="bc-icon" viewBox="0 0 20 20" role="img" aria-label="Warning"><path d="M10 3l7.5 13.5h-15z"></path><path d="M10 8v4"></path><circle class="bc-icon__solid" cx="10" cy="14.2" r="0.9"></circle></svg><div><p>Saturated: no reliable brightness</p></div></div>
+</sc-if>
+<sc-if value="{{ sp.chart }}" hint-placeholder-val="{{ false }}">
+<div class="bc-stack">
+<svg class="bc-chart" role="img" viewBox="{{ ch.vb }}" aria-label="Example spectrum for layout: flux in microjansky against wavelength from 0.75 to 5.0 micrometres, 4 visits. The same values are in the table view.">
+<rect class="bc-chart__band" x="{{ ch.bx }}" y="10" width="{{ ch.bw }}" height="{{ ch.ph }}"></rect>
+<path class="bc-chart__grid" d="{{ ch.grid }}"></path>
+<path class="bc-chart__axis" d="{{ ch.axis }}"></path>
+<text class="bc-chart__num" x="34" y="{{ ch.y0 }}" style="text-anchor: end">0</text>
+<text class="bc-chart__num" x="34" y="{{ ch.y60 }}" style="text-anchor: end">60</text>
+<text class="bc-chart__num" x="34" y="{{ ch.y120 }}" style="text-anchor: end">120</text>
+<text class="bc-chart__num" x="34" y="{{ ch.y180 }}" style="text-anchor: end">180</text>
+<text class="bc-chart__num" x="34" y="{{ ch.y240 }}" style="text-anchor: end">240</text>
+<text class="bc-chart__num" x="{{ ch.x1 }}" y="{{ ch.ty }}" style="text-anchor: middle">1</text>
+<text class="bc-chart__num" x="{{ ch.x2 }}" y="{{ ch.ty }}" style="text-anchor: middle">2</text>
+<text class="bc-chart__num" x="{{ ch.x3 }}" y="{{ ch.ty }}" style="text-anchor: middle">3</text>
+<text class="bc-chart__num" x="{{ ch.x4 }}" y="{{ ch.ty }}" style="text-anchor: middle">4</text>
+<text class="bc-chart__num" x="{{ ch.x5 }}" y="{{ ch.ty }}" style="text-anchor: end">5</text>
+<text class="bc-chart__title" x="{{ ch.tx }}" y="{{ ch.tty }}" style="text-anchor: middle">Wavelength λ (µm)</text>
+<text class="bc-chart__title" transform="{{ ch.yT }}" style="text-anchor: middle">Flux (µJy)</text>
+<g class="bc-series-1"><path class="bc-pt__err" d="{{ ch.s0.err }}"></path><path class="bc-pt" d="{{ ch.s0.pts }}"></path><path class="bc-pt bc-pt--flagged" d="{{ ch.s0.flag }}"></path></g>
+<g class="bc-series-2"><path class="bc-pt__err" d="{{ ch.s1.err }}"></path><path class="bc-pt" d="{{ ch.s1.pts }}"></path><path class="bc-pt bc-pt--flagged" d="{{ ch.s1.flag }}"></path></g>
+<g class="bc-series-4"><path class="bc-pt__err" d="{{ ch.s2.err }}"></path><path class="bc-pt" d="{{ ch.s2.pts }}"></path><path class="bc-pt bc-pt--flagged" d="{{ ch.s2.flag }}"></path></g>
+<g class="bc-series-5"><path class="bc-pt__err" d="{{ ch.s3.err }}"></path><path class="bc-pt" d="{{ ch.s3.pts }}"></path><path class="bc-pt bc-pt--flagged" d="{{ ch.s3.flag }}"></path></g>
+<g class="bc-series-1"><path class="bc-pt__err" d="{{ ch.s0.berr }}"></path><path class="bc-pt bc-pt--binned" d="{{ ch.s0.bin }}"></path></g>
+<g class="bc-series-2"><path class="bc-pt__err" d="{{ ch.s1.berr }}"></path><path class="bc-pt bc-pt--binned" d="{{ ch.s1.bin }}"></path></g>
+<g class="bc-series-4"><path class="bc-pt__err" d="{{ ch.s2.berr }}"></path><path class="bc-pt bc-pt--binned" d="{{ ch.s2.bin }}"></path></g>
+<g class="bc-series-5"><path class="bc-pt__err" d="{{ ch.s3.berr }}"></path><path class="bc-pt bc-pt--binned" d="{{ ch.s3.bin }}"></path></g>
+</svg>
+<div class="bc-legend">
+<span class="bc-legend__item"><svg class="bc-key bc-series-1" viewBox="0 0 16 16" aria-hidden="true"><path class="bc-pt" d="M4.5 8a3.5 3.5 0 1 0 7 0a3.5 3.5 0 1 0 -7 0Z"></path></svg><span>{{ sp.d1 }}</span></span>
+<span class="bc-legend__item"><svg class="bc-key bc-series-2" viewBox="0 0 16 16" aria-hidden="true"><path class="bc-pt" d="M4.5 4.5h7v7h-7Z"></path></svg><span>{{ sp.d2 }}</span></span>
+<span class="bc-legend__item"><svg class="bc-key bc-series-4" viewBox="0 0 16 16" aria-hidden="true"><path class="bc-pt" d="M8 3.45L12.55 8L8 12.55L3.45 8Z"></path></svg><span>{{ sp.d3 }}</span></span>
+<span class="bc-legend__item"><svg class="bc-key bc-series-5" viewBox="0 0 16 16" aria-hidden="true"><path class="bc-pt" d="M8 12.2L12 5H4Z"></path></svg><span>{{ sp.d4 }}</span></span>
+<span class="bc-legend__item"><svg class="bc-key bc-series-3" viewBox="0 0 16 16" aria-hidden="true"><path class="bc-pt bc-pt--binned" d="M8 2L13.75 12.25H2.25Z"></path></svg><span>Larger: binned</span></span>
+<span class="bc-legend__item"><svg class="bc-key bc-series-3" viewBox="0 0 16 16" aria-hidden="true"><path class="bc-pt bc-pt--flagged" d="M8 3.8L12 11H4Z"></path></svg><span>Hollow: flagged</span></span>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{ sp.table }}" hint-placeholder-val="{{ false }}">
+<div class="bc-tablewrap" tabindex="0" role="region" aria-label="Spectrum values" style="max-height: 300px; overflow-y: auto">
+<table class="bc-table">
+<caption>First rows. The table holds every point the chart draws.</caption>
+<thead><tr><th scope="col">Visit</th><th scope="col">λ (µm)</th><th scope="col">Flux (µJy)</th><th scope="col">Error</th><th scope="col" class="bc-table__text">Note</th></tr></thead>
+<tbody>
+<tr><td>05 May to 06 May 2025</td><td>1.827</td><td>77.2</td><td>±7.8</td><td class="bc-table__text"></td></tr>
+<tr><td>05 May to 06 May 2025</td><td>2.170</td><td>82.6</td><td>±7.1</td><td class="bc-table__text"></td></tr>
+<tr><td>05 May to 06 May 2025</td><td>2.451</td><td>100.9</td><td>±7.5</td><td class="bc-table__text"></td></tr>
+<tr><td>07 Nov to 14 Nov 2025</td><td>0.807</td><td>56.7</td><td>±10.1</td><td class="bc-table__text"></td></tr>
+<tr><td>07 Nov to 14 Nov 2025</td><td>0.966</td><td>52.3</td><td>±11.0</td><td class="bc-table__text"><span class="bc-table__flag"><span class="bc-mark"></span>Flagged</span></td></tr>
+<tr><td>07 Nov to 14 Nov 2025</td><td>1.003</td><td>60.2</td><td>±6.8</td><td class="bc-table__text"></td></tr>
+<tr><td>11 Dec to 13 Dec 2025</td><td>1.588</td><td>87.8</td><td>±10.0</td><td class="bc-table__text"></td></tr>
+<tr><td>11 Dec to 13 Dec 2025</td><td>2.944</td><td>111.0</td><td>±10.1</td><td class="bc-table__text"></td></tr>
+<tr><td>11 Dec to 13 Dec 2025</td><td>4.488</td><td>218.0</td><td>±14.2</td><td class="bc-table__text"><span class="bc-table__flag"><span class="bc-mark"></span>Flagged</span></td></tr>
+<tr><td>21 Apr to 14 May 2026</td><td>1.046</td><td>67.8</td><td>±14.5</td><td class="bc-table__text"></td></tr>
+<tr><td>21 Apr to 14 May 2026</td><td>1.089</td><td>78.3</td><td>±15.0</td><td class="bc-table__text"></td></tr>
+<tr><td>21 Apr to 14 May 2026</td><td>1.685</td><td>102.3</td><td>±11.9</td><td class="bc-table__text"></td></tr>
+</tbody>
+</table>
+</div>
+</sc-if>
+<div><button class="bc-button" type="button">Download CSV</button></div>
+</section>
+</sc-if>
+
+<sc-if value="{{ n.stack }}" hint-placeholder-val="{{ true }}">
+<div class="bc-stack">
+<sc-if value="{{ n.info }}" hint-placeholder-val="{{ true }}">
+<div class="bc-notice" role="status">
+<svg class="bc-icon" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7"></circle><path d="M10 9v5"></path><circle class="bc-icon__solid" cx="10" cy="6.3" r="0.9"></circle></svg>
+<div><p>WISE 0855-0714 was here in 2010. It is now 126″ to the west.</p></div>
+</div>
+</sc-if>
+<sc-if value="{{ cv.one }}" hint-placeholder-val="{{ true }}">
+<div class="bc-notice bc-notice--warning" role="status">
+<svg class="bc-icon" viewBox="0 0 20 20" role="img" aria-label="Warning"><path d="M10 3l7.5 13.5h-15z"></path><path d="M10 8v4"></path><circle class="bc-icon__solid" cx="10" cy="14.2" r="0.9"></circle></svg>
+<div><p>{{ cv.first }}</p><p class="bc-note">Details are under Provenance.</p></div>
+</div>
+</sc-if>
+<sc-if value="{{ cv.many }}" hint-placeholder-val="{{ false }}">
+<div class="bc-notice bc-notice--warning" role="status">
+<svg class="bc-icon" viewBox="0 0 20 20" role="img" aria-label="Warning"><path d="M10 3l7.5 13.5h-15z"></path><path d="M10 8v4"></path><circle class="bc-icon__solid" cx="10" cy="14.2" r="0.9"></circle></svg>
+<ul aria-label="Caveats for this field" style="display: grid; gap: 6px; font-size: var(--text-label); line-height: var(--leading-label)">
+<sc-for list="{{ cv.items }}" as="c" hint-placeholder-count="3"><li>{{ c.text }}</li></sc-for>
+</ul>
+</div>
+</sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{ fl.frames }}" hint-placeholder-val="{{ true }}">
+<div class="bc-group">
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 24px">
+<span class="bc-group__label" id="tb-frames">Frames</span>
+<sc-if value="{{ fl.example }}" hint-placeholder-val="{{ false }}"><span class="bc-chip bc-chip--qualifier">Example values for layout, not a measurement</span></sc-if>
+<sc-if value="{{ fl.newest }}" hint-placeholder-val="{{ true }}"><span class="bc-chip">Newest SPHEREx image: <span class="bc-value">5 Oct 2026</span></span></sc-if>
+</div>
+<ol class="bc-timeline" aria-labelledby="tb-frames">
+<sc-for list="{{ rows }}" as="r" hint-placeholder-count="4">
+<li><button class="{{ r.cls }}" type="button" aria-current="{{ r.current }}" disabled="{{ r.off }}" onClick="{{ r.pick }}"><span class="bc-mark"></span><span class="bc-visit__when"><sc-if value="{{ r.isA }}" hint-placeholder-val="{{ false }}"><span class="bc-epochtag" style="margin-right: 8px; font-family: var(--font-ui)"><span class="bc-swatch bc-swatch--a"></span>A</span></sc-if><sc-if value="{{ r.isB }}" hint-placeholder-val="{{ false }}"><span class="bc-epochtag" style="margin-right: 8px; font-family: var(--font-ui)"><span class="bc-swatch bc-swatch--b"></span>B</span></sc-if>{{ r.when }}</span><span class="bc-visit__count">{{ r.count }}</span></button></li>
+</sc-for>
+</ol>
+<p class="bc-note">{{ fl.key }}</p>
+</div>
+</sc-if>
+
+<div class="bc-group">
+<span class="bc-group__label" id="tb-view">View</span>
+<div class="bc-segmented bc-segmented--wrap" role="radiogroup" aria-labelledby="tb-view" style="grid-template-columns: repeat(2, minmax(0, 1fr))">
+<button class="bc-option" type="button" role="radio" aria-checked="{{ vc.blink }}" aria-disabled="{{ vc.off }}" onClick="{{ setView.blink }}">Blink</button>
+<button class="bc-option" type="button" role="radio" aria-checked="{{ vc.side }}" aria-disabled="{{ vc.off }}" onClick="{{ setView.side }}">Side by side</button>
+<button class="bc-option" type="button" role="radio" aria-checked="{{ vc.diff }}" aria-disabled="{{ vc.off }}" onClick="{{ setView.diff }}">Difference</button>
+<button class="bc-option" type="button" role="radio" aria-checked="{{ vc.old }}" aria-disabled="{{ vc.off }}" onClick="{{ setView.old }}">Then and now</button>
+</div>
+<sc-if value="{{ vc.why }}" hint-placeholder-val="{{ false }}"><p class="bc-note">The other views open once a frame is on screen.</p></sc-if>
+</div>
+
+<div class="bc-group">
+<span class="bc-group__label" id="tb-band">Band</span>
+<div style="line-height: 0">
+<svg class="bc-rule" role="img" aria-label="{{ rl.aria }}" height="58" viewBox="{{ rl.vb }}">
+<path class="bc-rule__base" d="{{ rl.base }}"></path>
+<path class="bc-rule__tick" d="{{ rl.unlit }}"></path>
+<path class="bc-rule__tick bc-rule__tick--lit" d="{{ rl.lit }}"></path>
+<path class="bc-rule__edge" d="{{ rl.edges }}"></path>
+<path class="bc-rule__span" d="{{ rl.span }}"></path>
+<text class="{{ rl.c1 }}" x="{{ rl.n1 }}" y="11" style="text-anchor: middle">D1</text>
+<text class="{{ rl.c2 }}" x="{{ rl.n2 }}" y="11" style="text-anchor: middle">D2</text>
+<text class="{{ rl.c3 }}" x="{{ rl.n3 }}" y="11" style="text-anchor: middle">D3</text>
+<text class="{{ rl.c4 }}" x="{{ rl.n4 }}" y="11" style="text-anchor: middle">D4</text>
+<text class="{{ rl.c5 }}" x="{{ rl.n5 }}" y="11" style="text-anchor: middle">D5</text>
+<text class="{{ rl.c6 }}" x="{{ rl.n6 }}" y="11" style="text-anchor: middle">D6</text>
+<text class="bc-rule__num" x="{{ rl.e0 }}" y="54">0.74</text>
+<text class="bc-rule__num" x="{{ rl.e1 }}" y="54" style="text-anchor: middle">1.11</text>
+<text class="bc-rule__num" x="{{ rl.e2 }}" y="54" style="text-anchor: middle">1.65</text>
+<text class="bc-rule__num" x="{{ rl.e3 }}" y="54" style="text-anchor: middle">2.42</text>
+<text class="bc-rule__num" x="{{ rl.e4 }}" y="54" style="text-anchor: middle">3.82</text>
+<text class="bc-rule__num" x="{{ rl.e5 }}" y="54" style="text-anchor: middle">4.42</text>
+<text class="bc-rule__num" x="{{ rl.e6 }}" y="54" style="text-anchor: end">5.00</text>
+<text class="bc-rule__num" x="{{ rl.um }}" y="54">{{ rl.umT }}</text>
+</svg>
+<sc-if value="{{ rl.rgb }}" hint-placeholder-val="{{ false }}">
+<svg class="bc-rule" height="28" viewBox="{{ rl.vb2 }}" aria-hidden="true">
+<rect class="bc-rule__channel bc-rule__channel--b" x="{{ rl.bx0 }}" y="4.5" width="{{ rl.bw0 }}" height="6"></rect>
+<rect class="bc-rule__channel bc-rule__channel--g" x="{{ rl.bx1 }}" y="4.5" width="{{ rl.bw1 }}" height="6"></rect>
+<rect class="bc-rule__channel bc-rule__channel--r" x="{{ rl.bx2 }}" y="4.5" width="{{ rl.bw2 }}" height="6"></rect>
+<text class="bc-rule__letter" x="{{ rl.bl0 }}" y="24" style="text-anchor: middle">B</text>
+<text class="bc-rule__letter" x="{{ rl.bl1 }}" y="24" style="text-anchor: middle">G</text>
+<text class="bc-rule__letter" x="{{ rl.bl2 }}" y="24" style="text-anchor: middle">R</text>
+</svg>
+</sc-if>
+</div>
+<div class="bc-segmented bc-segmented--wrap" role="radiogroup" aria-labelledby="tb-band" style="grid-template-columns: repeat(3, minmax(0, 1fr))">
+<button class="bc-option" type="button" role="radio" aria-checked="{{ bc.d1 }}" onClick="{{ setBand.d1 }}"><span>D1</span><span class="bc-option__meta">0.74–1.12 µm</span></button>
+<button class="bc-option" type="button" role="radio" aria-checked="{{ bc.d2 }}" onClick="{{ setBand.d2 }}"><span>D2</span><span class="bc-option__meta">1.10–1.65 µm</span></button>
+<button class="bc-option" type="button" role="radio" aria-checked="{{ bc.d3 }}" onClick="{{ setBand.d3 }}"><span>D3</span><span class="bc-option__meta">1.64–2.42 µm</span></button>
+<button class="bc-option" type="button" role="radio" aria-checked="{{ bc.d4 }}" onClick="{{ setBand.d4 }}"><span>D4</span><span class="bc-option__meta">2.42–3.82 µm</span></button>
+<button class="bc-option" type="button" role="radio" aria-checked="{{ bc.d5 }}" onClick="{{ setBand.d5 }}"><span>D5</span><span class="bc-option__meta">3.81–4.42 µm</span></button>
+<button class="bc-option" type="button" role="radio" aria-checked="{{ bc.d6 }}" onClick="{{ setBand.d6 }}"><span>D6</span><span class="bc-option__meta">4.41–5.00 µm</span></button>
+<button class="bc-option" type="button" role="radio" aria-checked="{{ bc.all }}" onClick="{{ setBand.all }}"><span>All</span><span class="bc-option__meta">0.74–5.00 µm</span></button>
+<button class="bc-option" type="button" role="radio" aria-checked="{{ bc.cold }}" onClick="{{ setBand.cold }}"><span>Cold objects</span><span class="bc-option__meta">4.0–5.0 µm</span></button>
+<button class="bc-option" type="button" role="radio" aria-checked="{{ bc.rgb }}" onClick="{{ setBand.rgb }}"><span>Three-colour</span><span class="bc-option__meta">R · G · B</span></button>
+</div>
+</div>
+
+<div class="bc-group">
+<span class="bc-group__label" id="tb-fov">Field of view</span>
+<div class="bc-segmented" role="radiogroup" aria-labelledby="tb-fov">
+<button class="bc-option" type="button" role="radio" aria-checked="{{ fc.f3 }}" onClick="{{ setFov.f3 }}">3′</button>
+<button class="bc-option" type="button" role="radio" aria-checked="{{ fc.f4 }}" onClick="{{ setFov.f4 }}">4′</button>
+<button class="bc-option" type="button" role="radio" aria-checked="{{ fc.f5 }}" onClick="{{ setFov.f5 }}">5′</button>
+<button class="bc-option" type="button" role="radio" aria-checked="{{ fc.f6 }}" onClick="{{ setFov.f6 }}">6′</button>
+<button class="bc-option" type="button" role="radio" aria-checked="{{ fc.f8 }}" onClick="{{ setFov.f8 }}">8′</button>
+<button class="bc-option" type="button" role="radio" aria-checked="{{ fc.f10 }}" onClick="{{ setFov.f10 }}">10′</button>
+</div>
+</div>
+
+<div class="bc-group">
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0 8px"><label class="bc-group__label" for="tb-contrast">Contrast</label><span class="bc-note">Same brightness scale for every frame</span></div>
+<div>
+<input class="bc-slider" id="tb-contrast" type="range" min="0" max="8" step="1" value="{{ disp.c }}" onChange="{{ setContrast }}" disabled="{{ disp.off }}">
+<div class="bc-ticks" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 0 24px">
+<button class="bc-toggle" type="button" role="switch" aria-checked="{{ disp.inv }}" disabled="{{ disp.off }}" onClick="{{ toggleInvert }}"><span class="bc-toggle__track"><span class="bc-toggle__knob"></span></span><span>Invert</span><span class="bc-toggle__state">{{ disp.invWord }}</span></button>
+<button class="bc-toggle" type="button" role="switch" aria-checked="{{ disp.mk }}" disabled="{{ disp.off }}" onClick="{{ toggleMarkers }}"><span class="bc-toggle__track"><span class="bc-toggle__knob"></span></span><span>Markers</span><span class="bc-toggle__state">{{ disp.mkWord }}</span></button>
+</div>
+<sc-if value="{{ disp.off }}" hint-placeholder-val="{{ false }}"><p class="bc-note">Display controls are off until a frame is on screen.</p></sc-if>
+</div>
+
+<div class="bc-stack">
+<sc-if value="{{ prov.loading }}" hint-placeholder-val="{{ false }}"><p class="bc-provenance"><span class="bc-value">Reading 120 of 258</span></p></sc-if>
+<sc-if value="{{ prov.show }}" hint-placeholder-val="{{ true }}"><p class="bc-provenance"><span class="bc-value">{{ prov.used }}</span> exposures used. SPHEREx Spectral Images, DR1 and QR3.</p></sc-if>
+<details class="bc-disclosure">
+<summary>Details</summary>
+<div class="bc-disclosure__body">
+<dl class="bc-facts">
+<sc-if value="{{ prov.show }}" hint-placeholder-val="{{ true }}"><dt>Exposures used</dt><dd><span class="bc-value">{{ prov.used }}</span></dd></sc-if>
+<dt>Data release</dt><dd>SPHEREx Spectral Images, DR1 and QR3</dd>
+<dt>DOI, DR1</dt><dd><a class="bc-link bc-link--target bc-value" href="https://doi.org/10.26131/IRSA678" rel="noopener">10.26131/IRSA678<svg class="bc-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M8 4.5H4.5v11h11V12"></path><path d="M11 3.5h5.5V9"></path><path d="M16.5 3.5l-7 7"></path></svg></a></dd>
+<dt>DOI, QR3</dt><dd><a class="bc-link bc-link--target bc-value" href="https://doi.org/10.26131/IRSA662" rel="noopener">10.26131/IRSA662<svg class="bc-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M8 4.5H4.5v11h11V12"></path><path d="M11 3.5h5.5V9"></path><path d="M16.5 3.5l-7 7"></path></svg></a></dd>
+<dt>Pixels</dt><dd>Resampled to 3.075″ per pixel; native pixel 6.15″</dd>
+<sc-if value="{{ prov.stretch }}" hint-placeholder-val="{{ false }}"><dt>Brightness scale</dt><dd>asinh, <span class="bc-value">{{ prov.limits }}</span>, the same for every frame</dd></sc-if>
+<dt>Pipeline</dt><dd><span class="bc-value">0.2.0</span></dd>
+<dt>Warnings</dt><dd>{{ prov.warn }}</dd>
+</dl>
+</div>
+</details>
+</div>
+
+<!-- GO TO ANOTHER POSITION: the search field and the five targets. "Change" at the top lands here. -->
+<section id="tb-go" class="bc-stack" style="gap: 16px">
+<h2 class="bc-heading">Go to another position</h2>
+<form class="bc-search" role="search" onSubmit="{{ onSearch }}">
+<div class="bc-field">
+<label class="bc-label" for="tb-q">Sky position or name</label>
+<input class="bc-input" id="tb-q" type="text" value="{{ q.value }}" onChange="{{ onQuery }}" disabled="{{ q.off }}" aria-invalid="{{ q.invalid }}" aria-describedby="tb-q-msg" autocomplete="off" spellcheck="false">
+<button class="bc-button" type="submit" disabled="{{ q.off }}">Search</button>
+<p class="{{ q.msgCls }}" id="tb-q-msg" aria-live="polite"><sc-if value="{{ q.err }}" hint-placeholder-val="{{ false }}"><svg class="bc-icon" viewBox="0 0 20 20" role="img" aria-label="Error"><path d="M10 3l7.5 13.5h-15z"></path><path d="M10 8v4"></path><circle class="bc-icon__solid" cx="10" cy="14.2" r="0.9"></circle></svg></sc-if><span>{{ q.msg }}</span></p>
+</div>
+</form>
+<div class="bc-group" id="tb-targets">
+<span class="bc-group__label">Targets</span>
+<div class="bc-targets">
+<a class="bc-target" href="#" aria-current="{{ tg.wiseCur }}" onClick="{{ tg.wise }}"><span class="bc-target__name">WISE 0855</span><span class="bc-target__caption">Visible only at 4 to 5 µm. Moved 4.4″ in six months.</span></a>
+<a class="bc-target" href="#" aria-current="{{ tg.barnardCur }}" onClick="{{ tg.barnard }}"><span class="bc-target__name">Barnard's Star<span class="bc-chip bc-chip--qualifier"><span class="bc-mark bc-mark--hatch"></span>Saturated core</span></span><span class="bc-target__caption">Moves 10.25″ a year. Its centre is saturated.</span></a>
+<a class="bc-target" href="#" onClick="{{ tg.eps }}"><span class="bc-target__name">Epsilon Indi B</span><span class="bc-target__caption">An unresolved pair of brown dwarfs. Motion not yet measured.</span></a>
+<a class="bc-target" href="#" onClick="{{ tg.rw }}"><span class="bc-target__name">RW Aurigae</span><span class="bc-target__caption">Brighter at 1.2 µm, fainter at 4.6 µm across three visits.</span></a>
+<a class="bc-target" href="#" onClick="{{ tg.rdra }}"><span class="bc-target__name">R Draconis<span class="bc-chip bc-chip--qualifier"><span class="bc-mark bc-mark--hatch"></span>Saturated core</span></span><span class="bc-target__caption">Saturated in almost every exposure.</span></a>
+</div>
+</div>
+</section>
+
+</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"field":{"editor":"enum","options":["WISE 0855","Barnard&#39;s Star"],"default":"WISE 0855","section":"State"},"cond":{"editor":"enum","options":["Ready","Building","No coverage","Archive unreachable","Busy","Reduced motion","No position","Catalogue position"],"default":"Ready","section":"State"},"stage":{"editor":"enum","options":["Finding","Reading","Stacking"],"default":"Reading","section":"State"},"view":{"editor":"enum","options":["Blink","Side by side","Difference","Then and now"],"default":"Blink","section":"View"},"spectrum":{"editor":"boolean","default":false,"section":"View"},"spotlight":{"editor":"boolean","default":false,"section":"View"},"band":{"editor":null},"frame":{"editor":null},"mode":{"editor":null},"minh":{"editor":null},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  componentDidUpdate(prev) {
+    if (!prev) return;
+    var p = this.props || {}, keys = ['field', 'cond', 'stage', 'view', 'band', 'frame', 'spectrum', 'spotlight'], changed = false;
+    for (var i = 0; i < keys.length; i++) { if (prev[keys[i]] !== p[keys[i]]) changed = true; }
+    if (changed) {
+      this.stopPlay();
+      this.setState({ field: null, cond: null, view: null, band: null, frame: null, ref: null, spec: null, spot: null, ring: null, cur: null, held: false, playing: false, qv: null, qerr: null, bname: null, qread: null, qpos: null });
+    }
+  }
+  componentWillUnmount() {
+    this.stopPlay();
+    if (this._copyT) clearTimeout(this._copyT);
+  }
+  stopPlay() {
+    if (this._play) { clearInterval(this._play); this._play = null; }
+  }
+  norm(v) { return String(v == null ? '' : v).toLowerCase().replace(/[^a-z0-9]/g, ''); }
+  isOn(v) { return v === true || v === 'true' || v === 'open' || v === 'on'; }
+
+  /* Everything the screen prints comes from here. The product fills the same shape from its results file.
+     slot: the file name of the real 119 x 119 frame that belongs in that position. n: null means not known. */
+  fields() {
+    return {
+      wise: {
+        title: 'WISE 0855', pos: 'RA 133.7598°  Dec −7.2422°', query: 'WISE 0855', read: 'Read as RA 133.7598°, Dec −7.2422°.', used: '254 of 258', def: 'cold', ra0: 133.7598, dec0: -7.2422,
+        caveats: ['4 exposures could not be used.'],
+        bands: {
+          cold: { limits: '−0.0180 to 0.440 MJy/sr', visits: [
+            { s: '5–6 May 2025', f: '05 May to 06 May 2025', n: 11, q: 'partial' },
+            { s: '7–14 Nov 2025', f: '07 Nov to 14 Nov 2025', n: 32, slot: 'wise0855-cold-frame2' },
+            { s: '11–13 Dec 2025', f: '11 Dec to 13 Dec 2025', n: 9, q: 'partial' },
+            { s: '21 Apr–14 May 2026', f: '21 Apr to 14 May 2026', n: 32, slot: 'wise0855-cold-frame4' }
+          ] },
+          all: { limits: '−0.00742 to 1.26 MJy/sr', visits: [
+            { s: '5–6 May 2025', f: '05 May to 06 May 2025', n: 29, q: 'partial', mix: '0.93 to 5.00 µm' },
+            { s: '31 Oct–14 Nov 2025', f: '31 Oct to 14 Nov 2025', n: 107 },
+            { s: '11–13 Dec 2025', f: '11 Dec to 13 Dec 2025', n: 18, q: 'partial' },
+            { s: '21 Apr–14 May 2026', f: '21 Apr to 14 May 2026', n: 100 }
+          ] },
+          d1: { like: 'all', swap: { 1: { s: '31 Oct–3 Nov 2025', f: '31 Oct to 03 Nov 2025', n: null, slot: 'wise0855-d1-frame2' } } }
+        }
+      },
+      barnard: {
+        title: "Barnard's Star", pos: 'RA [RA]°  Dec [Dec]°', query: "Barnard's Star", read: "Showing the recorded field for Barnard's Star.", used: '348 of 364', def: 'all', sat: true,
+        caveats: ['2 exposures could not be used.', 'Saturated core within 15″ of the centre in 359 of 360 exposures.', '2 of 5 visits are partial, marked in Frames.'],
+        bands: {
+          all: { visits: [
+            { s: '15 Aug–5 Sep 2025', f: '15 Aug to 05 Sep 2025', n: 104, slot: 'barnard-all-frame1' },
+            { s: '30 Sep–1 Oct 2025', f: '30 Sep to 01 Oct 2025', n: 9, q: 'partial' },
+            { s: '11 Mar–10 Apr 2026', f: '11 Mar to 10 Apr 2026', n: 111, slot: 'barnard-all-frame3' },
+            { s: '4–5 May 2026', f: '04 May to 05 May 2026', n: 8, q: 'partial' },
+            { s: '16 Aug–22 Sep 2026', f: '16 Aug to 22 Sep 2026', n: 116, slot: 'barnard-all-frame5' }
+          ] },
+          d3: { like: 'all', swap: { 0: { n: null, q: 'thin partial', slot: 'barnard-d3-frame1', hatch: [[59, 59], [60, 59]] } } }
+        }
+      }
+    };
+  }
+
+  /* The wavelength rule: 102 ticks, 17 to a detector, spaced as the system's own helper spaces them. */
+  rule(W, sel) {
+    var bands = [[0.74, 1.12], [1.10, 1.65], [1.64, 2.42], [2.42, 3.82], [3.81, 4.42], [4.41, 5.00]];
+    var idx = ['d1', 'd2', 'd3', 'd4', 'd5', 'd6'].indexOf(sel);
+    var pitch = Math.max(2, Math.floor((W - 2) / 102)), L = pitch * 102, x0 = Math.floor((W - L) / 2);
+    var min = idx > -1 ? bands[idx][0] : (sel === 'cold' ? 4.0 : 0.74), max = idx > -1 ? bands[idx][1] : 5.0;
+    function frac(w) {
+      for (var i = 0; i < 6; i++) {
+        if (w <= bands[i][1] || i === 5) {
+          var f = Math.log(Math.max(w, bands[i][0]) / bands[i][0]) / Math.log(bands[i][1] / bands[i][0]);
+          return (i + Math.min(1, Math.max(0, f))) / 6;
+        }
+      }
+      return 1;
+    }
+    var out = {}, lit = '', unlit = '', n = 0;
+    for (var b = 0; b < 6; b++) {
+      var ratio = bands[b][1] / bands[b][0];
+      for (var c = 0; c < 17; c++) {
+        var centre = bands[b][0] * Math.pow(ratio, (c + 0.5) / 17);
+        var on = idx > -1 ? b === idx : (centre >= min && centre <= max);
+        var x = x0 + n * pitch + Math.floor(pitch / 2) + 0.5;
+        if (on) lit += 'M' + x + ' 18V36'; else unlit += 'M' + x + ' ' + (c === 8 ? 26 : 29) + 'V36';
+        n++;
+      }
+      var nameLit = idx > -1 ? b === idx : bands[b][1] > min + 0.05;
+      out['c' + (b + 1)] = 'bc-rule__band' + (nameLit ? ' bc-rule__band--lit' : '');
+      out['n' + (b + 1)] = x0 + (b + 0.5) * 17 * pitch;
+    }
+    var edges = '';
+    for (var e = 0; e < 7; e++) {
+      var ex = x0 + e * 17 * pitch + (e === 6 ? -0.5 : 0.5);
+      edges += 'M' + ex + ' 14V41';
+      out['e' + e] = e === 0 ? x0 : (e === 6 ? x0 + L : ex);
+    }
+    out.base = 'M' + x0 + ' 36.5H' + (x0 + L);
+    out.lit = lit; out.unlit = unlit; out.edges = edges;
+    out.rgb = sel === 'rgb';
+    out.span = out.rgb ? '' : 'M' + (x0 + frac(min) * L) + ' 37.5H' + (x0 + frac(max) * L);
+    out.um = x0 + L + 5; out.umT = W - (x0 + L) >= 24 ? 'µm' : '';
+    out.vb = '0 0 ' + W + ' 58'; out.vb2 = '0 0 ' + W + ' 28';
+    for (var k = 0; k < 3; k++) {
+      var xa = x0 + k * 34 * pitch + (k === 0 ? 0.5 : 1.5), xb = x0 + (k + 1) * 34 * pitch - (k === 2 ? 0.5 : 1.5);
+      out['bx' + k] = xa; out['bw' + k] = xb - xa; out['bl' + k] = (xa + xb) / 2;
+    }
+    var names = { all: 'All bands, 0.74 to 5.00 micrometres', cold: 'Cold objects, 4.0 to 5.0 micrometres', rgb: 'Three-colour: red 3.8 to 5.0, green 1.6 to 3.8, blue 0.74 to 1.65 micrometres' };
+    out.aria = 'Wavelength rule with one tick for each of 102 channels, from 0.74 to 5.00 micrometres. Shown: ' + (idx > -1 ? 'D' + (idx + 1) + ', ' + bands[idx][0].toFixed(2) + ' to ' + bands[idx][1].toFixed(2) + ' micrometres' : names[sel]) + '.';
+    return out;
+  }
+
+  /* Spectrum chart. The values are the design system's own layout fixture (Comparator.exampleSpectrum), never a measurement. */
+  chart(W, H, lo, hi) {
+    var C = (typeof window !== 'undefined') ? window.Comparator : null;
+    var ml = 40, mr = 10, mt = 10, mb = 40, x0 = 0.75, x1 = 5.0, y1 = 240;
+    function r1(v) { return Math.round(v * 10) / 10; }
+    function X(w) { return ml + (w - x0) / (x1 - x0) * (W - ml - mr); }
+    function Y(f) { return mt + (1 - f / y1) * (H - mt - mb); }
+    function shape(kind, x, y, r) {
+      x = r1(x); y = r1(y);
+      if (kind === 1) return 'M' + r1(x - r) + ' ' + r1(y - r) + 'h' + (2 * r) + 'v' + (2 * r) + 'h' + (-2 * r) + 'Z';
+      if (kind === 2) return 'M' + x + ' ' + r1(y - r * 1.3) + 'L' + r1(x + r * 1.3) + ' ' + y + 'L' + x + ' ' + r1(y + r * 1.3) + 'L' + r1(x - r * 1.3) + ' ' + y + 'Z';
+      if (kind === 3) return 'M' + x + ' ' + r1(y + r * 1.2) + 'L' + r1(x + r * 1.15) + ' ' + r1(y - r * 0.85) + 'L' + r1(x - r * 1.15) + ' ' + r1(y - r * 0.85) + 'Z';
+      return 'M' + r1(x - r) + ' ' + y + 'a' + r + ' ' + r + ' 0 1 0 ' + (2 * r) + ' 0a' + r + ' ' + r + ' 0 1 0 ' + (-2 * r) + ' 0Z';
+    }
+    var out = { vb: '0 0 ' + W + ' ' + H, ph: H - mt - mb }, grid = '', axis = '';
+    for (var f = 0; f <= y1; f += 60) {
+      var gy = Math.round(Y(f)) + 0.5, line = 'M' + ml + ' ' + gy + 'H' + (W - mr);
+      if (f === 0) axis += line; else grid += line;
+      out['y' + f] = gy + 4;
+    }
+    for (var u = 1; u <= 5; u++) {
+      var gx = Math.round(X(u)) + (u === 5 ? -0.5 : 0.5);
+      axis += 'M' + gx + ' ' + (H - mb) + 'V' + (H - mb + 5);
+      out['x' + u] = u === 5 ? W - mr : gx;
+    }
+    axis += 'M' + (ml + 0.5) + ' ' + mt + 'V' + (H - mb);
+    out.grid = grid; out.axis = axis;
+    out.ty = H - mb + 18; out.tx = (ml + W - mr) / 2; out.tty = H - 6;
+    out.yT = 'translate(11 ' + ((mt + H - mb) / 2) + ') rotate(-90)';
+    out.bx = r1(X(Math.max(lo, x0))); out.bw = r1(X(hi) - X(Math.max(lo, x0)));
+    var data = (C && C.exampleSpectrum) ? C.exampleSpectrum(4) : { visits: [] };
+    for (var v = 0; v < 4; v++) {
+      var o = { err: '', pts: '', flag: '', berr: '', bin: '' }, vis = data.visits[v];
+      if (vis) {
+        for (var a = 0; a < vis.points.length; a++) {
+          var pt = vis.points[a], cx = r1(X(pt.w));
+          o.err += 'M' + cx + ' ' + r1(Y(pt.f - pt.e)) + 'V' + r1(Y(pt.f + pt.e));
+          if (pt.flag) o.flag += shape(v, cx, Y(pt.f), 3); else o.pts += shape(v, cx, Y(pt.f), 2.5);
+        }
+        for (var d = 0; d < vis.binned.length; d++) {
+          var bp = vis.binned[d], bx = r1(X(bp.w));
+          o.berr += 'M' + bx + ' ' + r1(Y(bp.f - bp.e)) + 'V' + r1(Y(bp.f + bp.e));
+          o.bin += shape(v, bx, Y(bp.f), 5);
+        }
+      }
+      out['s' + v] = o;
+    }
+    return out;
+  }
+
+  renderVals() {
+    var self = this, p = this.props || {}, s = this.state || {};
+    var page = this.norm(p.mode) === 'page';
+    var g = { k: 3, H: page ? 'auto' : '844px', minH: page ? ((parseInt(p.minh, 10) || 2900) + 'px') : '0px', ov: page ? 'visible' : 'auto' };
+
+    var F = this.fields();
+    var fieldId = this.norm(s.field != null ? s.field : p.field).indexOf('barnard') === 0 ? 'barnard' : 'wise';
+    var cn = this.norm(s.cond != null ? s.cond : p.cond);
+    var cond = cn.indexOf('build') === 0 ? 'building' : cn.indexOf('nocov') === 0 ? 'nocoverage' : cn.indexOf('arch') === 0 ? 'archive' : cn === 'busy' ? 'busy' : cn.indexOf('reduc') === 0 ? 'reduced' : cn.indexOf('nopos') === 0 ? 'noposition' : cn.indexOf('catal') === 0 ? 'catalogue' : 'ready';
+    if (cond === 'building' || cond === 'catalogue') fieldId = 'wise';
+    var fd = F[fieldId];
+    var hasImage = cond === 'ready' || cond === 'archive' || cond === 'reduced' || cond === 'catalogue';
+    var building = cond === 'building';
+
+    var vn = this.norm(s.view != null ? s.view : p.view);
+    var view = !hasImage ? 'blink' : vn.indexOf('side') === 0 ? 'side' : vn.indexOf('diff') === 0 ? 'difference' : vn.indexOf('then') === 0 ? 'then' : 'blink';
+    var two = view === 'side' || view === 'then';
+    var pairView = view === 'side' || view === 'difference';
+
+    var bn = this.norm(s.band != null ? s.band : p.band);
+    var band = /^d[1-6]$/.test(bn) ? bn : bn.indexOf('cold') === 0 ? 'cold' : bn === 'all' ? 'all' : (bn === 'rgb' || bn.indexOf('three') === 0) ? 'rgb' : fd.def;
+    var ranges = { d1: '0.74 to 1.12 µm', d2: '1.10 to 1.65 µm', d3: '1.64 to 2.42 µm', d4: '2.42 to 3.82 µm', d5: '3.81 to 4.42 µm', d6: '4.41 to 5.00 µm', all: '0.74 to 5.00 µm', cold: '3.96 to 5.00 µm', rgb: '0.74 to 5.00 µm' };
+    var spans = { d1: [0.74, 1.12], d2: [1.10, 1.65], d3: [1.64, 2.42], d4: [2.42, 3.82], d5: [3.81, 4.42], d6: [4.41, 5.00], all: [0.75, 5.0], cold: [3.96, 5.0], rgb: [0.75, 5.0] };
+    var range = ranges[band];
+    var bd = fd.bands[band] || {};
+    var known = !!bd.visits && cond !== 'catalogue';
+    var srcVisits = bd.visits || fd.bands[bd.like || fd.def].visits;
+    var visits = [];
+    for (var vi = 0; vi < srcVisits.length; vi++) {
+      var sv = srcVisits[vi], vo = { s: sv.s, f: sv.f, n: sv.n, q: sv.q || '', mix: sv.mix || '', slot: known ? (sv.slot || '') : '', hatch: null };
+      var sw = bd.swap ? bd.swap[vi] : null;
+      if (sw && cond !== 'catalogue') { for (var sk in sw) { vo[sk] = sw[sk]; } }
+      visits.push(vo);
+    }
+    var nV = visits.length;
+    function full(i) { return !visits[i].q; }
+    function far(f) { var best = f, dist = -1; for (var j = 0; j < nV; j++) { if (full(j) && j !== f && Math.abs(j - f) > dist) { dist = Math.abs(j - f); best = j; } } return best; }
+    var defF = nV - 1;
+    for (var di = nV - 1; di >= 0; di--) { if (full(di)) { defF = di; break; } }
+    var pf = parseInt(p.frame, 10);
+    var frame = s.frame != null ? s.frame : (pf >= 1 && pf <= nV ? pf - 1 : defF);
+    if (frame >= nV) frame = defF;
+    var partner = (s.ref != null && s.ref !== frame && s.ref < nV) ? s.ref : far(frame);
+    if (view === 'difference') {
+      if (!full(frame)) frame = defF;
+      if (!full(partner) || partner === frame) partner = far(frame);
+    }
+    var held = !!s.held && view === 'blink' && hasImage;
+    var shown = held ? partner : frame;
+    var A = Math.min(frame, partner), B = Math.max(frame, partner);
+    var cur = visits[shown];
+    var playing = !!s.playing && hasImage && view === 'blink' && cond !== 'reduced';
+    var speed = s.speed || 2;
+    var motion = cond !== 'reduced';
+    var pbOff = !hasImage;
+
+    function setFrame(i) {
+      return function () { self.stopPlay(); self.setState({ frame: i, ref: i === frame ? partner : frame, held: false, playing: false }); };
+    }
+    function step(dir) {
+      return function () { self.stopPlay(); self.setState({ frame: (frame + dir + nV) % nV, held: false, playing: false }); };
+    }
+    function startPlay(rate) {
+      self.stopPlay();
+      self._play = setInterval(function () {
+        var st = self.state || {}, f = st.frame != null ? st.frame : frame;
+        self.setState({ frame: (f + 1) % nV });
+      }, Math.round(1000 / rate));
+      self.setState({ playing: true, held: false });
+    }
+    function togglePlay() {
+      if (pbOff || !motion) return;
+      if (playing) { self.stopPlay(); self.setState({ playing: false }); } else startPlay(speed);
+    }
+    function flipDown() { if (pbOff) return; self.stopPlay(); self.setState({ held: true, playing: false }); }
+    function flipUp() { if ((self.state || {}).held) self.setState({ held: false }); }
+
+    var ring = (s.ring && hasImage) ? s.ring : { x: 0, y: 0 };
+    var spot = hasImage && (s.spot != null ? !!s.spot : this.isOn(p.spotlight));
+    var spec = hasImage && (s.spec != null ? !!s.spec : this.isOn(p.spectrum));
+    var markers = s.markers !== false;
+    var invert = !!s.invert;
+
+    /* Whole-number geometry. K is CSS pixels per image pixel: 3 on a phone, 9 in the spotlight, which redraws the 39 x 39 pixels around the ring. */
+    var baseK = g.k;
+    var K = spot ? baseK * 3 : baseK;
+    var crop = spot ? 39 : 119;
+    var plate = crop * K;
+    var ox = spot ? 59 + ring.x - 19 : 0, oy = spot ? 59 + ring.y - 19 : 0;
+    function toPlate(ix, iy) { return [(ix - ox + 0.5) * K, (iy - oy + 0.5) * K]; }
+    var pl = { size: plate + 'px', img: (119 * K) + 'px', left: (-ox * K) + 'px', top: (-oy * K) + 'px' };
+    var rp = toPlate(59 + ring.x, 59 + ring.y);
+    var R = 12 * K;
+    var ringD = 'M' + (rp[0] - R) + ' ' + rp[1] + 'a' + R + ' ' + R + ' 0 1 0 ' + (2 * R) + ' 0a' + R + ' ' + R + ' 0 1 0 ' + (-2 * R) + ' 0';
+    /* Where it was in 2010: RA 133.79513, Dec -7.24515 against the field centre RA 133.7598, Dec -7.2422 is 126.2 arcseconds east and 10.6 south, so 41 pixels left of centre and 3 down. */
+    var wp = cond === 'catalogue' ? toPlate(59, 59) : toPlate(18, 62);
+    var wasIn = wp[0] > 12 && wp[0] < plate - 12 && wp[1] > 12 && wp[1] < plate - 12;
+    var cp = s.cur ? toPlate(59 + s.cur.x, 59 + s.cur.y) : [0, 0];
+    var ov = {
+      vb: '0 0 ' + plate + ' ' + plate,
+      spot: spot, spotD: 'M0 0H' + plate + 'V' + plate + 'H0Z' + ringD + 'Z', spotRing: ringD,
+      ring: hasImage && markers, ringT: 'translate(' + rp[0] + ' ' + rp[1] + ')',
+      was: hasImage && markers && fieldId === 'wise' && wasIn, wasT: 'translate(' + wp[0] + ' ' + wp[1] + ')',
+      cur: hasImage && !!s.cur, curD: 'M' + (cp[0] - K / 2) + ' ' + (cp[1] - K / 2) + 'h' + K + 'v' + K + 'h' + (-K) + 'Z'
+    };
+    function hatchList(v) {
+      var list = [], hs = v && v.hatch ? v.hatch : [];
+      var stripe = Math.max(1, K / 3), a = Math.round(stripe * 707.1) / 1000, b2 = Math.round(stripe * 1414.2) / 1000;
+      for (var h = 0; h < hs.length; h++) {
+        list.push({ l: ((hs[h][0] - ox) * K) + 'px', t: ((hs[h][1] - oy) * K) + 'px', s: K + 'px', bg: 'repeating-linear-gradient(135deg, var(--nodata-a) 0 ' + a + 'px, var(--nodata-b) ' + a + 'px ' + b2 + 'px)' });
+      }
+      return list;
+    }
+    var flatBg = invert ? 'rgb(203, 203, 203)' : 'rgb(52, 52, 52)';
+    var im = { bg: view === 'difference' ? 'var(--diff-zero)' : flatBg, slot: view === 'difference' ? 'later minus earlier' : cur.slot, hatch: view === 'difference' ? [] : hatchList(cur) };
+
+    function onPlate(e) {
+      var box = e.currentTarget.getBoundingClientRect(), zoom = box.width / plate || 1;
+      var ix = Math.floor((e.clientX - box.left) / zoom / K) + ox - 59, iy = Math.floor((e.clientY - box.top) / zoom / K) + oy - 59;
+      ix = Math.max(-59, Math.min(59, ix)); iy = Math.max(-59, Math.min(59, iy));
+      self.setState({ ring: { x: ix, y: iy }, cur: null });
+    }
+    function onFrameKey(e) {
+      if (!hasImage) return;
+      var c = s.cur || ring, nx = c.x, ny = c.y, d = e.shiftKey ? 10 : 1;
+      if (e.key === 'ArrowLeft') nx -= d; else if (e.key === 'ArrowRight') nx += d; else if (e.key === 'ArrowUp') ny -= d; else if (e.key === 'ArrowDown') ny += d;
+      else if (e.key === 'Enter') { e.preventDefault(); e.stopPropagation(); if (s.cur) self.setState({ ring: s.cur, cur: null }); return; }
+      else return;
+      e.preventDefault(); e.stopPropagation();
+      self.setState({ cur: { x: Math.max(-59, Math.min(59, nx)), y: Math.max(-59, Math.min(59, ny)) } });
+    }
+    function onRootKey(e) {
+      var t = e.target, tag = t && t.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+      if ((e.key === 'ArrowLeft' || e.key === 'ArrowRight') && hasImage && view === 'blink') { e.preventDefault(); step(e.key === 'ArrowLeft' ? -1 : 1)(); }
+      else if (e.key === 'Escape') { if (playing) { self.stopPlay(); self.setState({ playing: false }); } else if (spot) self.setState({ spot: false }); }
+      else if (e.key === ' ' && tag !== 'BUTTON' && tag !== 'A' && tag !== 'SUMMARY' && view === 'blink') { e.preventDefault(); togglePlay(); }
+    }
+
+    /* Readout: on a phone there is no pointer to follow, so it shows the pixel under the ring. */
+    var ro = { ra: '—', dec: '—', val: view === 'then' ? '' : view === 'side' ? 'A —   B —   MJy/sr' : view === 'difference' ? '— σ' : '— MJy/sr' };
+    if (hasImage && fd.ra0 != null) {
+      var at = s.cur || ring, rest = !s.cur && ring.x === 0 && ring.y === 0;
+      var ra0 = cond === 'catalogue' ? 133.79513 : fd.ra0, dec0 = cond === 'catalogue' ? -7.24515 : fd.dec0, pix = 3.075 / 3600;
+      if (rest && cond !== 'catalogue') {
+        ro.ra = '133.75977°'; ro.dec = '−7.24183°';
+        if (view === 'blink') ro.val = '0.142 MJy/sr';
+      } else {
+        var dv = dec0 - at.y * pix, rv = ra0 - at.x * pix / Math.cos(dec0 * Math.PI / 180);
+        ro.ra = rv.toFixed(5) + '°'; ro.dec = (dv < 0 ? '−' : '+') + Math.abs(dv).toFixed(5) + '°';
+      }
+    }
+
+    var barLen = Math.round(60 / 3.075 * g.k * 2) / 2, arcsec = Math.round(60 * g.k / K);
+    var sb = { w: barLen + 1, vb: '0 0 ' + (barLen + 1) + ' 9', d: 'M0.5 0V9M0.5 4.5H' + (barLen + 0.5) + 'M' + (barLen + 0.5) + ' 0V9', len: arcsec + '″', k: K + '×', aria: 'Scale bar: ' + arcsec + ' arcseconds. Each image pixel is drawn ' + K + ' pixels wide.' };
+
+    function count3(n) { return (n == null ? '  —' : ('   ' + n).slice(-3)) + ' exposures'; }
+    function labFor(i) {
+      var v = visits[i], part = v.q.indexOf('partial') > -1;
+      return { when: v.f, range: part ? (v.mix || '—.—— to —.—— µm') : range, count: count3(v.n), partial: part, thin: v.q.indexOf('thin') > -1 };
+    }
+    var cl = labFor(shown);
+    var lab = {
+      one: view === 'blink', diff: view === 'difference', two: two,
+      when: cl.when, range: cl.range, count: cl.count,
+      partial: hasImage && cl.partial, thin: hasImage && cl.thin, sat: hasImage && !!fd.sat, example: hasImage && !known, newest: cond === 'nocoverage'
+    };
+    if (building) { lab.when = 'Building this image'; lab.range = range; lab.count = s.bname ? '' : '258 exposures'; }
+    else if (cond === 'busy') { lab.when = 'Waiting to build'; lab.range = ' '; lab.count = ''; }
+    else if (!hasImage) { lab.when = 'No frames here'; lab.range = ' '; lab.count = ''; }
+
+    var anyPartial = false, anyThin = false, rows = [];
+    for (var ri = 0; ri < nV; ri++) {
+      var rv2 = visits[ri];
+      if (rv2.q.indexOf('partial') > -1) anyPartial = true;
+      if (rv2.q.indexOf('thin') > -1) anyThin = true;
+      rows.push({
+        when: rv2.s, count: (rv2.n == null ? '—' : rv2.n) + ' exposures' + (rv2.q ? ', ' + rv2.q.replace(' ', ', ') : ''),
+        cls: 'bc-visit' + (rv2.q ? ' bc-visit--qualified' : ''),
+        current: (hasImage && !pairView && ri === shown) ? 'true' : 'false',
+        off: building || (view === 'difference' && !!rv2.q),
+        pick: setFrame(ri), isA: hasImage && pairView && ri === A, isB: hasImage && pairView && ri === B
+      });
+    }
+    var key = (anyPartial ? 'Partial: a different mix of wavelengths. ' : '') + (anyThin ? 'Thin: fewer than 8 exposures.' : '');
+    if (view === 'difference' && (anyPartial || anyThin)) key = 'Greyed frames cannot be subtracted. ' + key;
+    if (building) key = 'These visits were found. They open when the image is built.';
+
+    var stage = s.bname ? 'finding' : this.norm(p.stage).indexOf('find') === 0 ? 'finding' : this.norm(p.stage).indexOf('stack') === 0 ? 'stacking' : 'reading';
+    var bs = stage === 'finding'
+      ? { c1: 'bc-step', a1: 'step', c2: 'bc-step', a2: 'false', l2: 'Reading exposures', v2: '', c3: 'bc-step', a3: 'false', l3: 'Stacking', v3: '', pct: '0%', now: 0, barLabel: 'Reading exposures' }
+      : stage === 'stacking'
+        ? { c1: 'bc-step bc-step--done', a1: 'false', c2: 'bc-step bc-step--done', a2: 'false', l2: 'Reading exposures: ', v2: '258 of 258', c3: 'bc-step', a3: 'step', l3: 'Stacking: ', v3: '240 of 258', pct: '93%', now: 240, barLabel: 'Stacking' }
+        : { c1: 'bc-step bc-step--done', a1: 'false', c2: 'bc-step', a2: 'step', l2: 'Reading exposures: ', v2: '120 of 258', c3: 'bc-step', a3: 'false', l3: 'Stacking', v3: '', pct: '46.5%', now: 120, barLabel: 'Reading exposures' };
+
+    var qDefault = cond === 'noposition' ? '' : building ? (s.bname || '133.7599 -7.2418') : cond === 'catalogue' ? 'WISE 0855-0714' : (cond === 'nocoverage' || cond === 'busy') ? '[position]' : fd.query;
+    var qValue = s.qv != null ? s.qv : qDefault;
+    var qMsg = cond === 'archive' ? 'Search is off while the recorded field is shown.'
+      : cond === 'noposition' ? "Try 133.7599 -7.2418, 08h55m10.831s -07d14m42.53s or Barnard's Star."
+      : building ? (s.bname ? 'Looking up the name.' : (s.qread || 'Read as RA 133.7599°, Dec −7.2418°.'))
+      : cond === 'catalogue' ? 'Read as RA 133.79513°, Dec −7.24515°.'
+      : (cond === 'nocoverage' || cond === 'busy') ? 'Read as RA [RA]°, Dec [Dec]°.' : fd.read;
+    if (s.qerr === 'dec') qMsg = 'Declination must be between −90 and +90 degrees.';
+    if (s.qerr === 'ra') qMsg = 'Right ascension must be between 0 and 360 degrees.';
+    if (s.qerr === 'name') qMsg = "No object of that name was found. Try Barnard's Star, or a position such as 133.7599 -7.2418.";
+    var reset = { frame: null, ref: null, ring: null, cur: null, held: false, playing: false, qerr: null, spot: false, band: null, bname: null, qv: null, qread: null, qpos: null };
+    function go(extra) { self.stopPlay(); var next = {}; for (var a1 in reset) next[a1] = reset[a1]; for (var a2 in extra) next[a2] = extra[a2]; self.setState(next); }
+    function onSearch(e) {
+      e.preventDefault();
+      var v = String(qValue).trim(), n = self.norm(v);
+      if (!v) { go({ cond: 'noposition' }); return; }
+      if (n.indexOf('barnard') === 0) go({ field: 'barnard', cond: 'ready' });
+      else if (n === 'wise0855' || v.indexOf('133.7598') === 0 || v.indexOf('133.7599') === 0) go({ field: 'wise', cond: 'ready' });
+      else if (n.indexOf('wise08550714') === 0 || n.indexOf('08h55') === 0 || v.indexOf('133.79') === 0) go({ field: 'wise', cond: 'catalogue' });
+      else {
+        var nums = v.replace(/−/g, '-').match(/[-+]?\d+(\.\d+)?/g);
+        if (nums && nums.length === 2 && !/[a-z]/i.test(v)) {
+          var qra = parseFloat(nums[0]), qde = parseFloat(nums[1]);
+          var sra = nums[0].replace('+', '').replace('-', '−'), sde = nums[1].replace('+', '').replace('-', '−');
+          if (Math.abs(qde) > 90) self.setState({ qerr: 'dec' });
+          else if (qra < 0 || qra >= 360) self.setState({ qerr: 'ra' });
+          else go({ cond: 'building', qv: v, qread: 'Read as RA ' + sra + '°, Dec ' + sde + '°.', qpos: 'RA ' + sra + '°  Dec ' + sde + '°' });
+        } else self.setState({ qerr: 'name' });
+      }
+    }
+    function target(extra) { return function (e) { if (e && e.preventDefault) e.preventDefault(); go(extra); }; }
+
+    var caveats = (hasImage && cond !== 'catalogue') ? fd.caveats : [];
+    var cvItems = [];
+    for (var ci = 0; ci < caveats.length; ci++) cvItems.push({ text: caveats[ci] });
+    var info = fieldId === 'wise' && hasImage && cond !== 'archive' && cond !== 'catalogue';
+
+    var title = cond === 'noposition' ? 'No position yet' : building ? (s.bname || 'Sky position') : cond === 'catalogue' ? 'WISE 0855-0714' : (cond === 'nocoverage' || cond === 'busy') ? 'Sky position' : fd.title;
+    var pos = cond === 'noposition' ? 'Type a position or a name below.' : building ? (s.bname ? 'Looking up the name.' : (s.qpos || 'RA 133.7599°  Dec −7.2418°')) : cond === 'catalogue' ? 'RA 133.79513°  Dec −7.24515°' : (cond === 'nocoverage' || cond === 'busy') ? 'RA [RA]°  Dec [Dec]°' : fd.pos;
+
+    var fov = s.fov || 6, contrast = s.contrast != null ? s.contrast : 5, face = s.face === 'table' ? 'table' : 'chart';
+    var specOpen = spec;
+    function bandSetter(id) { return function () { self.stopPlay(); self.setState({ band: id, frame: null, ref: null, held: false, playing: false }); }; }
+    function viewSetter(id) { return function () { if (!hasImage) return; self.stopPlay(); self.setState({ view: id, held: false, playing: false }); }; }
+    function fovSetter(v) { return function () { self.setState({ fov: v }); }; }
+    function tf(b) { return b ? 'true' : 'false'; }
+
+    return {
+      g: g, onRootKey: onRootKey, onFrameKey: onFrameKey, onPlate: onPlate,
+      t: { title: title, pos: pos },
+      q: { value: qValue, off: cond === 'archive', invalid: tf(!!s.qerr), msgCls: 'bc-fieldmsg' + (s.qerr ? ' bc-fieldmsg--error' : ''), err: !!s.qerr, msg: qMsg },
+      onQuery: function (e) { self.setState({ qv: e.target.value, qerr: null }); }, onSearch: onSearch,
+      n: { archive: cond === 'archive', jump: cond === 'catalogue', info: info, stack: info || cvItems.length > 0 },
+      retry: function () { go({ cond: 'ready' }); }, jump: function () { go({ field: 'wise', cond: 'ready' }); },
+      vw: { blink: view === 'blink', side: view === 'side', diff: view === 'difference', old: view === 'then', one: !two, two: two },
+      flip: {
+        pressed: tf(held), down: flipDown, up: flipUp,
+        keyDown: function (e) { if ((e.key === ' ' || e.key === 'Enter') && !e.repeat) { e.preventDefault(); e.stopPropagation(); flipDown(); } },
+        keyUp: function (e) { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); e.stopPropagation(); flipUp(); } },
+        menu: function (e) { e.preventDefault(); }
+      },
+      pb: { off: pbOff, motion: motion, reduced: !motion, why: building ? 'Frames can be flipped once the first one is built.' : 'No frame is on screen, so there is nothing to blink yet.' },
+      tr: { prev: step(-1), next: step(1), toggle: togglePlay, playLabel: playing ? 'Pause' : 'Play', playing: tf(playing), isPaused: !playing, isPlaying: playing, count: hasImage ? 'Frame ' + (shown + 1) + ' of ' + nV : '' },
+      speed: { v: speed, label: speed + ' per second' },
+      setSpeed: function (e) { var v = parseInt(e.target.value, 10) || 2; self.setState({ speed: v }); if (playing) startPlay(v); },
+      pair: { aWhen: visits[A].f, bWhen: visits[B].f, aShort: visits[A].s, bShort: visits[B].s },
+      other: { survey: fieldId === 'wise' ? 'WISE W2, 2010' : 'Other survey' },
+      fl: { frames: hasImage || building, example: hasImage && !known, newest: !(hasImage && !known), key: key },
+      rows: rows,
+      cv: { one: cvItems.length === 1, many: cvItems.length > 1, first: cvItems.length ? cvItems[0].text : '', items: cvItems },
+      tg: {
+        wise: target({ field: 'wise', cond: 'ready' }), barnard: target({ field: 'barnard', cond: 'ready' }), eps: target({ cond: 'building', bname: 'Epsilon Indi B' }), rw: target({ cond: 'building', bname: 'RW Aurigae' }), rdra: target({ cond: 'building', bname: 'R Draconis' }),
+        wiseCur: tf(hasImage && fieldId === 'wise' && cond !== 'catalogue'), barnardCur: tf(hasImage && fieldId === 'barnard')
+      },
+      fr: {
+        aria: hasImage ? 'Sky image, ' + cur.f + ', ' + range.replace(' µm', ' micrometres') + '. Tap to move the ring.' : 'Sky image. No frame is on screen.',
+        image: hasImage, building: building, nocov: cond === 'nocoverage', busy: cond === 'busy', nopos: cond === 'noposition'
+      },
+      pl: pl, im: im, ov: ov, bs: bs, sb: sb, ro: ro,
+      rb: { show: hasImage, none: !hasImage, spot: tf(spot), spec: tf(specOpen), rec: hasImage && (ring.x !== 0 || ring.y !== 0) },
+      toggleSpot: function () { self.setState({ spot: !spot }); },
+      toggleSpec: function () { self.setState({ spec: !specOpen }); },
+      recentre: function () { self.setState({ ring: null, cur: null }); },
+      lab: lab,
+      lg: { pos: hasImage && markers, was: hasImage && markers && fieldId === 'wise', nodata: hasImage && view !== 'difference' && visits.some(function (hv) { return !!(hv.hatch && hv.hatch.length); }), rgb: hasImage && band === 'rgb' },
+      two: {
+        side: view === 'side', old: view === 'then', sat: !!fd.sat,
+        aCls: 'bc-frame' + (view === 'then' ? ' bc-frame--survey' : ''), aLabCls: 'bc-framelabel' + (view === 'then' ? ' bc-framelabel--survey' : ''),
+        aAria: view === 'then' ? 'Image from another survey: ' + (fieldId === 'wise' ? 'WISE W2, 2010' : 'other survey') : 'Frame A, ' + visits[A].f,
+        bAria: view === 'then' ? 'SPHEREx frame, ' + visits[frame].f : 'Frame B, ' + visits[B].f,
+        aSlot: view === 'then' ? '' : visits[A].slot, bSlot: view === 'then' ? visits[frame].slot : visits[B].slot,
+        aHatch: view === 'then' ? [] : hatchList(visits[A]), bHatch: hatchList(view === 'then' ? visits[frame] : visits[B]),
+        aWhen: visits[A].f, aRange: labFor(A).range, aCount: count3(visits[A].n), aPartial: view === 'side' && labFor(A).partial,
+        bWhen: view === 'then' ? visits[frame].f : visits[B].f, bRange: labFor(view === 'then' ? frame : B).range, bCount: count3(view === 'then' ? visits[frame].n : visits[B].n), bPartial: labFor(view === 'then' ? frame : B).partial
+      },
+      copy: { status: s.copied ? 'Link copied' : '' },
+      doCopy: function () { self.setState({ copied: true }); if (self._copyT) clearTimeout(self._copyT); self._copyT = setTimeout(function () { self.setState({ copied: false }); }, 4000); },
+      chip: { recorded: hasImage && cond !== 'catalogue', live: cond === 'catalogue' },
+      vc: { blink: tf(view === 'blink'), side: tf(view === 'side'), diff: tf(view === 'difference'), old: tf(view === 'then'), off: tf(!hasImage), why: !hasImage },
+      setView: { blink: viewSetter('blink'), side: viewSetter('side'), diff: viewSetter('difference'), old: viewSetter('then') },
+      rr: { spec: specOpen },
+      rl: this.rule(358, band),
+      bc: { d1: tf(band === 'd1'), d2: tf(band === 'd2'), d3: tf(band === 'd3'), d4: tf(band === 'd4'), d5: tf(band === 'd5'), d6: tf(band === 'd6'), all: tf(band === 'all'), cold: tf(band === 'cold'), rgb: tf(band === 'rgb') },
+      setBand: { d1: bandSetter('d1'), d2: bandSetter('d2'), d3: bandSetter('d3'), d4: bandSetter('d4'), d5: bandSetter('d5'), d6: bandSetter('d6'), all: bandSetter('all'), cold: bandSetter('cold'), rgb: bandSetter('rgb') },
+      fc: { f3: tf(fov === 3), f4: tf(fov === 4), f5: tf(fov === 5), f6: tf(fov === 6), f8: tf(fov === 8), f10: tf(fov === 10) },
+      setFov: { f3: fovSetter(3), f4: fovSetter(4), f5: fovSetter(5), f6: fovSetter(6), f8: fovSetter(8), f10: fovSetter(10) },
+      disp: { c: contrast, inv: tf(invert), invWord: invert ? 'On' : 'Off', mk: tf(markers), mkWord: markers ? 'On' : 'Off', off: !hasImage },
+      setContrast: function (e) { self.setState({ contrast: parseInt(e.target.value, 10) }); },
+      toggleInvert: function () { self.setState({ invert: !invert }); },
+      toggleMarkers: function () { self.setState({ markers: !markers }); },
+      prov: { used: fd.used, show: hasImage, loading: building && !s.bname, stretch: hasImage && !!bd.limits, limits: bd.limits || '', warn: caveats.length ? caveats.join(' ') : 'None' },
+      sp: {
+        chartOn: tf(face === 'chart'), tableOn: tf(face === 'table'), chart: specOpen && face === 'chart' && !fd.sat, table: specOpen && face === 'table', sat: specOpen && !!fd.sat && face === 'chart',
+        pickChart: function () { self.setState({ face: 'chart' }); }, pickTable: function () { self.setState({ face: 'table' }); },
+        d1: visits[0] ? visits[0].s : '', d2: visits[1] ? visits[1].s : '', d3: visits[2] ? visits[2].s : '', d4: visits[3] ? visits[3].s : ''
+      },
+      ch: specOpen ? this.chart(324, 200, spans[band][0], spans[band][1]) : { s0: {}, s1: {}, s2: {}, s3: {} }
+    };
+  }
+}
+</script>
+</body>
+</html>

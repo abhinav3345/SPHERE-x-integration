@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>How someone arrives at the comparator</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/comparator/assets/Hand-off/tokens.css">
+<link rel="stylesheet" href="ds/comparator/components/bundle.css">
+<script src="ds/comparator/components/bundle.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400&amp;family=Source+Sans+3:wght@400;600&amp;display=swap">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="position: relative; width: 1280px; height: 1140px; background: var(--color-bg); color: var(--color-text); font-family: var(--font-ui); font-size: 14px; line-height: 20px; font-variant-numeric: var(--numeric)">
+
+<svg role="img" aria-label="From Landing page to Building, on a search" width="95" height="8" viewBox="0 0 95 8" preserveAspectRatio="none" style="position: absolute; left: 384px; top: 222px; width: 95px; height: 8px; overflow: visible; fill: none; stroke: #b4b4b4; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-1" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#b4b4b4" stroke="none" style="stroke: none; fill: #b4b4b4; fill: context-stroke"/></marker></defs><path d="M 0 4 L 91 4" marker-end="url(#dc-arrow-head-filled-1)"></path></svg>
+<svg role="img" aria-label="From Building to Comparator, Blink, once the image is built" width="95" height="8" viewBox="0 0 95 8" preserveAspectRatio="none" style="position: absolute; left: 800px; top: 222px; width: 95px; height: 8px; overflow: visible; fill: none; stroke: #b4b4b4; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-2" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#b4b4b4" stroke="none" style="stroke: none; fill: #b4b4b4; fill: context-stroke"/></marker></defs><path d="M 0 4 L 91 4" marker-end="url(#dc-arrow-head-filled-2)"></path></svg>
+<svg role="img" aria-label="From a recorded target straight to the comparator, with no build" width="511" height="8" viewBox="0 0 511 8" preserveAspectRatio="none" style="position: absolute; left: 384px; top: 418px; width: 511px; height: 8px; overflow: visible; fill: none; stroke: #b4b4b4; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-3" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#b4b4b4" stroke="none" style="stroke: none; fill: #b4b4b4; fill: context-stroke"/></marker></defs><path d="M 0 4 L 507 4" marker-end="url(#dc-arrow-head-filled-3)"></path></svg>
+<svg role="img" aria-label="From one of the other three targets to Building" width="95" height="8" viewBox="0 0 95 8" preserveAspectRatio="none" style="position: absolute; left: 384px; top: 614px; width: 95px; height: 8px; overflow: visible; fill: none; stroke: #b4b4b4; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-4" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#b4b4b4" stroke="none" style="stroke: none; fill: #b4b4b4; fill: context-stroke"/></marker></defs><path d="M 0 4 L 91 4" marker-end="url(#dc-arrow-head-filled-4)"></path></svg>
+<svg role="img" aria-label="From Building to the comparator with live data" width="95" height="8" viewBox="0 0 95 8" preserveAspectRatio="none" style="position: absolute; left: 800px; top: 614px; width: 95px; height: 8px; overflow: visible; fill: none; stroke: #b4b4b4; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-5" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#b4b4b4" stroke="none" style="stroke: none; fill: #b4b4b4; fill: context-stroke"/></marker></defs><path d="M 0 4 L 91 4" marker-end="url(#dc-arrow-head-filled-5)"></path></svg>
+<svg role="img" aria-label="From a name with known motion to the comparator at the catalogue position" width="95" height="8" viewBox="0 0 95 8" preserveAspectRatio="none" style="position: absolute; left: 384px; top: 810px; width: 95px; height: 8px; overflow: visible; fill: none; stroke: #b4b4b4; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-6" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#b4b4b4" stroke="none" style="stroke: none; fill: #b4b4b4; fill: context-stroke"/></marker></defs><path d="M 0 4 L 91 4" marker-end="url(#dc-arrow-head-filled-6)"></path></svg>
+<svg role="img" aria-label="From the catalogue position to where it is now, on Go to where it is now" width="95" height="8" viewBox="0 0 95 8" preserveAspectRatio="none" style="position: absolute; left: 800px; top: 810px; width: 95px; height: 8px; overflow: visible; fill: none; stroke: #b4b4b4; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-7" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#b4b4b4" stroke="none" style="stroke: none; fill: #b4b4b4; fill: context-stroke"/></marker></defs><path d="M 0 4 L 91 4" marker-end="url(#dc-arrow-head-filled-7)"></path></svg>
+<svg role="img" aria-label="From the comparator with no position to a target or a search" width="95" height="8" viewBox="0 0 95 8" preserveAspectRatio="none" style="position: absolute; left: 384px; top: 1006px; width: 95px; height: 8px; overflow: visible; fill: none; stroke: #b4b4b4; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-8" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#b4b4b4" stroke="none" style="stroke: none; fill: #b4b4b4; fill: context-stroke"/></marker></defs><path d="M 0 4 L 91 4" marker-end="url(#dc-arrow-head-filled-8)"></path></svg>
+<svg role="img" aria-label="From a target or a search to Building, or the comparator" width="95" height="8" viewBox="0 0 95 8" preserveAspectRatio="none" style="position: absolute; left: 800px; top: 1006px; width: 95px; height: 8px; overflow: visible; fill: none; stroke: #b4b4b4; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-9" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#b4b4b4" stroke="none" style="stroke: none; fill: #b4b4b4; fill: context-stroke"/></marker></defs><path d="M 0 4 L 91 4" marker-end="url(#dc-arrow-head-filled-9)"></path></svg>
+
+<div style="position: absolute; left: 64px; top: 64px; font-size: 22px; line-height: 28px; font-weight: 600">How someone arrives</div>
+
+<div style="position: absolute; left: 64px; top: 136px; font-weight: 600">1. From the landing page, with a position</div>
+<div style="position: absolute; left: 64px; top: 332px; font-weight: 600">2. With WISE 0855 or Barnard's Star</div>
+<div style="position: absolute; left: 64px; top: 528px; font-weight: 600">3. With one of the other three targets</div>
+<div style="position: absolute; left: 64px; top: 724px; font-weight: 600">4. Through the moved-object banner and its jump</div>
+<div style="position: absolute; left: 64px; top: 920px; font-weight: 600">5. With no position chosen yet</div>
+
+<div style="position: absolute; left: 64px; top: 164px; width: 320px; height: 124px; box-sizing: border-box; padding: 12px; display: flex; align-items: flex-start; background: var(--color-surface); border: 1px solid var(--color-line-strong); border-radius: 4px"><span><b>Landing page</b><br>A position in decimal degrees, in hours and degrees, or a name.</span></div>
+<div style="position: absolute; left: 480px; top: 164px; width: 320px; height: 124px; box-sizing: border-box; padding: 12px; display: flex; align-items: flex-start; background: var(--color-surface); border: 1px solid var(--color-line-strong); border-radius: 4px"><span><b>Building</b><br>Finding exposures. Reading exposures: 120 of 258. Stacking: 240 of 258. Skipped when this position was built before. <a class="bc-link" href="State-building.dc.html">Open</a></span></div>
+<div style="position: absolute; left: 896px; top: 164px; width: 320px; height: 124px; box-sizing: border-box; padding: 12px; display: flex; align-items: flex-start; background: var(--color-surface); border: 1px solid var(--color-line-strong); border-radius: 4px"><span><b>Comparator, Blink</b><br>Opens on the newest full frame, never on a partial one. Chip: Live data. <a class="bc-link" href="Main.dc.html">Open</a></span></div>
+
+<div style="position: absolute; left: 64px; top: 360px; width: 320px; height: 124px; box-sizing: border-box; padding: 12px; display: flex; align-items: flex-start; background: var(--color-surface); border: 1px solid var(--color-line-strong); border-radius: 4px"><span><b>Landing page</b><br>WISE 0855 or Barnard's Star, from the five targets.</span></div>
+<div style="position: absolute; left: 896px; top: 360px; width: 320px; height: 124px; box-sizing: border-box; padding: 12px; display: flex; align-items: flex-start; background: var(--color-surface); border: 1px solid var(--color-line-strong); border-radius: 4px"><span><b>Comparator, Blink</b><br>Chip: Recorded field. Barnard's Star opens with its caveats listed. <a class="bc-link" href="State-barnard.dc.html">Open</a></span></div>
+
+<div style="position: absolute; left: 64px; top: 556px; width: 320px; height: 124px; box-sizing: border-box; padding: 12px; display: flex; align-items: flex-start; background: var(--color-surface); border: 1px solid var(--color-line-strong); border-radius: 4px"><span><b>Landing page</b><br>Epsilon Indi B, RW Aurigae or R Draconis. The row reads "Building this image…".</span></div>
+<div style="position: absolute; left: 480px; top: 556px; width: 320px; height: 124px; box-sizing: border-box; padding: 12px; display: flex; align-items: flex-start; background: var(--color-surface); border: 1px solid var(--color-line-strong); border-radius: 4px"><span><b>Building</b><br>About a minute the first time. It is saved, so the next visitor skips this step.</span></div>
+<div style="position: absolute; left: 896px; top: 556px; width: 320px; height: 124px; box-sizing: border-box; padding: 12px; display: flex; align-items: flex-start; background: var(--color-surface); border: 1px solid var(--color-line-strong); border-radius: 4px"><span><b>Comparator, Blink</b><br>Chip: Live data.</span></div>
+
+<div style="position: absolute; left: 64px; top: 752px; width: 320px; height: 124px; box-sizing: border-box; padding: 12px; display: flex; align-items: flex-start; background: var(--color-surface); border: 1px solid var(--color-line-strong); border-radius: 4px"><span><b>A name with known motion</b><br>"WISE 0855-0714" is read as its catalogue position: RA 133.79513°, Dec −7.24515°.</span></div>
+<div style="position: absolute; left: 480px; top: 752px; width: 320px; height: 124px; box-sizing: border-box; padding: 12px; display: flex; align-items: flex-start; background: var(--color-surface); border: 1px solid var(--color-line-strong); border-radius: 4px"><span><b>Comparator at the catalogue position</b><br>Banner: "WISE 0855-0714 was here in 2010. It is now 126″ to the west." Its button is the one lit control. <a class="bc-link" href="State-catalogue.dc.html">Open</a></span></div>
+<div style="position: absolute; left: 896px; top: 752px; width: 320px; height: 124px; box-sizing: border-box; padding: 12px; display: flex; align-items: flex-start; background: var(--color-surface); border: 1px solid var(--color-line-strong); border-radius: 4px"><span><b>Comparator where it is now</b><br>RA 133.7598°, Dec −7.2422°. The dashed square marks 2010. The banner stays, without its button.</span></div>
+
+<div style="position: absolute; left: 64px; top: 948px; width: 320px; height: 124px; box-sizing: border-box; padding: 12px; display: flex; align-items: flex-start; background: var(--color-surface); border: 1px solid var(--color-line-strong); border-radius: 4px"><span><b>Comparator, no position</b><br>"No position chosen yet." The frame keeps its square and the five targets are listed. <a class="bc-link" href="State-no-position.dc.html">Open</a></span></div>
+<div style="position: absolute; left: 480px; top: 948px; width: 320px; height: 124px; box-sizing: border-box; padding: 12px; display: flex; align-items: flex-start; background: var(--color-surface); border: 1px solid var(--color-line-strong); border-radius: 4px"><span><b>A target or a search</b><br>"See the targets", or a position typed in the search field.</span></div>
+<div style="position: absolute; left: 896px; top: 948px; width: 320px; height: 124px; box-sizing: border-box; padding: 12px; display: flex; align-items: flex-start; background: var(--color-surface); border: 1px solid var(--color-line-strong); border-radius: 4px"><span><b>Building, or the comparator</b><br>As in rows 1 to 3.</span></div>
+
+<div style="position: absolute; left: 400px; top: 198px; width: 64px; text-align: center; font-size: 13px; line-height: 16px; color: var(--color-text-muted)">search</div>
+<div style="position: absolute; left: 816px; top: 198px; width: 64px; text-align: center; font-size: 13px; line-height: 16px; color: var(--color-text-muted)">built</div>
+<div style="position: absolute; left: 520px; top: 394px; width: 240px; text-align: center; font-size: 13px; line-height: 16px; color: var(--color-text-muted)">recorded field: opens at once</div>
+<div style="position: absolute; left: 400px; top: 590px; width: 64px; text-align: center; font-size: 13px; line-height: 16px; color: var(--color-text-muted)">target</div>
+<div style="position: absolute; left: 816px; top: 590px; width: 64px; text-align: center; font-size: 13px; line-height: 16px; color: var(--color-text-muted)">built</div>
+<div style="position: absolute; left: 400px; top: 786px; width: 64px; text-align: center; font-size: 13px; line-height: 16px; color: var(--color-text-muted)">read as</div>
+<div style="position: absolute; left: 816px; top: 786px; width: 64px; text-align: center; font-size: 13px; line-height: 16px; color: var(--color-text-muted)">jump</div>
+<div style="position: absolute; left: 400px; top: 982px; width: 64px; text-align: center; font-size: 13px; line-height: 16px; color: var(--color-text-muted)">choose</div>
+<div style="position: absolute; left: 816px; top: 982px; width: 64px; text-align: center; font-size: 13px; line-height: 16px; color: var(--color-text-muted)">then</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1140}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

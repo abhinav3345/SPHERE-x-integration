@@ -1,0 +1,169 @@
+<!-- @dsCard group="Controls" height=650 -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Button — preview</title>
+<!-- Reference page only: Source Sans 3 loads from Google Fonts here. The product self-hosts its fonts (see Hand-off). -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400&amp;family=Source+Sans+3:wght@400;600&amp;display=swap">
+<style>
+/* Fallback copy of the tokens, so this card still renders if the system token sheet is not loaded.
+   It sits in a cascade layer, so the system's own tokens always win. Never copy this block into the product. */
+@layer token-fallback {
+:root {
+  --color-bg: #0e0e0e;
+  --color-surround: var(--color-bg);
+  --color-surface: #1c1c1c;
+  --color-surface-raised: #262626;
+  --color-pressed: #3a3a3a;
+  --color-line: #333333;
+  --color-line-strong: #767676;
+  --color-text: #f0f0f0;
+  --color-text-muted: #b4b4b4;
+  --color-text-disabled: #767676;
+  --color-accent: #f0f0f0;
+  --color-accent-hover: #ffffff;
+  --color-accent-pressed: #c8c8c8;
+  --color-on-accent: #0e0e0e;
+  --color-focus: #ffffff;
+  --ramp-black: #000000;
+  --ramp-white: #ffffff;
+  --nodata-a: #2b2b2b;
+  --nodata-b: #a3a3a3;
+  --epoch-a: #ff6600;
+  --epoch-b: #0099ff;
+  --diff-earlier-5: #fea578;
+  --diff-earlier-4: #f46e0e;
+  --diff-earlier-3: #c25508;
+  --diff-earlier-2: #8f4111;
+  --diff-earlier-1: #5b301a;
+  --diff-zero: #222222;
+  --diff-later-1: #1d3f60;
+  --diff-later-2: #175d9b;
+  --diff-later-3: #0d7dd4;
+  --diff-later-4: #39a0fd;
+  --diff-later-5: #8ac3fe;
+  --series-1: #ff6600;
+  --series-2: #fea578;
+  --series-3: #d4d4d4;
+  --series-4: #8ac3fe;
+  --series-5: #0099ff;
+  --marker-position: #ffffff;
+  --marker-gaia: #3ce074;
+  --marker-catwise: #fe6ec7;
+  --marker-was: #fce343;
+  --marker-casing: #000000;
+  --spotlight-dim: rgba(0, 0, 0, 0.62);
+  --channel-r: #ff0000;
+  --channel-g: #00ff00;
+  --channel-b: #0000ff;
+  --space-half: 2px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --radius-0: 0;
+  --radius-1: 2px;
+  --radius-2: 4px;
+  --text-micro: 0.75rem;
+  --text-caption: 0.8125rem;
+  --text-label: 0.875rem;
+  --text-body: 1rem;
+  --text-readout: 1.125rem;
+  --text-title: 1.375rem;
+  --leading-micro: 1rem;
+  --leading-caption: 1.125rem;
+  --leading-label: 1.25rem;
+  --leading-body: 1.5rem;
+  --leading-title: 1.75rem;
+  --weight-regular: 400;
+  --weight-strong: 600;
+  --numeric: tabular-nums lining-nums slashed-zero;
+  --border-hair: 1px;
+  --border-strong: 2px;
+  --focus-width: 2px;
+  --focus-gap: 2px;
+  --size-touch: 44px;
+  --size-control: 44px;
+  --size-flip: 56px;
+  --size-icon: 20px;
+  --icon-stroke: 1.5px;
+  --size-gutter: 16px;
+  --size-column-max: 430px;
+  --size-rail: 320px;
+  --image-default: 119px;
+  --image-max: 197px;
+  --hatch-stripe: 2px;
+  --marker-stroke: 2px;
+  --blink-rate-default: 2;
+  --blink-rate-max: 6;
+  --feedback-duration: 0ms;
+  --font-ui: "Source Sans 3", "Source Sans Pro", system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", sans-serif;
+  --font-mono: "Source Code Pro", ui-monospace, "SF Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+}
+}
+</style>
+<style>
+  /* layout of this reference card only; not part of the system */
+  body { padding: var(--space-4); }
+  .pv-row { display: flex; flex-wrap: wrap; align-items: flex-start; gap: var(--space-5); }
+  .pv-col { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-4); align-content: start; min-width: 0; }
+  .pv-state { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-2); align-content: start; min-width: 0; }
+  .pv-cap, .pv-state > figcaption { font-size: var(--text-micro); line-height: var(--leading-micro); color: var(--color-text-muted); }
+  .pv-phone { width: 100%; max-width: 358px; }
+  .pv-half { width: 100%; max-width: 280px; }
+  .pv-wide { width: 100%; max-width: 640px; }
+  .pv-sep { height: var(--border-hair); margin: var(--space-4) 0; background: var(--color-line); }
+
+  .bt-row { display: flex; flex-wrap: wrap; align-items: flex-start; gap: var(--space-4) var(--space-4); }
+  .bt-row + .bt-row { margin-top: var(--space-4); }
+  .bt-row > .pv-cap { flex: 0 0 100%; }
+</style>
+</head>
+<body>
+<div class="bt-row">
+  <span class="pv-cap">Primary: one per view</span>
+  <figure class="pv-state"><button class="bc-button bc-button--primary" type="button">Search</button><figcaption>Default</figcaption></figure>
+  <figure class="pv-state"><button class="bc-button bc-button--primary is-hover" type="button">Search</button><figcaption>Hover</figcaption></figure>
+  <figure class="pv-state"><button class="bc-button bc-button--primary is-focus" type="button">Search</button><figcaption>Keyboard focus</figcaption></figure>
+  <figure class="pv-state"><button class="bc-button bc-button--primary is-pressed" type="button">Search</button><figcaption>Pressed</figcaption></figure>
+  <figure class="pv-state"><button class="bc-button bc-button--primary" type="button" disabled>Search</button><figcaption>Disabled</figcaption></figure>
+  <figure class="pv-state"><button class="bc-button bc-button--primary" type="button" aria-busy="true">Searching…</button><figcaption>Loading</figcaption></figure>
+</div>
+<div class="bt-row">
+  <span class="pv-cap">Secondary: the default button</span>
+  <figure class="pv-state"><button class="bc-button" type="button">Download CSV</button><figcaption>Default</figcaption></figure>
+  <figure class="pv-state"><button class="bc-button is-hover" type="button">Download CSV</button><figcaption>Hover</figcaption></figure>
+  <figure class="pv-state"><button class="bc-button is-focus" type="button">Download CSV</button><figcaption>Keyboard focus</figcaption></figure>
+  <figure class="pv-state"><button class="bc-button is-pressed" type="button">Download CSV</button><figcaption>Pressed</figcaption></figure>
+  <figure class="pv-state"><button class="bc-button" type="button" disabled>Download CSV</button><figcaption>Disabled</figcaption></figure>
+  <figure class="pv-state"><button class="bc-button" type="button" aria-busy="true">Preparing CSV…</button><figcaption>Loading</figcaption></figure>
+</div>
+<div class="bt-row">
+  <span class="pv-cap">Quiet, and icon-only (always with an accessible name)</span>
+  <figure class="pv-state"><button class="bc-button bc-button--quiet" type="button"><i data-icon="copy-link"></i>Copy link</button><figcaption>Default</figcaption></figure>
+  <figure class="pv-state"><button class="bc-button bc-button--quiet is-hover" type="button"><i data-icon="copy-link"></i>Copy link</button><figcaption>Hover</figcaption></figure>
+  <figure class="pv-state"><button class="bc-button bc-button--quiet is-focus" type="button"><i data-icon="copy-link"></i>Copy link</button><figcaption>Keyboard focus</figcaption></figure>
+  <figure class="pv-state"><button class="bc-button bc-button--icon" type="button" aria-label="Next frame"><i data-icon="next"></i></button><figcaption>Icon-only</figcaption></figure>
+  <figure class="pv-state"><button class="bc-button bc-button--icon is-pressed" type="button" aria-label="Next frame"><i data-icon="next"></i></button><figcaption>Pressed</figcaption></figure>
+  <figure class="pv-state"><button class="bc-button bc-button--icon" type="button" aria-label="Next frame" disabled><i data-icon="next"></i></button><figcaption>Disabled</figcaption></figure>
+</div>
+<div class="bt-row">
+  <span class="pv-cap">Text link, and a long label in a narrow place</span>
+  <figure class="pv-state"><a class="bc-link" href="#top">How the image is built</a><figcaption>Default</figcaption></figure>
+  <figure class="pv-state"><a class="bc-link is-hover" href="#top">How the image is built</a><figcaption>Hover</figcaption></figure>
+  <figure class="pv-state"><a class="bc-link is-focus" href="#top">How the image is built</a><figcaption>Keyboard focus</figcaption></figure>
+  <figure class="pv-state"><a class="bc-link" href="#top">10.26131/IRSA652<i data-icon="external-link"></i></a><figcaption>Leaves the tool</figcaption></figure>
+  <figure class="pv-state" style="width: 9.5rem"><button class="bc-button bc-button--primary" type="button">Go to where it is now</button><figcaption>Wraps, never truncates</figcaption></figure>
+</div>
+<script>
+if (window.Comparator) { Comparator.enhance(document); }
+</script>
+</body>
+</html>

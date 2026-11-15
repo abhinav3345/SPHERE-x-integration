@@ -1,2 +1,22 @@
 .pytest_cache/
 *.un~
+
+# --- Frames engine (api/) and web app (web/), from frontend/main ---------------------------------
+# Python environments and caches
+.venv/
+__pycache__/
+*.py[cod]
+.ruff_cache/
+.cache/
+
+# Web: dependencies, build output, and the copies written by web/scripts/sync-contract.mjs
+web/node_modules/
+web/dist/
+web/public/fixtures/
+web/src/generated/
+
+# Secrets and local settings: never commit these
+.env
+.env.local
+.claude/settings.local.json
+.DS_Store

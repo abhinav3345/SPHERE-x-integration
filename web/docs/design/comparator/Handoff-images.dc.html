@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Hand-off: images</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/comparator/assets/Hand-off/tokens.css">
+<link rel="stylesheet" href="ds/comparator/components/bundle.css">
+<script src="ds/comparator/components/bundle.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400&amp;family=Source+Sans+3:wght@400;600&amp;display=swap">
+<style>
+body{margin:0}
+.ho-t{table-layout:fixed;width:100%}
+.ho-t td,.ho-t th{text-align:left !important;white-space:normal !important;vertical-align:top;font-family:var(--font-ui) !important;overflow-wrap:anywhere}
+</style>
+</helmet>
+<div style="width: 1200px; min-height: 3300px; box-sizing: border-box; padding: 48px; display: flex; flex-direction: column; gap: 24px; background: var(--color-bg); color: var(--color-text); font-family: var(--font-ui); font-size: 14px; line-height: 20px; font-variant-numeric: var(--numeric)">
+
+<div style="display: flex; flex-direction: column; gap: 8px; max-width: 820px">
+<h1 class="bc-title">Images: scale at each size, and what stays fixed</h1>
+<p>Every image is a real frame of 119 × 119 pixels at a field of view of 6′, drawn with hard pixels at a whole-number scale. The frame is a square whose size depends only on the layout, never on the image.</p>
+<p>Scales are CSS pixels for one image pixel. On a dense screen the same rule gives a whole number of device pixels, as the system's ImageFrame card sets out.</p>
+</div>
+
+<section style="display: flex; flex-direction: column; gap: 8px">
+<h2 class="bc-heading">Scale of every image at each size</h2>
+<div class="bc-tablewrap"><table class="bc-table ho-t">
+<colgroup><col style="width: 31%"><col style="width: 23%"><col style="width: 23%"><col style="width: 23%"></colgroup>
+<thead><tr><th scope="col">Image</th><th scope="col">390 × 844</th><th scope="col">1280 × 720</th><th scope="col">1440 × 900</th></tr></thead>
+<tbody>
+<tr><td>Blink: the frame on screen</td><td>3×, 357px, centred in a 390px square</td><td>4×, 476px. The square is the image.</td><td>5×, 595px. The square is the image.</td></tr>
+<tr><td>Difference image</td><td>3×, 357px</td><td>4×, 476px</td><td>5×, 595px</td></tr>
+<tr><td>Side by side: A and B</td><td>3× each, 357px, A above B, 16px apart</td><td>2× each, 238px, 16px apart</td><td>2× each, 238px, 16px apart</td></tr>
+<tr><td>Then and now: the other survey and SPHEREx</td><td>3× each, 357px, one above the other</td><td>2× each, 238px, 16px apart</td><td>2× each, 238px, 16px apart</td></tr>
+<tr><td>Spotlight: the 39 × 39 pixels around the ring</td><td>9×, 351px</td><td>12×, 468px</td><td>15×, 585px</td></tr>
+<tr><td>Spotlight with two frames</td><td>9× each, 351px</td><td>6× each, 234px</td><td>6× each, 234px</td></tr>
+</tbody></table></div>
+<p class="bc-note">At 1280 and 1440 the square is exactly the image; the 24px gutters and the 16px page edge are its surround. On a phone the surround is the 16.5px left and right of the image inside the square. Nothing lit comes within 16px of an image: the nearest lit control is a ring button, 44px below.</p>
+<p class="bc-note">Then and now assumes the other survey's image arrives on the same 119 × 119 pixel grid, north up. Only then do positions compare.</p>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 8px">
+<h2 class="bc-heading">Scale bar: one drawn length for each layout, and a label that follows the scale</h2>
+<div class="bc-tablewrap"><table class="bc-table ho-t">
+<colgroup><col style="width: 20%"><col style="width: 16%"><col style="width: 16%"><col style="width: 16%"><col style="width: 16%"><col style="width: 16%"></colgroup>
+<thead><tr><th scope="col">Layout</th><th scope="col">Bar</th><th scope="col">One frame</th><th scope="col">Spotlight</th><th scope="col">Two frames</th><th scope="col">Two frames, spotlight</th></tr></thead>
+<tbody>
+<tr><td>390 × 844</td><td>58.5px</td><td>60″ at 3×</td><td>20″ at 9×</td><td>60″ at 3×</td><td>20″ at 9×</td></tr>
+<tr><td>1280 × 720</td><td>78px</td><td>60″ at 4×</td><td>20″ at 12×</td><td>120″ at 2×</td><td>40″ at 6×</td></tr>
+<tr><td>1440 × 900</td><td>97.5px</td><td>60″ at 5×</td><td>20″ at 15×</td><td>150″ at 2×</td><td>50″ at 6×</td></tr>
+</tbody></table></div>
+<p class="bc-note">60″ ÷ 3.075″ per pixel = 19.5 image pixels. The bar is never rounded to a tidy pixel length; the label says what its length is on the sky at the scale in use. Label and scale sit in fixed fields of 5 and 3 characters.</p>
+</section>
+
+<section class="bc-panel">
+<h2 class="bc-heading">Other fields of view</h2>
+<p>The square does not change with the field of view. The image takes the largest whole scale that fits it, and the scale bar is drawn again.</p>
+<p>The system gives one other size: the 197 pixel frame. It is 2× (394px) at 1280 × 720 and 3× (591px) at 1440 × 900, with a scale bar of 120″. In a 390px column it is 1× at one device pixel per CSS pixel, and larger on a dense phone, where the whole number is counted in device pixels.</p>
+<p class="bc-note">The pixel sizes for 3′, 4′, 5′ and 8′ are not in the brief or the system, so no board draws them. The prototype's field-of-view switch only moves the lit cell.</p>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 8px">
+<h2 class="bc-heading">What the real frames show, and how large that is on screen</h2>
+<div class="bc-tablewrap"><table class="bc-table ho-t">
+<colgroup><col style="width: 28%"><col style="width: 18%"><col style="width: 18%"><col style="width: 18%"><col style="width: 18%"></colgroup>
+<thead><tr><th scope="col">Motion, from the brief</th><th scope="col">At 3×</th><th scope="col">At 4×</th><th scope="col">At 5×</th><th scope="col">Spotlight at 12×</th></tr></thead>
+<tbody>
+<tr><td>WISE 0855: 4.4″ west, 1.4 image pixels</td><td>4.2px</td><td>5.6px</td><td>7.0px</td><td>16.8px</td></tr>
+<tr><td>Barnard's Star: 10.2″ north in a year, 3.3 image pixels</td><td>9.9px</td><td>13.2px</td><td>16.5px</td><td>39.6px</td></tr>
+</tbody></table></div>
+<p class="bc-note">This is the case for the spotlight on the projector: the WISE 0855 shift is under 6px at 4× and close to 17px at 12×.</p>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 8px">
+<h2 class="bc-heading">Where each real frame goes</h2>
+<div class="bc-tablewrap"><table class="bc-table ho-t">
+<colgroup><col style="width: 24%"><col style="width: 34%"><col style="width: 42%"></colgroup>
+<thead><tr><th scope="col">File</th><th scope="col">Slot</th><th scope="col">Note</th></tr></thead>
+<tbody>
+<tr><td>wise0855-cold-frame2</td><td>WISE 0855, Cold objects, frame 2: 07 Nov to 14 Nov 2025</td><td>The flip partner when the screen opens.</td></tr>
+<tr><td>wise0855-cold-frame4</td><td>WISE 0855, Cold objects, frame 4: 21 Apr to 14 May 2026</td><td>The frame the screen opens on: the newest full one.</td></tr>
+<tr><td>wise0855-d1-frame2</td><td>WISE 0855, D1, frame 2: 31 Oct to 03 Nov 2025</td><td>The brown dwarf is absent. A neighbour star sits 2 pixels right of centre and 1 up.</td></tr>
+<tr><td>barnard-all-frame1</td><td>Barnard's Star, All, frame 1: 15 Aug to 05 Sep 2025</td><td>The flip partner when the field opens.</td></tr>
+<tr><td>barnard-all-frame3</td><td>Barnard's Star, All, frame 3: 11 Mar to 10 Apr 2026</td><td></td></tr>
+<tr><td>barnard-all-frame5</td><td>Barnard's Star, All, frame 5: 16 Aug to 22 Sep 2026</td><td>The frame the field opens on.</td></tr>
+<tr><td>barnard-d3-frame1</td><td>Barnard's Star, D3, frame 1</td><td>Two no-data pixels at the star's centre, drawn with the system hatch. The boards hatch pixels 59 and 60 of row 59 as a stand-in until the mask arrives.</td></tr>
+</tbody></table></div>
+<p class="bc-note">Every slot on the boards is the system's flat block labelled "real frame, 119 × 119 px" with its file name. The label sits on the block, not on sky, and goes when the frame arrives. Slots with no file named are frames the brief did not supply: the partial visits, the other bands, the difference image and the other survey.</p>
+<p class="bc-note">The dashed square for 2010 sits 41 pixels left of centre and 3 down: the catalogue position RA 133.79513°, Dec −7.24515° is 126.2″ east and 10.6″ south of the field centre.</p>
+</section>
+
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; align-items: start">
+
+<section class="bc-panel">
+<h2 class="bc-heading">When the frame changes: what stays exactly as it is</h2>
+<ul style="margin: 0; padding-left: 20px; list-style: disc; display: flex; flex-direction: column; gap: 6px">
+<li>The square: its size and its place.</li>
+<li>The image's scale, its place in the square, and the brightness scale, which is one for the whole sequence.</li>
+<li>The hatch pattern, anchored to the image origin.</li>
+<li>The ring, the dashed square, the spotlight circle and its crop.</li>
+<li>The scale bar, its label, the scale beside it and the compass.</li>
+<li>The legend line, the ring buttons, every notice and the caveat list.</li>
+<li>Every timeline row: its words, its order and its greying.</li>
+<li>The frame label's height, width and line breaks.</li>
+<li>RA and Dec in the readout.</li>
+<li>Everything in the view rail.</li>
+</ul>
+</section>
+
+<section class="bc-panel">
+<h2 class="bc-heading">When the frame changes: what changes, and why nothing moves</h2>
+<ul style="margin: 0; padding-left: 20px; list-style: disc; display: flex; flex-direction: column; gap: 6px">
+<li>The image, and which of its pixels are hatched.</li>
+<li>Frame label, date: the glyphs. The fixed form is always 21 characters.</li>
+<li>Frame label, count: right-aligned in three characters.</li>
+<li>Frame label, range: only for a partial frame, and at a fixed length.</li>
+<li>Frame label, chips: which are present, in a row that keeps its 24px.</li>
+<li>Frame counter: one digit, in a field of 14 characters.</li>
+<li>Timeline: one mark of 8 × 8px.</li>
+<li>Readout brightness, when the pointer rests on the image: glyphs in a fixed field.</li>
+<li>The flip key while it is held: a 2px inset line, no fill.</li>
+</ul>
+<p class="bc-note">No weight, colour, size or position changes. Nothing fades.</p>
+</section>
+
+</div>
+
+<section class="bc-panel">
+<h2 class="bc-heading">When the field, the band or the view changes</h2>
+<p>These are deliberate acts, not flips, so more may change: the image, the timeline rows, the frame label, the caveats and the provenance numbers. The square, the width of both rails and the place of every group stay.</p>
+<p>In Side by side and Then and now both squares keep one size. The ring is linked: a click on either image moves it on both, and the readout gives one position and a brightness for each frame. In Then and now it gives the position only.</p>
+<p><b>Drawing rules, from the system.</b> Hard pixels with smoothing off. No rounded corners on an image, no tint, no shadow. Nothing over the sky except the markers, which switch off together. One brightness scale for the sequence; Contrast and Invert act on every frame at once. A no-data pixel is hatched at 45°, with a stripe one third of a displayed pixel wide.</p>
+</section>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1200,"height":3300}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

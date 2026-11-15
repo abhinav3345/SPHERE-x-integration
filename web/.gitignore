@@ -1,0 +1,8 @@
+node_modules/
+dist/
+*.tsbuildinfo
+
+# Written by scripts/sync-contract.mjs from docs/contract/ and cache/fixtures/.
+# Never edit or commit these copies: change the sources and run `npm run sync`.
+src/generated/
+public/fixtures/

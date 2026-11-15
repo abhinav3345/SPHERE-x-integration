@@ -1,0 +1,45 @@
+{
+  "note": "Real SPHEREx frames, exported from the comparator's own canvas at native size (one image pixel per PNG pixel) on 14 Nov 2026, from the recordings of pipeline 0.2.0 (keys then 12cef3ae1d9543eb for barnard and 34360c4f04ab5cb6 for wise0855). The SPHEREx planes of the current recordings (pipeline 0.3.0, the keys below) are byte-identical to those, so the pictures are unchanged. Each pair shares one brightness scale. Show them at whole-number scales with no smoothing. Export them again if the SPHEREx planes of the recorded fields change.",
+  "frames": [
+    {
+      "file": "barnard-2025-08.png",
+      "field": "barnard",
+      "key": "aeae7a60489afee0",
+      "band": "all",
+      "wavelength_um": "0.74-5.00",
+      "dates": "2025-08-15 to 2025-09-05",
+      "exposures": 104,
+      "stretch_mjy_sr": [-0.0233, 45.1]
+    },
+    {
+      "file": "barnard-2026-09.png",
+      "field": "barnard",
+      "key": "aeae7a60489afee0",
+      "band": "all",
+      "wavelength_um": "0.74-5.00",
+      "dates": "2026-08-16 to 2026-09-22",
+      "exposures": 116,
+      "stretch_mjy_sr": [-0.0233, 45.1]
+    },
+    {
+      "file": "wise0855-2025-11.png",
+      "field": "wise0855",
+      "key": "5c321dc84550bfba",
+      "band": "cold",
+      "wavelength_um": "3.96-5.00",
+      "dates": "2025-11-07 to 2025-11-14",
+      "exposures": 32,
+      "stretch_mjy_sr": [-0.018, 0.44]
+    },
+    {
+      "file": "wise0855-2026-05.png",
+      "field": "wise0855",
+      "key": "5c321dc84550bfba",
+      "band": "cold",
+      "wavelength_um": "3.96-5.00",
+      "dates": "2026-04-21 to 2026-05-14",
+      "exposures": 32,
+      "stretch_mjy_sr": [-0.018, 0.44]
+    }
+  ]
+}

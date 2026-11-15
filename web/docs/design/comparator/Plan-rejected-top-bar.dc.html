@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Rejected layout: the top bar</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/comparator/assets/Hand-off/tokens.css">
+<link rel="stylesheet" href="ds/comparator/components/bundle.css">
+<script src="ds/comparator/components/bundle.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400&amp;family=Source+Sans+3:wght@400;600&amp;display=swap">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="width: 640px; height: 400px; box-sizing: border-box; display: flex; flex-direction: column; background: var(--color-bg); color: var(--color-text-muted); font-family: var(--font-ui); font-size: 12px; line-height: 16px; font-variant-numeric: var(--numeric)">
+
+<div style="box-sizing: border-box; height: 27px; padding: 5px 8px; border-bottom: 1px solid var(--color-line-strong); display: flex; justify-content: space-between; gap: 8px"><span>Tombaugh</span><span>Search, in line, with no message line</span><span>Live data, Copy link</span></div>
+
+<div style="height: 333px; box-sizing: border-box; padding: 4px 8px 0; display: grid; grid-template-columns: 238px minmax(0, 1fr) minmax(0, 1fr); column-gap: 12px">
+<div style="display: flex; flex-direction: column">
+<div style="box-sizing: border-box; height: 238px; padding: 6px 8px; background: var(--color-surface); border: 1px solid var(--color-line)">Image, 476 × 476</div>
+<div style="box-sizing: border-box; height: 22px; padding: 3px 8px; border-bottom: 1px solid var(--color-line-strong)">Scale bar, compass</div>
+<div style="box-sizing: border-box; height: 10px"></div>
+<div style="box-sizing: border-box; height: 47px; margin-top: 4px; padding: 3px 8px; border-top: 2px solid var(--color-text)">Frame label</div>
+<div style="box-sizing: border-box; height: 9px; border-top: 1px solid var(--color-text); color: var(--color-text); font-size: 12px; line-height: 9px"></div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<div style="box-sizing: border-box; height: 64px; padding: 3px 8px; border: 1px solid var(--color-line-strong)">Banner</div>
+<div style="box-sizing: border-box; height: 88px; padding: 3px 8px; border: 1px solid var(--color-line-strong)">Flip, transport, speed</div>
+<div style="box-sizing: border-box; height: 136px; padding: 3px 8px; border: 1px solid var(--color-line-strong)">Timeline</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<div style="box-sizing: border-box; height: 36px; padding: 3px 8px; border: 1px solid var(--color-line-strong)">View</div>
+<div style="box-sizing: border-box; height: 113px; padding: 3px 8px; border: 1px solid var(--color-line-strong)">Band</div>
+<div style="box-sizing: border-box; height: 36px; padding: 3px 8px; border: 1px solid var(--color-line-strong)">Field of view</div>
+<div style="box-sizing: border-box; height: 96px; padding: 3px 8px; border: 1px solid var(--color-line-strong)">Display, provenance</div>
+</div>
+</div>
+
+<div style="box-sizing: border-box; height: 40px; padding: 4px 8px; border-top: 1px solid var(--color-line); color: var(--color-text)">Rejected. The bar spends 53px above the image and leaves 17px under the frame label: no room for the ring buttons or a legend. An error in the search has no line to appear on.</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":640,"height":400}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,261 @@
+/* ==========================================================================
+   The time lane: the time rail at 1280 and 1440 (Main.dc.html, lines 21–158), and the same
+   blocks in the phone column (Phone.dc.html). Tokens and bc- classes only: no colour, font or
+   size of its own. Layout rules are scoped with the root's .cmp--<layout> class.
+   ========================================================================== */
+
+/* ---------------------------------------------------------------- search */
+/* 1280: the inline field, then its message line, 4px apart. */
+.tl-search {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+/* The message line is two lines high even when short, so nothing under it moves (SearchField). */
+.tl-search > .bc-fieldmsg {
+  min-height: calc(2 * var(--leading-caption));
+}
+
+/* On a phone the message shares its row with the Search button (under 26rem), and the longest
+   refusals ("Comet 3I/ATLAS moves too fast to stay in one patch of sky between visits. Try a
+   star, such as Barnard's Star.") take three lines there: three are kept, so the targets under
+   the field never move. */
+.cmp--phone .bc-search .bc-fieldmsg {
+  min-height: calc(3 * var(--leading-caption));
+}
+
+/* ---------------------------------------------------------------- notices */
+/* Phone and rail column: a notice with an action sits above the image, inside the gutter. */
+.cmp-col > .cmp-slot[data-slot="archive"] > .tl-notice,
+.cmp-col > .cmp-slot[data-slot="mover"] > .tl-notice {
+  margin: 0 var(--size-gutter) var(--space-3);
+}
+
+/* ---------------------------------------------------------------- playback and the pair block */
+/* At 1280 and 1440 both keep 160px (flip key, transport, speed), so the timeline under them does
+   not move when the view changes or reduced motion takes Play and Speed away. */
+.cmp--three .tl-block,
+.cmp--wide .tl-block {
+  min-height: calc(var(--size-flip) + 2 * var(--size-touch) + 2 * var(--space-2));
+  align-content: start;
+}
+
+/* Fixed fields: "Frame 2 of 4" in 14 characters, "2 per second" in 12 (Handoff-copy). */
+.tl-count {
+  --bc-ch: 14;
+}
+
+.tl-speedvalue {
+  --bc-ch: 12;
+}
+
+/* ---------------------------------------------------------------- timeline */
+.tl-frames {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.tl-frames__head {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  min-height: var(--space-5);
+}
+
+.tl-frames > .bc-note {
+  flex: none;
+}
+
+/* The A and B tags before a row's dates (Side by side, Difference). */
+.tl-tag {
+  margin-inline-end: var(--space-2);
+  font-family: var(--font-ui);
+}
+
+/* A row whose dates and count do not fit one line ("24 Apr–10 Jun 2025", "115 exposures,
+   partial" in the 362px rail) keeps its dates on one line and wraps the count instead: the date
+   column is never narrower than its dates. Only the dates hold together: on the narrowest phones
+   an A or B tag may sit above them. */
+.tl-frames .bc-visit {
+  grid-template-columns: var(--space-2) minmax(auto, 1fr) auto;
+}
+
+.tl-when {
+  white-space: nowrap;
+}
+
+.tl-frames .bc-visit__count {
+  white-space: normal;
+}
+
+/* From 1280 the A or B tag holds together with its dates too: the 362px rail has room for the
+   longest dates with a tag beside a count that wraps, and the tag used to sit above the dates
+   when the count was long (R Draconis in Side by side, every visit "partial"). */
+.cmp--three .tl-frames .bc-visit__when,
+.cmp--wide .tl-frames .bc-visit__when {
+  white-space: nowrap;
+}
+
+/* ---------------------------------------------------------------- targets */
+.tl-targets {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.tl-targets > .bc-group__label {
+  flex: none;
+}
+
+/* A target that cannot open here is not a link: no hover, and it says why. */
+.tl-target--off,
+.tl-target--off:hover {
+  background: transparent;
+  cursor: default;
+}
+
+.tl-target--off .bc-target__name {
+  color: var(--color-text-muted);
+}
+
+/* ---------------------------------------------------------------- the shrinking slot at 1280 */
+/* The timeline (or the target list in its place) is the part of the rail that gives up height
+   first, and its list is the part that scrolls (Handoff-behaviour, Sticky and scrolling). The
+   target list gives up its height first; only when the rail is fuller still does its block
+   shrink below its label, and then it is cut at its own edge, never drawn under what follows.
+   The timeline keeps a floor of two rows where the page does not scroll (below). */
+.cmp--three .tl-frames,
+.cmp--wide .tl-frames,
+.cmp--three .tl-targets,
+.cmp--wide .tl-targets {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.cmp--three .tl-frames > .bc-timeline,
+.cmp--wide .tl-frames > .bc-timeline,
+.cmp--three .tl-targets > .bc-targets,
+.cmp--wide .tl-targets > .bc-targets {
+  flex: 0 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  align-content: start;
+}
+
+/* From 1280 × 720, where the page does not scroll, the timeline gives up height first but never
+   below two rows (one for a field of a single frame), so a frame can always be seen and chosen:
+   live fields carry long caveat lists, and the list used to shrink to nothing. Its wrapper makes
+   no box there, so its label, list and key line are items of the rail and the list alone flexes:
+   from nothing it takes the room the rail has left, up to all of its rows. Only a rail fuller
+   still (a long caveat list under a banner) makes the caveat notice give up height next; its
+   sentences then scroll inside it (Chrome lets the keyboard reach a box that scrolls), down to
+   two lines in view. Only past both floors does the rail cut anything at its edge. */
+@media (min-width: 1280px) and (min-height: 720px) {
+  .cmp--three .tl-frames,
+  .cmp--wide .tl-frames {
+    display: contents;
+  }
+
+  /* The rail's 12px gap less 4px: the board's 8px between the label, the list and the key. */
+  .cmp--three .tl-frames > .bc-timeline,
+  .cmp--wide .tl-frames > .bc-timeline,
+  .cmp--three .tl-frames > .bc-note,
+  .cmp--wide .tl-frames > .bc-note {
+    margin-top: calc(var(--space-2) - var(--space-3));
+  }
+
+  .cmp--three .tl-frames > .bc-timeline,
+  .cmp--wide .tl-frames > .bc-timeline {
+    flex: 1 1 0;
+    min-height: calc(2 * var(--size-control) + var(--border-hair));
+    max-height: max-content;
+  }
+
+  .cmp--three .tl-frames > .tl-list--one,
+  .cmp--wide .tl-frames > .tl-list--one {
+    min-height: calc(var(--size-control) + var(--border-hair));
+  }
+
+  /* The notice keeps its border, icon and padding; the sentences scroll inside it, never fewer
+     than two lines of them in view, and a note under them says when some are out of view. A
+     shrink factor of 1, not a near-zero one: once the timeline is down to its floor, the
+     notice is the only item left to shrink, and a factor under 1 would let it give up only
+     that fraction of the overflow (CSS Flexbox, resolving flexible lengths), leaving the rest
+     cut off at the rail's edge. The timeline's list starts from nothing (flex-basis 0), so it
+     still gives up its height first. Four classes: this wins over any slot rule of the page. */
+  .cmp--three .cmp-time .tl-caveats-notice.bc-notice,
+  .cmp--wide .cmp-time .tl-caveats-notice.bc-notice {
+    flex: 0 1 auto;
+    /* Padding and border, two lines of caveats, and the note's line with its 4px. */
+    min-height: calc(
+      2 *
+      (var(--space-3) + var(--border-hair)) +
+      3 *
+      var(--leading-caption) +
+      var(--space-1)
+    );
+    grid-template-rows: minmax(0, 1fr) auto;
+    overflow: hidden;
+  }
+
+  .cmp--three .tl-caveats-body,
+  .cmp--wide .tl-caveats-body {
+    min-height: 0;
+    overflow-y: auto;
+  }
+}
+
+/* The note that some caveats are out of view: under the sentences, beside nothing. */
+.tl-caveats-more {
+  grid-column: 2;
+}
+
+/* Inside a list that scrolls, the focus ring is drawn just inside the row, so the list's edge
+   never clips it. */
+.cmp--three .tl-frames .bc-visit:focus-visible,
+.cmp--wide .tl-frames .bc-visit:focus-visible,
+.cmp--three .tl-targets .bc-target:focus-visible,
+.cmp--wide .tl-targets .bc-target:focus-visible {
+  outline-offset: calc(-1 * var(--focus-width));
+}
+
+/* ---------------------------------------------------------------- caveats */
+/* One full sentence a row, 6px apart: text-caption at 1280, text-label on a phone (CaveatList). */
+.tl-caveats {
+  display: grid;
+  gap: calc(var(--space-1) + var(--space-half));
+  font-size: var(--text-caption);
+  line-height: var(--leading-caption);
+}
+
+.cmp--phone .tl-caveats,
+.cmp--rail .tl-caveats {
+  font-size: var(--text-label);
+  line-height: var(--leading-label);
+}
+
+/* ---------------------------------------------------------------- the flip dock (phone, rail) */
+/* The last child of the image section: it holds the foot of the screen while the section is on
+   screen and its own slot is below the fold, then lets go by itself (FlipDock card). Opaque. */
+.tl-dock {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+  margin-top: var(--space-2);
+  padding: var(--space-2) var(--size-gutter);
+  background: var(--color-bg);
+  border-top: var(--border-hair) solid var(--color-line);
+}
+
+/* Never pinned on a screen shorter than the app bar, the frame and the dock together. */
+@media (max-height: 559px) {
+  .tl-dock {
+    position: static;
+  }
+}

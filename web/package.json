@@ -1,0 +1,37 @@
+{
+  "name": "tombaugh-web",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Tombaugh front end: a blink comparator for the SPHEREx infrared sky survey. Built with AI assistance.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "sync": "node scripts/sync-contract.mjs",
+    "predev": "node scripts/sync-contract.mjs",
+    "dev": "vite",
+    "prebuild": "node scripts/sync-contract.mjs",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "pretest": "node scripts/sync-contract.mjs",
+    "test": "vitest run",
+    "lint": "biome check .",
+    "format": "biome check --write ."
+  },
+  "dependencies": {
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.6.6",
+    "@types/node": "24.19.2",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vitejs/plugin-react": "6.3.0",
+    "typescript": "7.0.2",
+    "vite": "8.3.8",
+    "vitest": "5.1.0"
+  }
+}

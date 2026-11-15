@@ -1,0 +1,77 @@
+{
+  "recorded_at": "2026-11-14T19:55:43Z",
+  "fields": [
+    {
+      "field": "wise0855",
+      "centre": [
+        133.7598,
+        -7.2422
+      ],
+      "grid_n": 119,
+      "gaia": {
+        "url": "https://gaia.ari.uni-heidelberg.de/tap/sync",
+        "params": {
+          "REQUEST": "doQuery",
+          "LANG": "ADQL",
+          "FORMAT": "csv",
+          "MAXREC": "20000",
+          "QUERY": "SELECT source_id, ra, dec, pmra, pmdec, parallax, radial_velocity, phot_g_mean_mag FROM gaiadr3.gaia_source WHERE 1 = CONTAINS(POINT('ICRS', ra, dec), CIRCLE('ICRS', 133.759800, -7.242200, 0.102263))"
+        },
+        "seconds": 1.4,
+        "rows": 282,
+        "bytes": 33568
+      },
+      "catwise": {
+        "url": "https://irsa.ipac.caltech.edu/cgi-bin/Gator/nph-query",
+        "params": {
+          "catalog": "catwise_2020",
+          "spatial": "cone",
+          "objstr": "133.759800 -7.242200",
+          "radius": "374.36",
+          "radunits": "arcsec",
+          "outfmt": "1",
+          "selcols": "source_name,ra_pm,dec_pm,pmra,pmdec,sigpmra,sigpmdec,w1mpro_pm,w2mpro_pm"
+        },
+        "seconds": 3.27,
+        "rows": 1388,
+        "bytes": 300807
+      }
+    },
+    {
+      "field": "barnard",
+      "centre": [
+        269.4463,
+        4.7682
+      ],
+      "grid_n": 119,
+      "gaia": {
+        "url": "https://gaia.ari.uni-heidelberg.de/tap/sync",
+        "params": {
+          "REQUEST": "doQuery",
+          "LANG": "ADQL",
+          "FORMAT": "csv",
+          "MAXREC": "20000",
+          "QUERY": "SELECT source_id, ra, dec, pmra, pmdec, parallax, radial_velocity, phot_g_mean_mag FROM gaiadr3.gaia_source WHERE 1 = CONTAINS(POINT('ICRS', ra, dec), CIRCLE('ICRS', 269.446300, 4.768200, 0.103246))"
+        },
+        "seconds": 0.19,
+        "rows": 2636,
+        "bytes": 315721
+      },
+      "catwise": {
+        "url": "https://irsa.ipac.caltech.edu/cgi-bin/Gator/nph-query",
+        "params": {
+          "catalog": "catwise_2020",
+          "spatial": "cone",
+          "objstr": "269.446300 4.768200",
+          "radius": "377.90",
+          "radunits": "arcsec",
+          "outfmt": "1",
+          "selcols": "source_name,ra_pm,dec_pm,pmra,pmdec,sigpmra,sigpmdec,w1mpro_pm,w2mpro_pm"
+        },
+        "seconds": 2.76,
+        "rows": 2196,
+        "bytes": 474527
+      }
+    }
+  ]
+}

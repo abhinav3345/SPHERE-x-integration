@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Hand-off: new components</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/comparator/assets/Hand-off/tokens.css">
+<link rel="stylesheet" href="ds/comparator/components/bundle.css">
+<script src="ds/comparator/components/bundle.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400&amp;family=Source+Sans+3:wght@400;600&amp;display=swap">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="width: 1200px; min-height: 2900px; box-sizing: border-box; padding: 48px; display: flex; flex-direction: column; gap: 24px; background: var(--color-bg); color: var(--color-text); font-family: var(--font-ui); font-size: 14px; line-height: 20px; font-variant-numeric: var(--numeric)">
+
+<div style="display: flex; flex-direction: column; gap: 8px; max-width: 760px">
+<h1 class="bc-title">New components</h1>
+<p>Nine things the comparator needs that the system does not have yet. Each is built only from the system's tokens and classes, and is written up the way the system writes up its own.</p>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; align-items: start">
+
+<section class="bc-panel">
+<h2 class="bc-heading">RingBar</h2>
+<p>The buttons under the image that act on the ring. It is the whole answer to "one pointer, three jobs".</p>
+<p><b>The model.</b> A click, a tap or Enter on the image moves the ring and does nothing else. Spotlight, Spectrum and Recentre are verbs on the ring.</p>
+<p><b>Anatomy.</b> A 44px row directly under the frame margin, so it sits 44px below the image. At 1280: a hint in <span class="bc-value">text-caption</span>, "Click the image to move the ring.", then the buttons at the right. On a phone: three equal cells and no hint.</p>
+<div class="bc-tablewrap"><table class="bc-table">
+<thead><tr><th scope="col">State</th><th scope="col" class="bc-table__text">Look</th></tr></thead>
+<tbody>
+<tr><td class="bc-table__text">Ring at the centre</td><td class="bc-table__text">Spotlight and Spectrum. Recentre is not rendered; its place is kept.</td></tr>
+<tr><td class="bc-table__text">Ring moved</td><td class="bc-table__text">Recentre appears. It is never greyed, so it needs no reason beside it.</td></tr>
+<tr><td class="bc-table__text">Spotlight on, Spectrum open</td><td class="bc-table__text">The button is lit (<span class="bc-value">aria-pressed</span>). It is 44px from the image, outside the 16px band.</td></tr>
+<tr><td class="bc-table__text">No frame on screen</td><td class="bc-table__text">The row keeps its 44px and holds nothing.</td></tr>
+</tbody></table></div>
+<p><b>Keyboard.</b> Tab from the frame reaches Spotlight, Spectrum, then Recentre. Enter or Space presses. Esc closes the spotlight.</p>
+<p><b>Do not</b> put any of these over the sky, give the click a second meaning (double click, long press, drag), or hide what Recentre costs: its tooltip reads "Builds this field again with the ring at its centre. About a minute the first time."</p>
+<p><b>The consumer provides</b> the ring's position in image pixels and whether a frame is on screen.</p>
+</section>
+
+<section class="bc-panel">
+<h2 class="bc-heading">Spotlight zoom</h2>
+<p>The 39 × 39 pixels around the ring, redrawn at three times the scale. It extends the spotlight in Markers.</p>
+<div class="bc-tablewrap"><table class="bc-table">
+<thead><tr><th scope="col">Layout</th><th scope="col">Scale</th><th scope="col">Plate</th><th scope="col">Scale bar</th></tr></thead>
+<tbody>
+<tr><td>390</td><td>3× to 9×</td><td>357 to 351px</td><td>60″ to 20″</td></tr>
+<tr><td>1280 × 720</td><td>4× to 12×</td><td>476 to 468px</td><td>60″ to 20″</td></tr>
+<tr><td>1440 × 900</td><td>5× to 15×</td><td>595 to 585px</td><td>60″ to 20″</td></tr>
+<tr><td>Two frames, 1280</td><td>2× to 6×</td><td>238 to 234px</td><td>120″ to 40″</td></tr>
+</tbody></table></div>
+<p><b>Behaviour.</b> The frame keeps its square and the plate stays centred in it. The crop is centred on the ring's pixel; anything beyond the edge of the image is surround, never sky. Outside a circle of 12 image pixels the plate is dimmed by <span class="bc-value">spotlight-dim</span>, with a hard edge and a 1px ring. The scale bar keeps its drawn length and its label changes; the scale beside it reads 12× in a fixed field. Markers keep their size in screen pixels.</p>
+<p><b>Leaving.</b> Esc, or Spotlight again. Flip, step and play all work while it is on, and a click still moves the ring: the crop follows.</p>
+<p><b>Plus and minus</b> are bound by the system to spotlight size. This version has one size, so they are left unbound rather than given a hidden effect.</p>
+<p><b>The consumer provides</b> the same pixels at the higher scale. Never an enlarged copy of the 4× drawing.</p>
+</section>
+
+<section class="bc-panel">
+<h2 class="bc-heading">FlipDock</h2>
+<p>The flip key, pinned to the foot of a phone screen while its own slot is below the fold.</p>
+<p><b>Anatomy.</b> The Playback flip key inside a bar: 8px of padding, <span class="bc-value">color-bg</span> fill, a 1px <span class="bc-value">color-line</span> top edge, 72px in all. It is the last child of the image section and takes <span class="bc-value">position: sticky; bottom: 0</span>.</p>
+<p><b>Behaviour.</b> Its slot is directly under the frame label, as the system's order asks. While that slot is below the fold and any of the image section is on screen, the bar holds the foot of the screen. It lets go by itself when the slot scrolls into view, and leaves with the section. The bar is opaque, so content passes behind it as it passes the screen's edge.</p>
+<div class="bc-tablewrap"><table class="bc-table">
+<thead><tr><th scope="col">State</th><th scope="col" class="bc-table__text">Look</th></tr></thead>
+<tbody>
+<tr><td class="bc-table__text">In its slot</td><td class="bc-table__text">A hairline, then the key</td></tr>
+<tr><td class="bc-table__text">Pinned</td><td class="bc-table__text">The same, at the foot of the screen</td></tr>
+<tr><td class="bc-table__text">Held</td><td class="bc-table__text">The key's 2px inset line. No fill.</td></tr>
+<tr><td class="bc-table__text">No frame</td><td class="bc-table__text">Key greyed; the reason is under the transport</td></tr>
+</tbody></table></div>
+<p><b>Do not</b> put anything else in the dock, pin it when the screen is shorter than the app bar, the frame and the dock together (560px), or use it at 1280.</p>
+</section>
+
+<section class="bc-panel">
+<h2 class="bc-heading">CaveatList</h2>
+<p>One warning notice that lists every caveat of the field, so a field with many caveats still uses one notice.</p>
+<p><b>Anatomy.</b> The warning Notice (<span class="bc-value">bc-notice bc-notice--warning</span>): the <span class="bc-value">warning</span> icon and a list with one full sentence per row, 6px apart, in <span class="bc-value">text-caption</span> at 1280 and <span class="bc-value">text-label</span> on a phone. With a single caveat it is an ordinary one-sentence warning notice.</p>
+<p><b>Where.</b> At 1280: the foot of the time rail, under the timeline. On a phone: under the playback, after the banner. Never above the image, so it never pushes the image down.</p>
+<p><b>What goes where.</b> A qualifier of the frame on screen is a chip in the frame label's reserved row. A partial or thin visit is greyed in the timeline, with the key line under it. A caveat about the whole field is a row here.</p>
+<p><b>Do not</b> collapse it, let it be closed, truncate a row, or let it scroll out of the rail: the timeline gives up height first. It counts as one of the two notices the system allows.</p>
+<p><b>The consumer provides</b> the caveat sentences from the results file, each with its numbers.</p>
+</section>
+
+<section class="bc-panel">
+<h2 class="bc-heading">Timeline header and pair tags</h2>
+<p>Two additions to Timeline: a header that carries a fact, and the letters A and B on the two frames of a pair.</p>
+<p><b>Header.</b> The group label "Frames" at the left; at the right the fact chip "Newest SPHEREx image: 5 Oct 2026". It tells the reader how current the archive is next to the dates it qualifies.</p>
+<p><b>The pair.</b> The comparator always holds two frames: the one on screen and the one the flip key goes to. Choosing a row shows that frame and makes the frame you came from its partner. Stepping and playing never change the partner. On opening, the frame is the newest full one and its partner is the oldest full one.</p>
+<p><b>Pair tags.</b> In Side by side and Difference the two rows carry the epoch tag (swatch and letter) before the date. A is always the earlier. In Blink no tag is drawn, so only the 8px mark changes with the frame.</p>
+<p><b>Difference.</b> Partial and thin rows are disabled, and the key line under the list says why.</p>
+<p><b>Overflow.</b> The timeline is the only part of a rail that scrolls. It keeps the frame on screen in view.</p>
+</section>
+
+<section class="bc-panel">
+<h2 class="bc-heading">BuildProgress</h2>
+<p>StateBuilding with counts in two stages, the visits already found, and one sentence about the wait.</p>
+<p><b>Stages, word for word.</b> "Finding exposures", "Reading exposures: 120 of 258", "Stacking: 240 of 258". A stage that has not started shows its name alone. Marks are the system's: empty, half, full.</p>
+<p><b>The bar</b> follows the count of the stage in progress and moves in steps, at most once a second.</p>
+<p><b>The sentence.</b> "The first build takes about a minute; it is saved, so next time this position opens at once."</p>
+<p><b>Around it.</b> The frame keeps its square. The frame label reads "Building this image" with the band and the exposures found. As soon as the exposures are found, the timeline lists the visits, greyed, with "These visits were found. They open when the image is built." Playback and display controls are greyed, each with its reason.</p>
+<p><b>Do not</b> add a spinner, a percentage that is not a count, or an estimate of seconds left.</p>
+</section>
+
+<section class="bc-panel">
+<h2 class="bc-heading">Legend line</h2>
+<p>One line that keys whatever is drawn on or in the image at that moment.</p>
+<p><b>Anatomy.</b> The system's <span class="bc-value">bc-legend</span>. Items, in order: the ring ("Your position"), the dashed square ("Where it was in 2010"), the hatch swatch ("No data"), and in three-colour the three channels with their ranges.</p>
+<p><b>Where.</b> At 1280 under the frame label. On a phone between the margin and the ring buttons, so it is read with the image.</p>
+<p><b>Rules.</b> An item is shown only while its mark can be on screen. "No data" shows whenever any frame in the sequence has hatched pixels, so the line does not change at a flip. The line keeps 18px when it is empty. Marker labels are not written over the sky: the year lives here.</p>
+</section>
+
+<section class="bc-panel">
+<h2 class="bc-heading">Title strip</h2>
+<p>On a phone, what is on screen and the way to change it.</p>
+<p><b>Anatomy.</b> The target name in <span class="bc-value">type-title</span>, the position under it in Source Code Pro at <span class="bc-value">text-caption</span>, and at the right the link "Change" with a 44px target. "Change" jumps to "Go to another position" at the foot, where the search field and the five targets are.</p>
+<p><b>Why.</b> The full search field above the image would push the frame label off the first screen. At 1280 the search field is in the time rail and is its own title.</p>
+<div class="bc-tablewrap"><table class="bc-table">
+<thead><tr><th scope="col">State</th><th scope="col" class="bc-table__text">Title, then line</th></tr></thead>
+<tbody>
+<tr><td class="bc-table__text">A named field</td><td class="bc-table__text">"WISE 0855", then its position</td></tr>
+<tr><td class="bc-table__text">A typed position</td><td class="bc-table__text">"Sky position", then its position</td></tr>
+<tr><td class="bc-table__text">Nothing chosen</td><td class="bc-table__text">"No position yet", then "Type a position or a name below."</td></tr>
+</tbody></table></div>
+</section>
+
+<section class="bc-panel">
+<h2 class="bc-heading">Pixel cursor</h2>
+<p>The keyboard's place on the image.</p>
+<p><b>Anatomy.</b> The outline of one image pixel, drawn like a marker: a 2px line in <span class="bc-value">marker-position</span> over a <span class="bc-value">marker-casing</span> line. It is 4px square at 4× and 12px square in the spotlight.</p>
+<p><b>Behaviour.</b> It appears when an arrow key is pressed on the frame and starts from the ring. The readout follows it. Enter moves the ring to it and the cursor goes. A click or a tap also clears it.</p>
+<p><b>Keyboard.</b> Arrows move one pixel, Shift with an arrow moves ten, Enter sets the ring. These are the system's keys for ImageFrame; this is only the mark they lacked.</p>
+</section>
+
+</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1200,"height":2900}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

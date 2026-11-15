@@ -1,0 +1,76 @@
+{
+ "grid": [
+  133.7598,
+  -7.2422,
+  59
+ ],
+ "bands": [
+  "W2",
+  "Ks"
+ ],
+ "requests": [
+  {
+   "file": "sia_wise_allwise_0.tsv",
+   "url": "https://irsa.ipac.caltech.edu/SIA",
+   "params": {
+    "COLLECTION": "wise_allwise",
+    "POS": "circle 133.759800 -7.242200 0.035635",
+    "RESPONSEFORMAT": "TSV"
+   },
+   "bytes": 13876,
+   "sha256": "ab8e05a09ab1f09d0acb75def21a7d582c891d9d78ebeaea93912510fb91ae82",
+   "whole_answer": {
+    "bytes": 24479,
+    "sha256": "42d83507b7909aa260ce455e3fd47fe7a68a0f1848cec3e27a6dbabbc49cb864"
+   }
+  },
+  {
+   "file": "sia_twomass_allsky_0.tsv",
+   "url": "https://irsa.ipac.caltech.edu/SIA",
+   "params": {
+    "COLLECTION": "twomass_allsky",
+    "POS": "circle 133.759800 -7.242200 0.035635",
+    "RESPONSEFORMAT": "TSV"
+   },
+   "bytes": 14075,
+   "sha256": "21146974dde05c59ecd2b2948b11f086f8155411937ee9a7c96906f226a24748",
+   "whole_answer": {
+    "bytes": 20792,
+    "sha256": "96073e32b12c59b3e6eca455be2c24d3f486ce612959714f286956853eec18f3"
+   }
+  },
+  {
+   "file": "cutout_W2_1342m076_ac51.fits.gz",
+   "url": "https://irsa.ipac.caltech.edu/ibe/data/wise/allwise/p3am_cdd/13/1342/1342m076_ac51/1342m076_ac51-w2-int-3.fits",
+   "params": {
+    "center": "133.759800,-7.242200",
+    "size": "233arcsec",
+    "gzip": "true"
+   },
+   "bytes": 93574,
+   "sha256": "f58db9ddf6023a887eb90be444f5c8605933cd9d54cb40b1f04ca7a699ade949"
+  },
+  {
+   "file": "cutout_Ks_allsky_981228s_s094_0209.fits.gz",
+   "url": "https://irsa.ipac.caltech.edu/ibe/data/twomass/allsky/allsky/981228s/s094/image/ki0940209.fits.gz",
+   "params": {
+    "center": "133.759800,-7.242200",
+    "size": "264arcsec",
+    "gzip": "true"
+   },
+   "bytes": 120595,
+   "sha256": "e15b929bce239762dfdc0f6ff73012cff1d3ab3b530e31732596859380348b0c"
+  },
+  {
+   "file": "cutout_Ks_allsky_981228s_s093_0068.fits.gz",
+   "url": "https://irsa.ipac.caltech.edu/ibe/data/twomass/allsky/allsky/981228s/s093/image/ki0930068.fits.gz",
+   "params": {
+    "center": "133.759800,-7.242200",
+    "size": "264arcsec",
+    "gzip": "true"
+   },
+   "bytes": 131604,
+   "sha256": "a910fb3bdd5346c4daae683a16a105504818f2955eca32db0a33f0d3c3a86f88"
+  }
+ ]
+}

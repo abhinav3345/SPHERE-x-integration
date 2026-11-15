@@ -1,0 +1,191 @@
+/* ==========================================================================
+   Tombaugh tokens
+   One theme. The interface has no hue: anything coloured on screen is data.
+   Existing names kept: --color-bg --color-surface --color-line --color-text
+   --color-text-muted --color-accent --font-ui --font-mono --numeric
+   ========================================================================== */
+
+/* Fonts: self-hosted, SIL Open Font License 1.1. Copy the six files into /fonts.
+   Latin and Greek subsets from the npm packages @fontsource/source-sans-3 and
+   @fontsource/source-code-pro (folder "files"). Nothing loads from outside. */
+@font-face {
+  font-family: "Source Sans 3";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/source-sans-3-latin-400-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Source Sans 3";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/source-sans-3-greek-400-normal.woff2") format("woff2");
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+@font-face {
+  font-family: "Source Sans 3";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/source-sans-3-latin-600-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Source Sans 3";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/source-sans-3-greek-600-normal.woff2") format("woff2");
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+@font-face {
+  font-family: "Source Code Pro";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/source-code-pro-latin-400-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Source Code Pro";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/source-code-pro-greek-400-normal.woff2") format("woff2");
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+
+:root {
+  color-scheme: dark;
+
+  /* Grounds and lines */
+  --color-bg: #0e0e0e;
+  --color-surround: var(--color-bg);
+  --color-surface: #1c1c1c;
+  --color-surface-raised: #262626;
+  --color-pressed: #3a3a3a;
+  --color-line: #333333;
+  --color-line-strong: #767676;
+
+  /* Text, accent, focus */
+  --color-text: #f0f0f0;
+  --color-text-muted: #b4b4b4;
+  --color-text-disabled: #767676;
+  --color-accent: #f0f0f0;
+  --color-accent-hover: #ffffff;
+  --color-accent-pressed: #c8c8c8;
+  --color-on-accent: #0e0e0e;
+  --color-focus: #ffffff;
+
+  /* Image display: grey ramp and the no-data hatch */
+  --ramp-black: #000000;
+  --ramp-white: #ffffff;
+  --nodata-a: #2b2b2b;
+  --nodata-b: #a3a3a3;
+
+  /* Time: earlier is orange, later is blue (data only) */
+  --epoch-a: #ff6600;
+  --epoch-b: #0099ff;
+
+  /* Difference image: diverging scale in units of noise */
+  --diff-earlier-5: #fea578;
+  --diff-earlier-4: #f46e0e;
+  --diff-earlier-3: #c25508;
+  --diff-earlier-2: #8f4111;
+  --diff-earlier-1: #5b301a;
+  --diff-zero: #222222;
+  --diff-later-1: #1d3f60;
+  --diff-later-2: #175d9b;
+  --diff-later-3: #0d7dd4;
+  --diff-later-4: #39a0fd;
+  --diff-later-5: #8ac3fe;
+
+  /* Spectrum: one colour per visit, in time order */
+  --series-1: #ff6600;
+  --series-2: #fea578;
+  --series-3: #d4d4d4;
+  --series-4: #8ac3fe;
+  --series-5: #0099ff;
+
+  /* Markers drawn over the image */
+  --marker-position: #ffffff;
+  --marker-gaia: #3ce074;
+  --marker-catwise: #fe6ec7;
+  --marker-was: #fce343;
+  --marker-casing: #000000;
+  --spotlight-dim: rgba(0, 0, 0, 0.62);
+
+  /* Three-colour view channels */
+  --channel-r: #ff0000;
+  --channel-g: #00ff00;
+  --channel-b: #0000ff;
+
+  /* Type */
+  --font-ui: "Source Sans 3", "Source Sans Pro", system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", sans-serif;
+  --font-mono: "Source Code Pro", ui-monospace, "SF Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+  --text-micro: 0.75rem;
+  --text-caption: 0.8125rem;
+  --text-label: 0.875rem;
+  --text-body: 1rem;
+  --text-readout: 1.125rem;
+  --text-title: 1.375rem;
+  --leading-micro: 1rem;
+  --leading-caption: 1.125rem;
+  --leading-label: 1.25rem;
+  --leading-body: 1.5rem;
+  --leading-title: 1.75rem;
+  --weight-regular: 400;
+  --weight-strong: 600;
+  --numeric: tabular-nums lining-nums slashed-zero;
+
+  /* Spacing */
+  --space-half: 2px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+
+  /* Radii */
+  --radius-0: 0;
+  --radius-1: 2px;
+  --radius-2: 4px;
+
+  /* Borders and focus */
+  --border-hair: 1px;
+  --border-strong: 2px;
+  --focus-width: 2px;
+  --focus-gap: 2px;
+
+  /* Sizes */
+  --size-touch: 44px;
+  --size-control: 44px;
+  --size-flip: 56px;
+  --size-icon: 20px;
+  --icon-stroke: 1.5px;
+  --size-gutter: 16px;
+  --size-column-max: 430px;
+  --size-rail: 320px;
+  --image-default: 119px;
+  --image-max: 197px;
+  --hatch-stripe: 2px;
+  --marker-stroke: 2px;
+
+  /* Behaviour */
+  --blink-rate-default: 2;
+  --blink-rate-max: 6;
+  --feedback-duration: 0ms;
+}
+
+/* --numeric is a font-variant-numeric value. If your code feeds it to
+   font-feature-settings instead, use: "tnum" 1, "lnum" 1, "zero" 1 */
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-ui);
+  font-variant-numeric: var(--numeric);
+}

@@ -1,0 +1,161 @@
+/* ==========================================================================
+   Comparator page layouts (docs/design/comparator/Handoff-behaviour, Breakpoints;
+   Plan-1280, Plan-390). Tokens and bc- classes only: no colour, font or size of its own.
+   The pixel widths below are the breakpoints of the hand-off; media queries cannot read tokens.
+   Lanes style their blocks in web/src/comparator/<lane>/, scoped by .cmp--<layout> if needed.
+   ========================================================================== */
+
+.cmp {
+  min-height: 100dvh;
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+/* A slot names a block's place; it makes no box, so an empty block leaves no gap. */
+.cmp-slot {
+  display: contents;
+}
+
+/* ---------------------------------------------------------------- phone: under 720 px */
+.cmp--phone .cmp-col {
+  max-width: var(--size-column-max);
+  margin-inline: auto;
+}
+
+/* The image section holds the sticky flip dock as its last child (FlipDock card). */
+.cmp-image {
+  position: relative;
+}
+
+.cmp-rest {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-5);
+  padding: var(--space-2) var(--size-gutter) var(--space-6);
+}
+
+.cmp-notices {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-2);
+}
+
+.cmp-go {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-4);
+  scroll-margin-top: var(--space-4);
+}
+
+/* ---------------------------------------------------------------- rail: 720 to 1279 px */
+.cmp--rail {
+  display: grid;
+  grid-template-columns: minmax(0, var(--size-column-max)) var(--size-rail);
+  column-gap: var(--space-5);
+  justify-content: center;
+  align-items: start;
+}
+
+.cmp-side {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-5);
+  padding: var(--space-4) var(--size-gutter) var(--space-6) 0;
+}
+
+/* ---------------------------------------------------------------- three columns: from 1280 px */
+.cmp--three,
+.cmp--wide {
+  display: grid;
+  column-gap: var(--space-5);
+  padding: var(--size-gutter);
+  margin-inline: auto;
+  align-items: start;
+}
+
+/* 362 · 476 · 362: the image column is the 119 px frame at 4×. */
+.cmp--three {
+  max-width: 1280px;
+  grid-template-columns: minmax(0, 1fr) calc(var(--image-default) * 4) minmax(0, 1fr);
+}
+
+/* 382 · 595 · 383: the 119 px frame at 5×. Equal halves would be 382.5 each and put the frame
+   on a half pixel; 382fr and 383fr give the design's whole pixels. */
+.cmp--wide {
+  max-width: 1440px;
+  grid-template-columns: minmax(0, 382fr) calc(var(--image-default) * 5) minmax(0, 383fr);
+}
+
+.cmp-time,
+.cmp-view {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  min-width: 0;
+  min-height: 0;
+}
+
+.cmp-imagecol {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* Every group keeps its height... */
+.cmp-time > .cmp-slot > *,
+.cmp-view > .cmp-slot > *,
+.cmp-imagecol > .cmp-slot > * {
+  flex: none;
+}
+
+/* ...except the timeline (or the target list in its place): it gives up height first. Where the
+   page does not scroll (from 1280 × 720) the time lane's time.css keeps the timeline's floor of
+   two rows and lets the caveat notice give up height second, scrolling inside itself. */
+.cmp-time > .cmp-slot[data-slot="timeline"] > *,
+.cmp-time > .cmp-slot[data-slot="targets"] > * {
+  flex: 0 1 auto;
+  min-height: 0;
+}
+
+/* From 1280 × 720 the page does not scroll: the columns hold everything. */
+@media (min-width: 1280px) and (min-height: 720px) {
+  .cmp--three,
+  .cmp--wide {
+    height: 100dvh;
+    overflow: hidden;
+    align-items: stretch;
+    grid-template-rows: minmax(0, 1fr);
+  }
+
+  .cmp-time {
+    overflow: hidden;
+  }
+
+  /* The view rail scrolls inside itself only if longer text overflows it. Its scroll box reaches
+     a focus ring's width past the column on both sides (into the gutter and the gap), so the
+     ring of a full-width control is never clipped; the content keeps the column's width. */
+  .cmp-view {
+    overflow-y: auto;
+    padding-inline: calc(var(--focus-width) + var(--focus-gap));
+    margin-inline: calc(-1 * (var(--focus-width) + var(--focus-gap)));
+  }
+}
+
+/* Optional display-only interpolation control. Fixed positioning avoids changing rail heights. */
+.cmp-smooth-toggle {
+  position: fixed;
+  z-index: 30;
+  right: 1rem;
+  bottom: 1rem;
+  padding: 0.65rem 0.9rem;
+  border: 1px solid var(--color-border, #777);
+  border-radius: 0.5rem;
+  background: var(--color-surface, #181818);
+  color: var(--color-text, #fff);
+  font: inherit;
+  cursor: pointer;
+}
+.cmp-smooth-toggle:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}

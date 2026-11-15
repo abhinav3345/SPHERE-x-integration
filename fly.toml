@@ -1,0 +1,48 @@
+# Fly.io configuration for the Tombaugh API (the image built from ./Dockerfile).
+#
+# NOT DEPLOYED YET. Nothing in this file has been run against Fly. It was written without the
+# fly CLI at hand, so run `fly config validate` before the first deploy. Lines marked "unsure"
+# are the ones to check first. Deploy steps: docs/RUNBOOK.md.
+
+app = "tombaugh-api"      # placeholder: the team may rename it (Fly app names are global)
+primary_region = "iad"    # Northern Virginia, next to the SPHEREx bucket in us-east-1
+
+[build]
+  dockerfile = "Dockerfile"
+
+# One machine: the shared-cpu-2x preset (2 shared vCPUs) with memory raised to 2 GB.
+# fly.toml cannot fix the machine count: deploy with `fly deploy --ha=false`, check with `fly scale show`.
+[[vm]]
+  cpu_kind = "shared"
+  cpus = 2
+  memory = "2gb"
+
+# Persistent volume for the build cache. The image sets TOMBAUGH_CACHE_DIR=/data/cache.
+# Fly mounts it owned by root; the image's entrypoint hands /data/cache to the app user at boot.
+[[mounts]]
+  source = "tombaugh_data"
+  destination = "/data"
+  initial_size = "3gb"    # 3 GB as in docs/plan.md (Hosting). unsure: key name written from memory; used only when the volume is first created
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = "off"
+  auto_start_machines = true    # unsure: not in the plan; starts the machine again on a request if it was stopped by hand
+  min_machines_running = 1
+  processes = ["app"]
+
+  [http_service.concurrency]
+    type = "requests"           # unsure: the plan gives the limits, not the type; "requests" counts HTTP requests, "connections" counts TCP connections
+    soft_limit = 20
+    hard_limit = 40
+
+  [http_service.http_options]
+    idle_timeout = 300          # seconds. unsure: key name and placement written from memory of the Fly reference
+
+  [[http_service.checks]]
+    method = "GET"
+    path = "/healthz"
+    interval = "15s"
+    timeout = "5s"
+    grace_period = "30s"        # the first import of astropy and scipy takes a few seconds on a shared CPU

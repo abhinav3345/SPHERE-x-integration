@@ -1,0 +1,647 @@
+{
+  "$defs": {
+    "Centre": {
+      "description": "Field centre in degrees: the requested position rounded to 4 decimals.",
+      "properties": {
+        "dec": {
+          "title": "Dec",
+          "type": "number"
+        },
+        "ra": {
+          "title": "Ra",
+          "type": "number"
+        }
+      },
+      "required": [
+        "ra",
+        "dec"
+      ],
+      "title": "Centre",
+      "type": "object"
+    },
+    "ExposuresInfo": {
+      "description": "How many exposures were found and used; ``newest_*`` are null when none exists.",
+      "properties": {
+        "collections": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Collections",
+          "type": "object"
+        },
+        "found": {
+          "title": "Found",
+          "type": "integer"
+        },
+        "newest_date": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Newest Date"
+        },
+        "newest_mjd": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Newest Mjd"
+        },
+        "sampled": {
+          "title": "Sampled",
+          "type": "boolean"
+        },
+        "used": {
+          "title": "Used",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "found",
+        "used",
+        "sampled",
+        "collections",
+        "newest_mjd",
+        "newest_date"
+      ],
+      "title": "ExposuresInfo",
+      "type": "object"
+    },
+    "FixtureStar": {
+      "description": "A Gaia DR3 star of a fixture at its reference date: sky position in degrees and grid pixel (x, y).",
+      "properties": {
+        "dec": {
+          "title": "Dec",
+          "type": "number"
+        },
+        "ra": {
+          "title": "Ra",
+          "type": "number"
+        },
+        "source_id": {
+          "title": "Source Id",
+          "type": "string"
+        },
+        "x": {
+          "title": "X",
+          "type": "number"
+        },
+        "y": {
+          "title": "Y",
+          "type": "number"
+        }
+      },
+      "required": [
+        "source_id",
+        "ra",
+        "dec",
+        "x",
+        "y"
+      ],
+      "title": "FixtureStar",
+      "type": "object"
+    },
+    "FramesInfo": {
+      "description": "Where and what frames.bin is: ``nbytes`` and ``sha256`` are of the uncompressed bytes.",
+      "properties": {
+        "byteorder": {
+          "const": "little",
+          "default": "little",
+          "title": "Byteorder",
+          "type": "string"
+        },
+        "dtype": {
+          "const": "float16",
+          "default": "float16",
+          "title": "Dtype",
+          "type": "string"
+        },
+        "nbytes": {
+          "title": "Nbytes",
+          "type": "integer"
+        },
+        "sha256": {
+          "title": "Sha256",
+          "type": "string"
+        },
+        "url": {
+          "title": "Url",
+          "type": "string"
+        }
+      },
+      "required": [
+        "url",
+        "dtype",
+        "byteorder",
+        "nbytes",
+        "sha256"
+      ],
+      "title": "FramesInfo",
+      "type": "object"
+    },
+    "GridModel": {
+      "description": "The sky grid of a field (Contract section 2); ``cx``, ``cy`` is the pixel on the field centre.",
+      "properties": {
+        "col0": {
+          "const": "east",
+          "default": "east",
+          "title": "Col0",
+          "type": "string"
+        },
+        "cx": {
+          "title": "Cx",
+          "type": "integer"
+        },
+        "cy": {
+          "title": "Cy",
+          "type": "integer"
+        },
+        "nx": {
+          "title": "Nx",
+          "type": "integer"
+        },
+        "ny": {
+          "title": "Ny",
+          "type": "integer"
+        },
+        "pixscale_arcsec": {
+          "default": 3.075,
+          "title": "Pixscale Arcsec",
+          "type": "number"
+        },
+        "projection": {
+          "const": "TAN",
+          "default": "TAN",
+          "title": "Projection",
+          "type": "string"
+        },
+        "row0": {
+          "const": "north",
+          "default": "north",
+          "title": "Row0",
+          "type": "string"
+        }
+      },
+      "required": [
+        "nx",
+        "ny",
+        "cx",
+        "cy",
+        "pixscale_arcsec",
+        "projection",
+        "row0",
+        "col0"
+      ],
+      "title": "GridModel",
+      "type": "object"
+    },
+    "Plane": {
+      "description": "One image plane of frames.bin.\n\n``kind`` \"sci\" is a SPHEREx stack of one (time bin, wave bin) and has ``band`` null. ``kind`` \"legacy\"\nis a Then & Now plane: ``mission`` AllWISE or 2MASS, a ``band``, ``time_bin`` and ``wave_bin`` null, and\n``scaled`` \"field_stars\". Wavelengths in micron, ``sigma`` in MJy/sr, ``offset`` in bytes.",
+      "properties": {
+        "band": {
+          "anyOf": [
+            {
+              "enum": [
+                "W1",
+                "W2",
+                "J",
+                "H",
+                "Ks"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Band"
+        },
+        "date_end": {
+          "title": "Date End",
+          "type": "string"
+        },
+        "date_start": {
+          "title": "Date Start",
+          "type": "string"
+        },
+        "index": {
+          "title": "Index",
+          "type": "integer"
+        },
+        "kind": {
+          "enum": [
+            "sci",
+            "legacy"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "lam_eff": {
+          "title": "Lam Eff",
+          "type": "number"
+        },
+        "lam_max": {
+          "title": "Lam Max",
+          "type": "number"
+        },
+        "lam_min": {
+          "title": "Lam Min",
+          "type": "number"
+        },
+        "mission": {
+          "enum": [
+            "SPHEREx",
+            "AllWISE",
+            "2MASS"
+          ],
+          "title": "Mission",
+          "type": "string"
+        },
+        "mjd_mid": {
+          "title": "Mjd Mid",
+          "type": "number"
+        },
+        "n_exposures": {
+          "title": "N Exposures",
+          "type": "integer"
+        },
+        "offset": {
+          "title": "Offset",
+          "type": "integer"
+        },
+        "scaled": {
+          "anyOf": [
+            {
+              "const": "field_stars",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Scaled"
+        },
+        "sigma": {
+          "title": "Sigma",
+          "type": "number"
+        },
+        "time_bin": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Time Bin"
+        },
+        "wave_bin": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Wave Bin"
+        }
+      },
+      "required": [
+        "index",
+        "kind",
+        "mission",
+        "time_bin",
+        "wave_bin",
+        "band",
+        "lam_min",
+        "lam_max",
+        "lam_eff",
+        "n_exposures",
+        "sigma",
+        "mjd_mid",
+        "date_start",
+        "date_end",
+        "offset"
+      ],
+      "title": "Plane",
+      "type": "object"
+    },
+    "Provenance": {
+      "description": "Pipeline version, build time (ISO 8601 UTC, ``Z`` suffix), data DOIs and plain-language notes.",
+      "properties": {
+        "built_at": {
+          "title": "Built At",
+          "type": "string"
+        },
+        "data_dois": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Data Dois",
+          "type": "array"
+        },
+        "notes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        },
+        "pipeline_version": {
+          "title": "Pipeline Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "pipeline_version",
+        "built_at",
+        "data_dois",
+        "notes"
+      ],
+      "title": "Provenance",
+      "type": "object"
+    },
+    "RequestInfo": {
+      "description": "The request as received: position in degrees, field of view in arcmin.",
+      "properties": {
+        "dec": {
+          "title": "Dec",
+          "type": "number"
+        },
+        "fov_arcmin": {
+          "title": "Fov Arcmin",
+          "type": "integer"
+        },
+        "ra": {
+          "title": "Ra",
+          "type": "number"
+        }
+      },
+      "required": [
+        "ra",
+        "dec",
+        "fov_arcmin"
+      ],
+      "title": "RequestInfo",
+      "type": "object"
+    },
+    "TimeBin": {
+      "description": "One frame of the blink: MJD limits in days, ISO dates, exposure count and contributing detectors.",
+      "properties": {
+        "date_end": {
+          "title": "Date End",
+          "type": "string"
+        },
+        "date_start": {
+          "title": "Date Start",
+          "type": "string"
+        },
+        "detectors": {
+          "items": {
+            "type": "integer"
+          },
+          "title": "Detectors",
+          "type": "array"
+        },
+        "id": {
+          "title": "Id",
+          "type": "integer"
+        },
+        "mjd_end": {
+          "title": "Mjd End",
+          "type": "number"
+        },
+        "mjd_mid": {
+          "title": "Mjd Mid",
+          "type": "number"
+        },
+        "mjd_start": {
+          "title": "Mjd Start",
+          "type": "number"
+        },
+        "n_exposures": {
+          "title": "N Exposures",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id",
+        "mjd_start",
+        "mjd_end",
+        "mjd_mid",
+        "date_start",
+        "date_end",
+        "n_exposures",
+        "detectors"
+      ],
+      "title": "TimeBin",
+      "type": "object"
+    },
+    "TimeBinning": {
+      "description": "The three time-binning numbers, in days (Contract section 3).",
+      "properties": {
+        "gap_days": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "default": 20,
+          "title": "Gap Days"
+        },
+        "max_span_days": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "default": 60,
+          "title": "Max Span Days"
+        },
+        "sub_span_days": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "default": 30,
+          "title": "Sub Span Days"
+        }
+      },
+      "required": [
+        "gap_days",
+        "max_span_days",
+        "sub_span_days"
+      ],
+      "title": "TimeBinning",
+      "type": "object"
+    },
+    "WaveBin": {
+      "description": "One of the 24 wavelength bins: ``id = (detector - 1) * 4 + sub``; limits in micron.",
+      "properties": {
+        "detector": {
+          "title": "Detector",
+          "type": "integer"
+        },
+        "id": {
+          "title": "Id",
+          "type": "integer"
+        },
+        "lam_max": {
+          "title": "Lam Max",
+          "type": "number"
+        },
+        "lam_min": {
+          "title": "Lam Min",
+          "type": "number"
+        }
+      },
+      "required": [
+        "id",
+        "detector",
+        "lam_min",
+        "lam_max"
+      ],
+      "title": "WaveBin",
+      "type": "object"
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "The answer of ``GET /api/fields`` when a field is ready (HTTP 200).\n\n``status`` \"empty\" means no public exposure covers the position: ``planes`` is empty and ``frames`` is\nnull. ``fixture_stars`` exists only in fixture manifests.",
+  "properties": {
+    "centre": {
+      "$ref": "#/$defs/Centre"
+    },
+    "contract": {
+      "default": "1.0",
+      "title": "Contract",
+      "type": "string"
+    },
+    "epoch_ref": {
+      "default": 2026.0,
+      "title": "Epoch Ref",
+      "type": "number"
+    },
+    "exposures": {
+      "$ref": "#/$defs/ExposuresInfo"
+    },
+    "fixture_stars": {
+      "anyOf": [
+        {
+          "items": {
+            "$ref": "#/$defs/FixtureStar"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Fixture Stars"
+    },
+    "frames": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/FramesInfo"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "grid": {
+      "$ref": "#/$defs/GridModel"
+    },
+    "key": {
+      "title": "Key",
+      "type": "string"
+    },
+    "planes": {
+      "items": {
+        "$ref": "#/$defs/Plane"
+      },
+      "title": "Planes",
+      "type": "array"
+    },
+    "provenance": {
+      "$ref": "#/$defs/Provenance"
+    },
+    "request": {
+      "$ref": "#/$defs/RequestInfo"
+    },
+    "status": {
+      "enum": [
+        "ready",
+        "partial",
+        "empty"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "time_binning": {
+      "$ref": "#/$defs/TimeBinning"
+    },
+    "time_bins": {
+      "items": {
+        "$ref": "#/$defs/TimeBin"
+      },
+      "title": "Time Bins",
+      "type": "array"
+    },
+    "warnings": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Warnings",
+      "type": "array"
+    },
+    "wave_bins": {
+      "items": {
+        "$ref": "#/$defs/WaveBin"
+      },
+      "title": "Wave Bins",
+      "type": "array"
+    }
+  },
+  "required": [
+    "contract",
+    "status",
+    "key",
+    "request",
+    "centre",
+    "epoch_ref",
+    "grid",
+    "time_binning",
+    "time_bins",
+    "wave_bins",
+    "planes",
+    "frames",
+    "exposures",
+    "provenance",
+    "warnings"
+  ],
+  "title": "Tombaugh manifest (Contract v1.0)",
+  "type": "object"
+}

@@ -1,0 +1,83 @@
+/* ==========================================================================
+   View lane: the header, the title strip and the view rail's groups
+   (docs/design/comparator/Main.dc.html, view rail; Phone.dc.html 21–38 and 427–529).
+   Tokens and bc- classes only: no colour, font or size of its own.
+   ========================================================================== */
+
+/* Header at 1280 and 1440: the head of the view rail, 44px (Main 353–361). */
+.vw-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  min-height: var(--size-control);
+}
+
+.vw-head__end {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* "Link copied" sits against the chip; its 11 characters are reserved by bc-copy__status. */
+.vw-status {
+  text-align: end;
+}
+
+/* The Copy link tooltip opens under the button, flush with the rail's right edge (Main 359). */
+.vw-head .bc-tooltip {
+  left: auto;
+  right: 0;
+  bottom: auto;
+  top: calc(100% + var(--space-2));
+}
+
+/* Title strip on a phone and in the rail layout (Phone 32–38): 50px, 16px gutters. */
+.vw-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  min-height: calc(var(--space-7) + var(--space-half));
+  padding: 0 var(--size-gutter);
+}
+
+.vw-title__text {
+  min-width: 0;
+}
+
+.vw-title__line {
+  font-size: var(--text-caption);
+  line-height: var(--leading-caption);
+  color: var(--color-text-muted);
+  white-space: pre-wrap;
+}
+
+/* The wavelength rule: no line box around the SVG. */
+.vw-rule {
+  line-height: 0;
+}
+
+/* Without three-colour, "Cold objects" spans two columns so the grid stays 3 × 3 (Handoff-removable). */
+.vw-span2 {
+  grid-column: span 2;
+}
+
+/* Display: Contrast and its note on one line, then the slider, then the toggles (Main 514–527). */
+.vw-display__head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0 var(--space-2);
+}
+
+.vw-display__toggles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 var(--space-5);
+}
+
+/* A greyed toggle stays focusable (aria-disabled, Button card); its state word greys as with :disabled. */
+.vw-display__toggles .bc-toggle[aria-disabled="true"] .bc-toggle__state {
+  color: var(--color-text-disabled);
+}

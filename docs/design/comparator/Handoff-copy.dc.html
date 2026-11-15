@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Hand-off: copy list</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/comparator/assets/Hand-off/tokens.css">
+<link rel="stylesheet" href="ds/comparator/components/bundle.css">
+<script src="ds/comparator/components/bundle.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400&amp;family=Source+Sans+3:wght@400;600&amp;display=swap">
+<style>
+body{margin:0}
+.ho-copy{table-layout:fixed;width:100%}
+.ho-copy td,.ho-copy th{text-align:left !important;white-space:normal !important;vertical-align:top;font-family:var(--font-ui) !important;overflow-wrap:anywhere}
+</style>
+</helmet>
+<div style="width: 2400px; min-height: 6800px; box-sizing: border-box; padding: 48px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 48px; align-items: start; background: var(--color-bg); color: var(--color-text); font-family: var(--font-ui); font-size: 14px; line-height: 20px; font-variant-numeric: var(--numeric)">
+
+<div style="display: flex; flex-direction: column; gap: 24px; min-width: 0">
+
+<div style="display: flex; flex-direction: column; gap: 8px; max-width: 820px">
+<h1 class="bc-title">Copy list</h1>
+<p>Every string the comparator can put on screen, in the order of the screen. Numbers are today's measurements: "Changes" says what the results file fills in and how wide the field must stay so that nothing moves.</p>
+<p>A dot (·) between strings separates strings that sit in one control. Square brackets mark a slot whose value is not in the brief or in the system.</p>
+</div>
+
+<section class="bc-panel" style="max-width: 820px">
+<h2 class="bc-heading">The column "From"</h2>
+<dl class="bc-facts">
+<dt>System</dt><dd>Word for word from the Tombaugh system's cards.</dd>
+<dt>Brief</dt><dd>Word for word from the brief, or a fact the brief gives.</dd>
+<dt>Viewer</dt><dd>Read off today's viewer.</dd>
+<dt>New</dt><dd>Written for this design in the system's voice, or not found word for word in the cards. Check these first.</dd>
+</dl>
+<p class="bc-note">No string here has an exclamation mark. The screen claims no detection, so neither "candidate" nor "discovery" appears on it.</p>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 8px">
+<h2 class="bc-heading">1. Name and header</h2>
+<div class="bc-tablewrap"><table class="bc-table ho-copy">
+<colgroup><col style="width: 38%"><col style="width: 30%"><col style="width: 20%"><col style="width: 12%"></colgroup>
+<thead><tr><th scope="col">String</th><th scope="col">Where and when</th><th scope="col">Changes</th><th scope="col">From</th></tr></thead>
+<tbody>
+<tr><td>Tombaugh</td><td>The name, as plain text. Top of the view rail at 1280; the app bar on a phone.</td><td>Never. One string in the code.</td><td>System</td></tr>
+<tr><td>Recorded field</td><td>Chip, dashed, empty mark. While the image is a stored copy: WISE 0855, Barnard's Star, and whenever the archive is unreachable.</td><td>No</td><td>System, Brief</td></tr>
+<tr><td>Live data</td><td>Chip, solid, full mark. An image built from the archive just now.</td><td>No</td><td>System, Brief</td></tr>
+<tr><td>Copy link</td><td>Icon button in the header. Its accessible name at both sizes, and its tooltip at 1280.</td><td>No</td><td>System</td></tr>
+<tr><td>Link copied</td><td>Status beside Copy link, for four seconds.</td><td>Reserved 11 characters.</td><td>System</td></tr>
+</tbody></table></div>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 8px">
+<h2 class="bc-heading">2. Search and title</h2>
+<div class="bc-tablewrap"><table class="bc-table ho-copy">
+<colgroup><col style="width: 38%"><col style="width: 30%"><col style="width: 20%"><col style="width: 12%"></colgroup>
+<thead><tr><th scope="col">String</th><th scope="col">Where and when</th><th scope="col">Changes</th><th scope="col">From</th></tr></thead>
+<tbody>
+<tr><td>Sky position or name</td><td>Label of the search field. Hidden at 1280, where the field is its own title; visible on a phone.</td><td>No</td><td>System</td></tr>
+<tr><td>Search</td><td>Button.</td><td>No</td><td>System</td></tr>
+<tr><td>Try 133.7599 -7.2418, 08h55m10.831s -07d14m42.53s or Barnard's Star.</td><td>Message line, before anything is typed.</td><td>No. The line is always two lines high.</td><td>System</td></tr>
+<tr><td>Read as RA 133.7598°, Dec −7.2422°.</td><td>Message line, after a search.</td><td>Both numbers.</td><td>System, with the brief's numbers</td></tr>
+<tr><td>Read as RA 133.79513°, Dec −7.24515°.</td><td>Message line for the name WISE 0855-0714: its catalogue position.</td><td>Both numbers.</td><td>System</td></tr>
+<tr><td>Read as RA [RA]°, Dec [Dec]°.</td><td>The same line in the no-coverage and busy boards, where no real position is given.</td><td>Both numbers.</td><td>System</td></tr>
+<tr><td>Showing the recorded field for Barnard's Star.</td><td>Message line when a recorded field opens by name.</td><td>The name.</td><td><b>New</b></td></tr>
+<tr><td>Looking up the name.</td><td>Message line while a name resolves.</td><td>No</td><td>System</td></tr>
+<tr><td>Declination must be between −90 and +90 degrees.</td><td>Error, with the warning icon. What was typed stays in the field.</td><td>No</td><td>System</td></tr>
+<tr><td>Right ascension must be between 0 and 360 degrees.</td><td>Error, with the warning icon.</td><td>No</td><td><b>New</b>, in the pattern of the system's declination error</td></tr>
+<tr><td>No object of that name was found. Try Barnard's Star, or a position such as 133.7599 -7.2418.</td><td>Error, with the warning icon.</td><td>No</td><td><b>New</b></td></tr>
+<tr><td>Search is off while the recorded field is shown.</td><td>Message line while the archive is unreachable.</td><td>No</td><td>System</td></tr>
+<tr><td>WISE 0855 · Barnard's Star</td><td>Phone, title strip: the name of the field.</td><td>The name.</td><td>System</td></tr>
+<tr><td>Sky position · No position yet</td><td>Phone, title strip: a typed position; nothing chosen.</td><td>No</td><td><b>New</b></td></tr>
+<tr><td>RA 133.7598°  Dec −7.2422°</td><td>Phone, title strip, second line. Barnard's Star shows RA [RA]°  Dec [Dec]°: its position is not in the brief.</td><td>Both numbers.</td><td>Brief</td></tr>
+<tr><td>Type a position or a name below.</td><td>Phone, title strip, second line, nothing chosen.</td><td>No</td><td><b>New</b></td></tr>
+<tr><td>Change</td><td>Phone, title strip: link to the search at the foot.</td><td>No</td><td><b>New</b></td></tr>
+<tr><td>Go to another position</td><td>Phone: heading above the search field and the targets.</td><td>No</td><td><b>New</b></td></tr>
+</tbody></table></div>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 8px">
+<h2 class="bc-heading">3. Notices</h2>
+<div class="bc-tablewrap"><table class="bc-table ho-copy">
+<colgroup><col style="width: 38%"><col style="width: 30%"><col style="width: 20%"><col style="width: 12%"></colgroup>
+<thead><tr><th scope="col">String</th><th scope="col">Where and when</th><th scope="col">Changes</th><th scope="col">From</th></tr></thead>
+<tbody>
+<tr><td>WISE 0855-0714 was here in 2010. It is now 126″ to the west.</td><td>Moved-object banner. In the time rail at 1280. On a phone, above the image while it carries its button and under the playback after the jump.</td><td>Name, year, distance, direction.</td><td>Brief, System</td></tr>
+<tr><td>Go to where it is now</td><td>The banner's button. The one lit button on the screen.</td><td>No</td><td>System</td></tr>
+<tr><td>The archive is not responding. Showing the recorded field instead.</td><td>Warning notice.</td><td>No</td><td>System</td></tr>
+<tr><td>Try again</td><td>Button in the archive notice and in the busy state.</td><td>No</td><td>System</td></tr>
+<tr><td>4 exposures could not be used.</td><td>Caveat, WISE 0855.</td><td>The count.</td><td><b>New</b>: 258 found less 254 used, in the brief's words</td></tr>
+<tr><td>2 exposures could not be used.</td><td>Caveat, Barnard's Star.</td><td>The count.</td><td>Brief</td></tr>
+<tr><td>Saturated core within 15″ of the centre in 359 of 360 exposures.</td><td>Caveat, Barnard's Star.</td><td>Three numbers.</td><td>Brief</td></tr>
+<tr><td>2 of 5 visits are partial, marked in Frames.</td><td>Caveat, Barnard's Star.</td><td>Two numbers.</td><td><b>New</b></td></tr>
+<tr><td>Details are under Provenance.</td><td>Phone: last line of the caveat notice.</td><td>No</td><td>System</td></tr>
+</tbody></table></div>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 8px">
+<h2 class="bc-heading">4. Playback</h2>
+<div class="bc-tablewrap"><table class="bc-table ho-copy">
+<colgroup><col style="width: 38%"><col style="width: 30%"><col style="width: 20%"><col style="width: 12%"></colgroup>
+<thead><tr><th scope="col">String</th><th scope="col">Where and when</th><th scope="col">Changes</th><th scope="col">From</th></tr></thead>
+<tbody>
+<tr><td>Hold to flip</td><td>The flip key.</td><td>No</td><td>System</td></tr>
+<tr><td>Previous frame · Play · Pause · Next frame</td><td>Accessible names of the transport buttons.</td><td>Play becomes Pause while playing.</td><td>System</td></tr>
+<tr><td>Frame 2 of 4</td><td>Frame counter.</td><td>Both numbers. Reserved 14 characters, right-aligned.</td><td>System</td></tr>
+<tr><td>Speed</td><td>Label of the speed slider.</td><td>No</td><td>System</td></tr>
+<tr><td>2 per second</td><td>Value of the speed slider, 1 to 6.</td><td>One digit. Reserved 12 characters.</td><td>System</td></tr>
+<tr><td>Reduced motion is on, so frames change only when you step or hold.</td><td>In place of Play and Speed under reduced motion.</td><td>No</td><td>System</td></tr>
+<tr><td>Frames can be flipped once the first one is built.</td><td>Reason beside the greyed playback while building.</td><td>No</td><td><b>New</b></td></tr>
+<tr><td>No frame is on screen, so there is nothing to blink yet.</td><td>Reason beside the greyed playback: no coverage, busy, no position.</td><td>No</td><td><b>New</b>, after the system's sentence for a single frame</td></tr>
+<tr><td>Space · Play or pause<br>← → · Previous or next frame<br>Esc · Stop playing, then close the spotlight</td><td>Shortcut list under the playback at 1440 × 900.</td><td>No</td><td>System</td></tr>
+</tbody></table></div>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 8px">
+<h2 class="bc-heading">5. Views and the pair</h2>
+<div class="bc-tablewrap"><table class="bc-table ho-copy">
+<colgroup><col style="width: 38%"><col style="width: 30%"><col style="width: 20%"><col style="width: 12%"></colgroup>
+<thead><tr><th scope="col">String</th><th scope="col">Where and when</th><th scope="col">Changes</th><th scope="col">From</th></tr></thead>
+<tbody>
+<tr><td>View</td><td>Group label.</td><td>No</td><td>System</td></tr>
+<tr><td>Blink · Side by side · Difference · Then and now</td><td>The view switch.</td><td>No</td><td>System</td></tr>
+<tr><td>The other views open once a frame is on screen.</td><td>Note under the view switch while it is greyed.</td><td>No</td><td><b>New</b></td></tr>
+<tr><td>The pair on screen</td><td>Side by side: heading in the time rail.</td><td>No</td><td><b>New</b></td></tr>
+<tr><td>A · B</td><td>Epoch tags: the earlier frame's swatch with A, the later frame's with B. On the two frame labels, in the pair block and on the two timeline rows.</td><td>No</td><td>Brief</td></tr>
+<tr><td>A is always the earlier frame. Choose a frame below and it takes the place of the one you chose before.</td><td>Side by side: note under the pair.</td><td>No</td><td><b>New</b></td></tr>
+<tr><td>Later minus earlier</td><td>Difference: heading in the time rail.</td><td>No</td><td><b>New</b>, from the system's legend line</td></tr>
+<tr><td>Pairs half a year apart leave small marks on bright stars.</td><td>Difference: note.</td><td>No</td><td>Brief</td></tr>
+<tr><td>Choose a frame below and it takes the place of the one you chose before.</td><td>Difference: second note.</td><td>No</td><td><b>New</b></td></tr>
+<tr><td>Then: WISE W2, 2010</td><td>Then and now: first line under its heading.</td><td>Survey and year.</td><td><b>New</b>, with the system's survey name</td></tr>
+<tr><td>Now: the SPHEREx frame chosen below</td><td>Then and now: second line.</td><td>No</td><td><b>New</b></td></tr>
+<tr><td>Only positions compare. Each survey keeps its own brightness scale.</td><td>Then and now: note.</td><td>No</td><td><b>New</b>, from the brief</td></tr>
+</tbody></table></div>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 8px">
+<h2 class="bc-heading">6. Frames</h2>
+<div class="bc-tablewrap"><table class="bc-table ho-copy">
+<colgroup><col style="width: 38%"><col style="width: 30%"><col style="width: 20%"><col style="width: 12%"></colgroup>
+<thead><tr><th scope="col">String</th><th scope="col">Where and when</th><th scope="col">Changes</th><th scope="col">From</th></tr></thead>
+<tbody>
+<tr><td>Frames</td><td>Group label.</td><td>No</td><td>System</td></tr>
+<tr><td>Newest SPHEREx image: 5 Oct 2026</td><td>Fact chip in the Frames header. In the frame label when there is no coverage.</td><td>The date.</td><td>Brief, System</td></tr>
+<tr><td>Example values for layout, not a measurement</td><td>Qualifier chip on a band whose visits are not in the brief or the viewer, and on the spectrum. It goes when real values arrive.</td><td>No</td><td>System</td></tr>
+<tr><td>7–14 Nov 2025</td><td>A row's dates, in the short form.</td><td>The dates. Rows do not change in place.</td><td>System</td></tr>
+<tr><td>32 exposures</td><td>A row's count.</td><td>The count.</td><td>System</td></tr>
+<tr><td>11 exposures, partial · 4 exposures, thin · — exposures, thin, partial</td><td>The count with its qualifier. A dash when the count is not known.</td><td>The count and the words.</td><td>System</td></tr>
+<tr><td>Partial: a different mix of wavelengths. Thin: fewer than 8 exposures.</td><td>Key line under the timeline. Each sentence shows only when such a row is in the list.</td><td>No</td><td><b>New</b> wording of the system's two definitions</td></tr>
+<tr><td>Greyed frames cannot be subtracted.</td><td>Difference: goes before the key line when a partial or thin row is greyed.</td><td>No</td><td><b>New</b></td></tr>
+<tr><td>These visits were found. They open when the image is built.</td><td>Key line while building.</td><td>No</td><td><b>New</b></td></tr>
+<tr><td>5–6 May 2025, 11, partial<br>7–14 Nov 2025, 32<br>11–13 Dec 2025, 9, partial<br>21 Apr–14 May 2026, 32</td><td>The rows of WISE 0855, Cold objects.</td><td>All of it.</td><td>Brief</td></tr>
+<tr><td>5–6 May 2025, 29, partial<br>31 Oct–14 Nov 2025, 107<br>11–13 Dec 2025, 18, partial<br>21 Apr–14 May 2026, 100</td><td>The rows of WISE 0855, All.</td><td>All of it.</td><td>Viewer</td></tr>
+<tr><td>15 Aug–5 Sep 2025, 104<br>30 Sep–1 Oct 2025, 9, partial<br>11 Mar–10 Apr 2026, 111<br>4–5 May 2026, 8, partial<br>16 Aug–22 Sep 2026, 116</td><td>The rows of Barnard's Star, All.</td><td>All of it.</td><td>Brief</td></tr>
+<tr><td>31 Oct–3 Nov 2025</td><td>WISE 0855, D1, second row: the dates of the frame the brief names. Its count is not known, so the row shows a dash.</td><td>All of it.</td><td>Brief</td></tr>
+</tbody></table></div>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 8px">
+<h2 class="bc-heading">7. Image frame and its states</h2>
+<div class="bc-tablewrap"><table class="bc-table ho-copy">
+<colgroup><col style="width: 38%"><col style="width: 30%"><col style="width: 20%"><col style="width: 12%"></colgroup>
+<thead><tr><th scope="col">String</th><th scope="col">Where and when</th><th scope="col">Changes</th><th scope="col">From</th></tr></thead>
+<tbody>
+<tr><td>real frame, 119 × 119 px</td><td>On the flat block that stands for a frame, with the file name under it. Not product copy: it goes when the frames arrive.</td><td>Not in the product.</td><td>System</td></tr>
+<tr><td>Finding exposures</td><td>Building, step 1.</td><td>No</td><td>Brief, System</td></tr>
+<tr><td>Reading exposures: 120 of 258</td><td>Building, step 2. "Reading exposures" alone before it starts.</td><td>Both numbers.</td><td>Brief</td></tr>
+<tr><td>Stacking: 240 of 258</td><td>Building, step 3. "Stacking" alone before it starts.</td><td>Both numbers.</td><td>Brief</td></tr>
+<tr><td>The first build takes about a minute; it is saved, so next time this position opens at once.</td><td>Building: under the bar.</td><td>No</td><td><b>New</b>, from the brief's facts</td></tr>
+<tr><td>No public SPHEREx image covers this position yet.</td><td>No coverage.</td><td>No</td><td>Brief, System</td></tr>
+<tr><td>Try one of the targets below, or come back after the next release.</td><td>No coverage: second line.</td><td>No</td><td>System</td></tr>
+<tr><td>See the targets</td><td>Button: no coverage, no position.</td><td>No</td><td>System</td></tr>
+<tr><td>Too many requests are being built. Try again in 20 seconds.</td><td>Busy.</td><td>The number, in a fixed field of two characters, counting down once a second.</td><td>System</td></tr>
+<tr><td>No position chosen yet.</td><td>Arriving with no position.</td><td>No</td><td><b>New</b></td></tr>
+<tr><td>Type a position or a name, or pick one of the five targets.</td><td>No position: second line.</td><td>No</td><td><b>New</b></td></tr>
+</tbody></table></div>
+</section>
+
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 24px; min-width: 0">
+
+<section style="display: flex; flex-direction: column; gap: 8px">
+<h2 class="bc-heading">8. Margin, readout, ring and legend</h2>
+<div class="bc-tablewrap"><table class="bc-table ho-copy">
+<colgroup><col style="width: 38%"><col style="width: 30%"><col style="width: 20%"><col style="width: 12%"></colgroup>
+<thead><tr><th scope="col">String</th><th scope="col">Where and when</th><th scope="col">Changes</th><th scope="col">From</th></tr></thead>
+<tbody>
+<tr><td>60″</td><td>Scale bar label. 20″ in the spotlight. 120″ with two frames, 40″ in their spotlight.</td><td>With the scale. Reserved 5 characters.</td><td>System</td></tr>
+<tr><td>4×</td><td>The scale, beside the bar: 3×, 4× or 5×; 9×, 12× or 15× in the spotlight; 2× and 6× with two frames.</td><td>With the scale. Reserved 3 characters.</td><td><b>New</b></td></tr>
+<tr><td>N · E</td><td>Compass.</td><td>No</td><td>System</td></tr>
+<tr><td>RA 133.75977°</td><td>Readout.</td><td>The value. Reserved 14 characters. A dash when no pixel is under the pointer.</td><td>System</td></tr>
+<tr><td>Dec −7.24183°</td><td>Readout.</td><td>The value. Reserved 13 characters.</td><td>System</td></tr>
+<tr><td>0.142 MJy/sr</td><td>Readout, brightness. The system's sample value.</td><td>The value. Reserved 12 characters on a phone, 24 at 1280.</td><td>System</td></tr>
+<tr><td>A —   B —   MJy/sr</td><td>Readout in Side by side: one brightness for each frame.</td><td>Both values, inside the 24 characters.</td><td><b>New</b></td></tr>
+<tr><td>— σ</td><td>Readout in Difference.</td><td>The value.</td><td><b>New</b></td></tr>
+<tr><td>Click the image to move the ring.</td><td>Hint beside the ring buttons at 1280.</td><td>No</td><td><b>New</b></td></tr>
+<tr><td>Spotlight · Spectrum · Recentre</td><td>The ring buttons.</td><td>No</td><td><b>New</b></td></tr>
+<tr><td>Builds this field again with the ring at its centre. About a minute the first time.</td><td>Tooltip on Recentre.</td><td>No</td><td><b>New</b></td></tr>
+<tr><td>Your position</td><td>Legend: the ring.</td><td>No</td><td>System</td></tr>
+<tr><td>Where it was in 2010</td><td>Legend: the dashed square.</td><td>The year.</td><td><b>New</b></td></tr>
+<tr><td>No data</td><td>Legend: the hatch, whenever any hatch is on screen.</td><td>No</td><td>System</td></tr>
+<tr><td>Red 3.8 to 5.0 µm · Green 1.6 to 3.8 µm · Blue 0.74 to 1.65 µm</td><td>Legend in three-colour.</td><td>No</td><td>System</td></tr>
+<tr><td>Brighter earlier · Brighter later</td><td>Difference scale: end labels.</td><td>No</td><td>System</td></tr>
+<tr><td>−5σ −4σ −3σ −2σ −1σ 0 +1σ +2σ +3σ +4σ +5σ</td><td>Difference scale: ticks.</td><td>No</td><td>System</td></tr>
+<tr><td>Later minus earlier, in units of noise (σ)</td><td>Difference scale: the line under it.</td><td>No</td><td>System</td></tr>
+</tbody></table></div>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 8px">
+<h2 class="bc-heading">9. Frame label</h2>
+<div class="bc-tablewrap"><table class="bc-table ho-copy">
+<colgroup><col style="width: 38%"><col style="width: 30%"><col style="width: 20%"><col style="width: 12%"></colgroup>
+<thead><tr><th scope="col">String</th><th scope="col">Where and when</th><th scope="col">Changes</th><th scope="col">From</th></tr></thead>
+<tbody>
+<tr><td>Partial frame · Thin frame · Saturated core</td><td>Chips in the reserved row.</td><td>Which chips are present.</td><td>System</td></tr>
+<tr><td>07 Nov to 14 Nov 2025</td><td>The frame's dates, in the fixed form.</td><td>The glyphs. Always 21 characters.</td><td>System, with the brief's dates</td></tr>
+<tr><td>3.96 to 5.00 µm</td><td>The frame's wavelength range.</td><td>Fixed length.</td><td>Brief</td></tr>
+<tr><td>0.93 to 5.00 µm</td><td>A partial frame shows the mix it really has: WISE 0855, All, 5–6 May 2025.</td><td>The range.</td><td>Viewer</td></tr>
+<tr><td>—.—— to —.—— µm</td><td>A partial frame whose mix is not in the brief or the viewer.</td><td>Not in the product.</td><td><b>New</b></td></tr>
+<tr><td> 32 exposures</td><td>The count.</td><td>The count, right-aligned in three characters. A dash when it is not known.</td><td>System</td></tr>
+<tr><td>Resampled to 3.075″ per pixel; native pixel 6.15″</td><td>Note under the label on a phone and at 1440 × 900. In Details on a phone.</td><td>No</td><td>System</td></tr>
+<tr><td>Building this image</td><td>The date field while building, with the band's range and "258 exposures".</td><td>The count found.</td><td>System</td></tr>
+<tr><td>Waiting to build</td><td>The date field when busy.</td><td>No</td><td>System</td></tr>
+<tr><td>No frames here</td><td>The date field with no coverage and with no position.</td><td>No</td><td>System</td></tr>
+<tr><td>B 21 Apr–14 May 2026 minus A 7–14 Nov 2025</td><td>The label in Difference.</td><td>Both dates.</td><td><b>New</b></td></tr>
+<tr><td>WISE W2, 2010</td><td>Then and now: the other survey's label.</td><td>Survey and year.</td><td>System</td></tr>
+<tr><td>Its own brightness scale</td><td>Chip on the other survey's label.</td><td>No</td><td>System</td></tr>
+<tr><td>Other survey</td><td>Under the other survey's name.</td><td>No</td><td>System</td></tr>
+<tr><td>SPHEREx</td><td>Chip on the SPHEREx label in Then and now.</td><td>No</td><td><b>New</b></td></tr>
+</tbody></table></div>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 8px">
+<h2 class="bc-heading">10. Band, field of view, display</h2>
+<div class="bc-tablewrap"><table class="bc-table ho-copy">
+<colgroup><col style="width: 38%"><col style="width: 30%"><col style="width: 20%"><col style="width: 12%"></colgroup>
+<thead><tr><th scope="col">String</th><th scope="col">Where and when</th><th scope="col">Changes</th><th scope="col">From</th></tr></thead>
+<tbody>
+<tr><td>Band</td><td>Group label.</td><td>No</td><td>System</td></tr>
+<tr><td>D1 0.74–1.12 µm · D2 1.10–1.65 µm · D3 1.64–2.42 µm · D4 2.42–3.82 µm · D5 3.81–4.42 µm · D6 4.41–5.00 µm · All 0.74–5.00 µm · Cold objects 4.0–5.0 µm · Three-colour R · G · B</td><td>The nine band options, each with its range on a second line.</td><td>No</td><td>System</td></tr>
+<tr><td>D1 D2 D3 D4 D5 D6 · 0.74 1.11 1.65 2.42 3.82 4.42 5.00 µm · R G B</td><td>On the wavelength rule: detector names, edge wavelengths, and the three channel letters in three-colour.</td><td>No</td><td>System</td></tr>
+<tr><td>Field of view</td><td>Group label.</td><td>No</td><td>System</td></tr>
+<tr><td>3′ · 4′ · 5′ · 6′ · 8′ · 10′</td><td>The field-of-view options.</td><td>No</td><td>System</td></tr>
+<tr><td>Contrast</td><td>Slider label.</td><td>No</td><td>System</td></tr>
+<tr><td>Same brightness scale for every frame</td><td>Note with the display controls. Always visible.</td><td>No</td><td>System</td></tr>
+<tr><td>Invert · On · Off</td><td>Toggle and its state word.</td><td>The state word.</td><td>System</td></tr>
+<tr><td>Markers · On · Off</td><td>Toggle and its state word.</td><td>The state word.</td><td><b>New</b></td></tr>
+<tr><td>Display controls are off until a frame is on screen.</td><td>Reason beside the greyed display controls.</td><td>No</td><td><b>New</b></td></tr>
+</tbody></table></div>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 8px">
+<h2 class="bc-heading">11. Spectrum</h2>
+<div class="bc-tablewrap"><table class="bc-table ho-copy">
+<colgroup><col style="width: 38%"><col style="width: 30%"><col style="width: 20%"><col style="width: 12%"></colgroup>
+<thead><tr><th scope="col">String</th><th scope="col">Where and when</th><th scope="col">Changes</th><th scope="col">From</th></tr></thead>
+<tbody>
+<tr><td>Spectrum at your position</td><td>Panel heading.</td><td>No</td><td>System</td></tr>
+<tr><td>Chart · Table</td><td>The switch in the panel head.</td><td>No</td><td>System</td></tr>
+<tr><td>Saturated: no reliable brightness</td><td>Warning in place of the chart: Barnard's Star.</td><td>No</td><td>System</td></tr>
+<tr><td>Wavelength λ (µm) · Flux (µJy)</td><td>Axis titles. Ticks at 1 to 5 and at 0 to 240.</td><td>The flux ticks, with the data.</td><td>System</td></tr>
+<tr><td>5–6 May 2025 · 7–14 Nov 2025 · 11–13 Dec 2025 · 21 Apr–14 May 2026 · Larger: binned · Hollow: flagged</td><td>Legend: one item for each visit, then the two keys.</td><td>The dates.</td><td>System</td></tr>
+<tr><td>First rows. The table holds every point the chart draws.</td><td>Caption of the table on the boards, which show twelve rows. Not needed once the table holds every row.</td><td>Not in the product.</td><td><b>New</b></td></tr>
+<tr><td>Visit · λ (µm) · Flux (µJy) · Error · Note</td><td>Column headers.</td><td>No</td><td>System</td></tr>
+<tr><td>Flagged</td><td>In the note column, with an empty mark.</td><td>No</td><td>System</td></tr>
+<tr><td>Download CSV</td><td>Button.</td><td>No</td><td>System</td></tr>
+</tbody></table></div>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 8px">
+<h2 class="bc-heading">12. Provenance</h2>
+<div class="bc-tablewrap"><table class="bc-table ho-copy">
+<colgroup><col style="width: 38%"><col style="width: 30%"><col style="width: 20%"><col style="width: 12%"></colgroup>
+<thead><tr><th scope="col">String</th><th scope="col">Where and when</th><th scope="col">Changes</th><th scope="col">From</th></tr></thead>
+<tbody>
+<tr><td>254 of 258 exposures used. SPHEREx Spectral Images, DR1 (10.26131/IRSA678) and QR3 (10.26131/IRSA662). Pipeline 0.2.0.</td><td>At 1280, as one paragraph that is always open. The two DOIs are links.</td><td>The count (348 of 364 for Barnard's Star) and the version.</td><td>Brief, in the system's pattern</td></tr>
+<tr><td>Brightness scale: asinh, −0.0180 to 0.440 MJy/sr.</td><td>Added to the paragraph at 1440 × 900.</td><td>The two limits.</td><td>Viewer</td></tr>
+<tr><td>Reading 120 of 258</td><td>The provenance line while building.</td><td>Both numbers.</td><td>System</td></tr>
+<tr><td>254 of 258 exposures used. SPHEREx Spectral Images, DR1 and QR3.</td><td>Phone: the line that is always visible.</td><td>The count.</td><td>Brief, in the system's pattern</td></tr>
+<tr><td>Details</td><td>Phone: the disclosure.</td><td>No</td><td>System</td></tr>
+<tr><td>Exposures used · Data release · Pixels · Warnings</td><td>Details: field names. Warnings repeats the caveat sentences of section 3, or reads "None".</td><td>No</td><td>System</td></tr>
+<tr><td>DOI, DR1 · DOI, QR3 · Brightness scale · Pipeline</td><td>Details: field names.</td><td>No</td><td><b>New</b></td></tr>
+<tr><td>SPHEREx Spectral Images, DR1 and QR3 · 10.26131/IRSA678 · 10.26131/IRSA662 · 0.2.0</td><td>Details: values.</td><td>With the release and the version.</td><td>Brief</td></tr>
+<tr><td>asinh, −0.0180 to 0.440 MJy/sr, the same for every frame</td><td>Details: Brightness scale. For All: −0.00742 to 1.26 MJy/sr.</td><td>The two limits.</td><td>Viewer</td></tr>
+</tbody></table></div>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 8px">
+<h2 class="bc-heading">13. Targets</h2>
+<div class="bc-tablewrap"><table class="bc-table ho-copy">
+<colgroup><col style="width: 38%"><col style="width: 30%"><col style="width: 20%"><col style="width: 12%"></colgroup>
+<thead><tr><th scope="col">String</th><th scope="col">Where and when</th><th scope="col">Changes</th><th scope="col">From</th></tr></thead>
+<tbody>
+<tr><td>Targets</td><td>Heading of the list: in the time rail when no frame is on screen, and at the foot of the phone page.</td><td>No</td><td><b>New</b></td></tr>
+<tr><td>WISE 0855<br>Visible only at 4 to 5 µm. Moved 4.4″ in six months.</td><td>Target row.</td><td>The numbers.</td><td>System</td></tr>
+<tr><td>Barnard's Star<br>Moves 10.25″ a year. Its centre is saturated.</td><td>Target row, with the chip "Saturated core".</td><td>The numbers.</td><td>System</td></tr>
+<tr><td>Epsilon Indi B<br>An unresolved pair of brown dwarfs. Motion not yet measured.</td><td>Target row.</td><td>The second sentence, once it is measured.</td><td>System</td></tr>
+<tr><td>RW Aurigae<br>Brighter at 1.2 µm, fainter at 4.6 µm across three visits.</td><td>Target row.</td><td>The numbers.</td><td>System</td></tr>
+<tr><td>R Draconis<br>Saturated in almost every exposure.</td><td>Target row, with the chip "Saturated core".</td><td>No</td><td>System</td></tr>
+</tbody></table></div>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 8px">
+<h2 class="bc-heading">14. Names for screen readers</h2>
+<div class="bc-tablewrap"><table class="bc-table ho-copy">
+<colgroup><col style="width: 38%"><col style="width: 30%"><col style="width: 20%"><col style="width: 12%"></colgroup>
+<thead><tr><th scope="col">String</th><th scope="col">Where and when</th><th scope="col">Changes</th><th scope="col">From</th></tr></thead>
+<tbody>
+<tr><td>Sky image, 07 Nov to 14 Nov 2025, 3.96 to 5.00 micrometres. Arrow keys move the readout by one pixel. Enter moves the ring there.</td><td>Name of the image frame at 1280.</td><td>Dates and range.</td><td>System, with a <b>new</b> last sentence</td></tr>
+<tr><td>Sky image, 07 Nov to 14 Nov 2025, 3.96 to 5.00 micrometres. Tap to move the ring.</td><td>Name of the image frame on a phone.</td><td>Dates and range.</td><td>System, with a <b>new</b> last sentence</td></tr>
+<tr><td>Sky image. No frame is on screen.</td><td>Name of the frame in the empty states.</td><td>No</td><td><b>New</b></td></tr>
+<tr><td>Frame A, 07 Nov to 14 Nov 2025 · Frame B, 21 Apr to 14 May 2026</td><td>Side by side: the two frames.</td><td>The dates.</td><td><b>New</b></td></tr>
+<tr><td>Image from another survey: WISE W2, 2010 · SPHEREx frame, 21 Apr to 14 May 2026</td><td>Then and now: the two frames.</td><td>Survey, year, dates.</td><td><b>New</b></td></tr>
+<tr><td>Scale bar: 60 arcseconds. Each image pixel is drawn 4 pixels wide.</td><td>Name of the scale bar.</td><td>Both numbers.</td><td><b>New</b></td></tr>
+<tr><td>North is up, east is left</td><td>Name of the compass.</td><td>No</td><td>System</td></tr>
+<tr><td>Wavelength rule with one tick for each of 102 channels, from 0.74 to 5.00 micrometres. Shown: Cold objects, 4.0 to 5.0 micrometres.</td><td>Name of the wavelength rule.</td><td>The band named after "Shown".</td><td><b>New</b></td></tr>
+<tr><td>Example spectrum for layout: flux in microjansky against wavelength from 0.75 to 5.0 micrometres, 4 visits. The same values are in the table view.</td><td>Name of the chart while it draws example values.</td><td>Not in the product.</td><td><b>New</b></td></tr>
+<tr><td>Show the spectrum as · Spectrum values · Image · Warning · Error</td><td>The Chart and Table switch; the table region; the image section; the two icons.</td><td>No</td><td>System</td></tr>
+<tr><td>Caveats for this field · Recentre the field on the ring · Reading exposures · Stacking</td><td>The caveat list; Recentre on a phone; the progress bar in each counted stage.</td><td>No</td><td><b>New</b></td></tr>
+</tbody></table></div>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 8px">
+<h2 class="bc-heading">15. In the system and needed by this screen, but on no board</h2>
+<div class="bc-tablewrap"><table class="bc-table ho-copy">
+<colgroup><col style="width: 38%"><col style="width: 30%"><col style="width: 20%"><col style="width: 12%"></colgroup>
+<thead><tr><th scope="col">String</th><th scope="col">Where and when</th><th scope="col">Changes</th><th scope="col">From</th></tr></thead>
+<tbody>
+<tr><td>Searching…</td><td>The Search button while a name resolves.</td><td>No</td><td>System</td></tr>
+<tr><td>Could not copy. Select the address bar instead.</td><td>The Copy link status when copying fails.</td><td>No</td><td>System</td></tr>
+<tr><td>Only one frame covers this position, so there is nothing to blink yet.</td><td>Reason beside the greyed playback when a position has one frame.</td><td>No</td><td>System</td></tr>
+<tr><td>D2 is greyed: no D2 image covers this position yet.</td><td>Note under Band for a band with no image here.</td><td>The band.</td><td>System</td></tr>
+<tr><td>Indicative only: the star's centre overflowed · A neighbour 7.5″ away may contaminate this · No spectrum at this position yet. · Measuring 120 of 258</td><td>The spectrum panel's other messages.</td><td>The numbers.</td><td>System</td></tr>
+<tr><td>Building this image…</td><td>Caption of a target row while it builds.</td><td>No</td><td>System</td></tr>
+<tr><td>No values yet.</td><td>The one row of an empty table.</td><td>No</td><td>System</td></tr>
+</tbody></table></div>
+</section>
+
+</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":2400,"height":6800}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,469 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Tombaugh landing page</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&amp;family=Source+Sans+3:wght@400;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#060606}
+a{color:#f0f0f0}a:hover{color:#ffffff}
+html{scroll-behavior:smooth}
+@font-face{font-family:"Source Code Pro";src:url(ds/tombaugh/fonts/SourceCodePro-Regular.ttf) format("truetype");font-weight:400;font-style:normal;font-display:swap}
+
+/* page frame */
+.tb-root{container-type:inline-size;container-name:page;position:relative;isolation:isolate;overflow:hidden;overflow:clip;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+.tb-root *{box-sizing:border-box}
+.tb-root :focus-visible{outline:2px solid #ffffff;outline-offset:2px}
+.tb-page{--g:max(64px,50cqw - 656px);--img:min(37.2cqw,548px,62vh)}
+.tb-d-slow{--d:3.6s}.tb-d-steady{--d:2.4s}.tb-d-quick{--d:1.6s}
+.tb-mono{font-family:"Source Code Pro",ui-monospace,"SF Mono",Menlo,Consolas,"DejaVu Sans Mono",monospace;font-weight:400}
+.tb-vh{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.tb-grain{position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:.55;background:url(/_blob/18a07401d4af88b67cb4e9cdc4d51bd0) 0 0/192px 192px repeat}
+
+/* header */
+.tb-nav{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:64px;padding:10px var(--g)}
+.tb-navlinks{display:flex;align-items:center;gap:4px}
+.tb-navlink{display:inline-flex;align-items:center;min-height:44px;padding:0 12px;font-size:15px;line-height:20px;color:#f0f0f0;text-decoration:none}
+.tb-navlink:hover{text-decoration:underline;text-underline-offset:4px}
+.tb-mark{position:relative;width:14px;height:14px;flex:none}
+.tb-mark > span{position:absolute;width:7px;height:7px}
+.tb-mark-a{left:0;bottom:0;background:#ff6600}
+.tb-mark-b{right:0;top:0;background:#0099ff}
+
+/* buttons and links */
+.tb-btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:56px;padding:0 26px;background:#f0f0f0;color:#0e0e0e;font-weight:600;font-size:18px;line-height:24px;border-radius:2px;text-decoration:none;box-shadow:-14px 10px 44px -10px rgba(255,102,0,.62),14px -10px 44px -10px rgba(0,153,255,.62)}
+.tb-btn:hover{background:#ffffff;color:#0e0e0e;box-shadow:-16px 12px 56px -8px rgba(255,102,0,.85),16px -12px 56px -8px rgba(0,153,255,.85)}
+.tb-btn:active{background:#c8c8c8}
+.tb-btn-s{display:inline-flex;align-items:center;flex:none;min-height:44px;padding:0 16px;background:#f0f0f0;color:#0e0e0e;font-weight:600;font-size:14px;line-height:20px;border-radius:2px;text-decoration:none;white-space:nowrap}
+.tb-btn-s:hover{background:#ffffff;color:#0e0e0e}
+.tb-btn-s:active{background:#c8c8c8}
+.tb-link{display:inline-flex;align-items:center;gap:8px;min-height:44px;color:#f0f0f0;font-size:17px;line-height:24px;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:5px}
+
+/* hero */
+.tb-hero{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:64px;row-gap:36px;padding:24px var(--g) 88px}
+.tb-hero-a{grid-column:1;grid-row:1;align-self:end;min-width:0}
+.tb-hero-b{grid-column:1;grid-row:2;align-self:start;min-width:0}
+.tb-hero .tb-unit{grid-column:2;grid-row:1 / span 2;align-self:center}
+.tb-h1{margin:0;font-weight:600;font-size:clamp(4.5rem,8.4cqw,7rem);line-height:.96;letter-spacing:-.022em}
+.tb-px{display:inline-block;position:relative;width:.36em;height:.36em;margin-left:.06em;vertical-align:baseline}
+.tb-px > span{position:absolute;width:.18em;height:.18em}
+.tb-px-a{left:0;bottom:0;background:#ff6600;box-shadow:0 0 .22em rgba(255,102,0,.95),0 0 .8em rgba(255,102,0,.6)}
+.tb-px-b{left:.18em;bottom:.18em;background:#0099ff;box-shadow:0 0 .22em rgba(0,153,255,.95),0 0 .8em rgba(0,153,255,.6)}
+.tb-h-a .tb-px-b{opacity:0}.tb-h-b .tb-px-a{opacity:0}
+
+/* the instrument: real frames on a neutral plate, light behind it */
+.tb-unit{position:relative;width:calc(var(--img) + 2px);margin:0;background:#0e0e0e;border:1px solid #333333}
+.tb-lightbox{position:relative;line-height:0}
+.tb-capt{display:block;container-type:inline-size;container-name:unit}
+.tb-frame{display:block;width:100%;height:auto;aspect-ratio:1/1}
+.tb-frame-b{position:absolute;left:0;top:0;height:100%;opacity:0}
+.tb-hf-b .tb-hero .tb-frame-b,.tb-t-b .tb-try .tb-frame-b{opacity:1}
+.tb-aura{position:absolute;inset:0;z-index:-1;pointer-events:none}
+.tb-glow{position:absolute;left:50%;top:50%;width:300%;aspect-ratio:1/1;transform:translate(-50%,-50%);opacity:var(--s,.92);transition:opacity .45s ease}
+.tb-glow-a{background:radial-gradient(ellipse 33% 44% at 50% 56%,rgba(255,214,186,1) 0%,rgba(255,214,186,1) 31%,rgba(254,165,120,.96) 39%,rgba(255,102,0,.88) 49%,rgba(244,110,14,.58) 62%,rgba(194,85,8,.3) 76%,rgba(143,65,17,.11) 89%,rgba(91,48,26,0) 100%)}
+.tb-glow-b{mix-blend-mode:screen;background:radial-gradient(ellipse 33% 44% at 50% 44%,rgba(200,228,255,1) 0%,rgba(200,228,255,1) 31%,rgba(138,195,254,.96) 39%,rgba(0,153,255,.88) 49%,rgba(13,125,212,.6) 62%,rgba(23,93,155,.32) 76%,rgba(29,63,96,.12) 89%,rgba(29,63,96,0) 100%)}
+.tb-spike{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)}
+.tb-spike-v{width:1px;height:172%;background:linear-gradient(to bottom,rgba(200,228,255,0) 0%,rgba(200,228,255,.95) 26%,#ffffff 50%,rgba(255,214,186,.95) 74%,rgba(255,214,186,0) 100%)}
+.tb-spike-h{height:1px;width:158%;background:linear-gradient(to right,rgba(255,255,255,0) 0%,rgba(255,232,240,.9) 30%,#ffffff 50%,rgba(255,232,240,.9) 70%,rgba(255,255,255,0) 100%)}
+.tb-h-a .tb-hero .tb-glow-a{--s:1}.tb-h-a .tb-hero .tb-glow-b{--s:.32}
+.tb-h-b .tb-hero .tb-glow-a{--s:.32}.tb-h-b .tb-hero .tb-glow-b{--s:1}
+
+/* bar under the frame: the only things that change with a frame are two 8px marks */
+.tb-bar{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;min-height:56px;padding:6px 6px 6px 16px;border-top:1px solid #333333}
+.tb-epochs{display:flex;gap:4px}
+.tb-epoch{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 10px;background:transparent;border:0;border-radius:2px;color:#f0f0f0;font-size:15px;line-height:20px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.tb-epoch:hover{background:#262626}.tb-epoch:active{background:#3a3a3a}
+.tb-sw{position:relative;width:8px;height:8px;flex:none;border:1px solid #767676}
+.tb-sw > span{position:absolute;inset:-1px;opacity:0}
+.tb-sw-a{border-color:#ff6600}.tb-sw-a > span{background:#ff6600;box-shadow:0 0 10px 1px rgba(255,102,0,.85)}
+.tb-sw-b{border-color:#0099ff}.tb-sw-b > span{background:#0099ff;box-shadow:0 0 10px 1px rgba(0,153,255,.85)}
+.tb-hf-a .tb-hero .tb-sw-a > span,.tb-hf-b .tb-hero .tb-sw-b > span,.tb-t-a .tb-try .tb-sw-a > span,.tb-t-b .tb-try .tb-sw-b > span{opacity:1}
+.tb-iconbtn{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;flex:none;padding:0;background:transparent;border:1px solid #767676;border-radius:2px;color:#f0f0f0;cursor:pointer}
+.tb-iconbtn:hover{background:#262626}.tb-iconbtn:active{background:#3a3a3a}
+.tb-key{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:56px;padding:0 16px;background:transparent;border:0;border-top:1px solid #333333;border-radius:0;color:#f0f0f0;font-family:inherit;font-weight:600;font-size:16px;line-height:20px;cursor:pointer;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.tb-key:hover{background:#1c1c1c}
+
+/* the hero flips on its own: frames cut, light follows */
+@keyframes tb-on-first{0%{opacity:1}50%{opacity:0}100%{opacity:1}}
+@keyframes tb-on-second{0%{opacity:0}50%{opacity:1}100%{opacity:0}}
+@keyframes tb-glow-first{0%{opacity:.32}11%,50%{opacity:1}61%,100%{opacity:.32}}
+@keyframes tb-glow-second{0%{opacity:1}11%,50%{opacity:.32}61%,100%{opacity:1}}
+.tb-play .tb-hero .tb-frame-b,.tb-play .tb-hero .tb-sw-b > span,.tb-play .tb-px-b{animation:tb-on-second var(--d,2.4s) steps(1,end) infinite}
+.tb-play .tb-hero .tb-sw-a > span,.tb-play .tb-px-a{animation:tb-on-first var(--d,2.4s) steps(1,end) infinite}
+.tb-play .tb-hero .tb-glow-a{animation:tb-glow-first var(--d,2.4s) linear infinite}
+.tb-play .tb-hero .tb-glow-b{animation:tb-glow-second var(--d,2.4s) linear infinite}
+
+/* sections */
+.tb-sec{padding:120px var(--g) 0}
+.tb-h2{margin:0 0 56px;font-weight:600;font-size:clamp(2.25rem,4.4cqw,3.5rem);line-height:1.05;letter-spacing:-.018em}
+.tb-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:40px 48px;margin:0;padding:0;list-style:none}
+.tb-step{display:grid;grid-template-columns:minmax(0,1fr);gap:20px;align-content:start;padding-top:28px;border-top:1px solid #333333}
+.tb-glyph{display:block;width:96px;height:96px;overflow:visible}
+.tb-glyph .ga{filter:drop-shadow(0 0 5px rgba(255,102,0,.9))}
+.tb-glyph .gb{filter:drop-shadow(0 0 5px rgba(0,153,255,.9))}
+.tb-eras{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:64px 48px}
+.tb-era{position:relative}
+.tb-era-word{margin:0;font-weight:600;font-size:clamp(5.5rem,15cqw,12.5rem);line-height:.92;letter-spacing:-.03em;font-variant-numeric:lining-nums}
+.tb-bloom{position:absolute;z-index:-1;pointer-events:none;left:-22%;top:-38%;width:118%;aspect-ratio:1.45/1}
+.tb-bloom-a{background:radial-gradient(closest-side,rgba(255,102,0,.36) 0%,rgba(194,85,8,.22) 42%,rgba(143,65,17,.09) 72%,rgba(91,48,26,0) 100%)}
+.tb-bloom-b{background:radial-gradient(closest-side,rgba(0,153,255,.36) 0%,rgba(13,125,212,.22) 42%,rgba(23,93,155,.1) 72%,rgba(29,63,96,0) 100%)}
+.tb-swatch{width:8px;height:8px;flex:none}
+.tb-try{display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:72px;row-gap:20px}
+.tb-try-a{grid-column:2;grid-row:1;align-self:end;min-width:0}
+.tb-try-b{grid-column:2;grid-row:2;align-self:start;min-width:0}
+.tb-try .tb-unit{grid-column:1;grid-row:1 / span 2;align-self:center}
+.tb-try .tb-glow{width:236%}
+.tb-try .tb-glow-a{background:radial-gradient(circle closest-side at 44% 50%,rgba(254,165,120,.86) 0%,rgba(255,102,0,.76) 22%,rgba(255,102,0,.64) 37%,rgba(244,110,14,.43) 50%,rgba(194,85,8,.23) 66%,rgba(143,65,17,.09) 82%,rgba(91,48,26,0) 100%)}
+.tb-try .tb-glow-b{background:radial-gradient(circle closest-side at 56% 50%,rgba(138,195,254,.86) 0%,rgba(0,153,255,.76) 22%,rgba(0,153,255,.64) 37%,rgba(13,125,212,.45) 50%,rgba(23,93,155,.25) 66%,rgba(29,63,96,.1) 82%,rgba(29,63,96,0) 100%)}
+.tb-t-a .tb-try .tb-glow-a{--s:.86}.tb-t-a .tb-try .tb-glow-b{--s:.42}
+.tb-t-b .tb-try .tb-glow-a{--s:.42}.tb-t-b .tb-try .tb-glow-b{--s:.86}
+.tb-facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:40px 48px}
+.tb-fact{padding-top:28px;border-top:1px solid #333333}
+.tb-chips{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
+.tb-chip{display:inline-flex;align-items:center;min-height:30px;padding:4px 10px;border:1px solid #767676;border-radius:2px;font-size:14px;line-height:20px;font-weight:600;color:#f0f0f0}
+.tb-chip-q{border-style:dashed}
+
+/* the last light: both colours rising behind the footer's edge */
+.tb-final{position:relative;padding:144px var(--g) 156px;text-align:center}
+.tb-final .tb-glow{top:100%;width:88cqw;aspect-ratio:1.7/1;--s:.95}
+.tb-final .tb-glow-a{left:37%;background:radial-gradient(closest-side,rgba(254,165,120,.9) 0%,rgba(255,102,0,.8) 22%,rgba(244,110,14,.5) 42%,rgba(194,85,8,.28) 60%,rgba(143,65,17,.12) 80%,rgba(91,48,26,0) 100%)}
+.tb-final .tb-glow-b{left:63%;background:radial-gradient(closest-side,rgba(138,195,254,.9) 0%,rgba(0,153,255,.8) 22%,rgba(13,125,212,.5) 42%,rgba(23,93,155,.3) 60%,rgba(29,63,96,.13) 80%,rgba(29,63,96,0) 100%)}
+.tb-foot{display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;gap:24px 48px;padding:40px var(--g) 56px;background:#060606;border-top:1px solid transparent;border-image:linear-gradient(90deg,rgba(255,102,0,0) 0%,#ff6600 20%,#fea578 40%,#ffffff 50%,#8ac3fe 60%,#0099ff 80%,rgba(0,153,255,0) 100%) 1}
+
+/* narrower windows */
+@container page (max-width:1100px){
+.tb-page{--g:40px}
+.tb-hero{column-gap:48px}
+.tb-try{column-gap:48px}
+}
+@container page (max-width:860px){
+.tb-page{--g:24px;--img:min(100cqw - 48px,548px)}
+.tb-navlink{display:none}
+.tb-hero{grid-template-columns:minmax(0,1fr);row-gap:32px;padding-top:16px;padding-bottom:72px}
+.tb-hero-a,.tb-hero-b,.tb-hero .tb-unit{grid-column:1;grid-row:auto}
+.tb-h1{font-size:clamp(2.75rem,14.5cqw,4.5rem)}
+.tb-sec{padding-top:96px}
+.tb-h2{margin-bottom:40px}
+.tb-steps{grid-template-columns:minmax(0,1fr);gap:0}
+.tb-step{grid-template-columns:72px minmax(0,1fr);gap:20px;padding:24px 0}
+.tb-glyph{width:72px;height:72px}
+.tb-eras{grid-template-columns:minmax(0,1fr)}
+.tb-try{grid-template-columns:minmax(0,1fr);row-gap:32px}
+.tb-try-a,.tb-try-b,.tb-try .tb-unit{grid-column:1;grid-row:auto}
+.tb-facts{grid-template-columns:minmax(0,1fr);gap:32px}
+.tb-glow{width:250%}
+.tb-spike{display:none}
+.tb-final{padding-top:112px;padding-bottom:132px}
+.tb-final .tb-glow{width:160cqw;aspect-ratio:1.5/1}
+.tb-final .tb-glow-a{left:22%}
+.tb-final .tb-glow-b{left:78%}
+}
+@container page (max-width:600px){
+.tb-page{--g:16px;--img:100cqw}
+.tb-unit{width:var(--img);margin-inline:calc(var(--g) * -1);border-left:0;border-right:0}
+.tb-btn{width:100%}
+}
+@container unit (max-width:430px){
+.tb-bar{padding:6px 16px 8px}
+.tb-epochs{order:3;flex:1 1 100%}
+.tb-epoch{flex:1 1 0;justify-content:center;border:1px solid #333333}
+}
+@media (prefers-reduced-motion:reduce){
+html{scroll-behavior:auto}
+.tb-glow{transition:none}
+.tb-play .tb-hero .tb-glow-a,.tb-play .tb-hero .tb-glow-b{animation:none}
+}
+</style>
+</helmet>
+<div class="tb-root tb-h-{{heroGlow}} tb-hf-{{heroFrame}} tb-t-{{tryFrame}} tb-d-{{speed}} {{playClass}}" style="background: #060606; color: #f0f0f0; font-family: 'Source Sans 3', 'Source Sans Pro', system-ui, -apple-system, 'Segoe UI', Roboto, 'Noto Sans', sans-serif; font-size: 16px; line-height: 1.5; font-variant-numeric: tabular-nums lining-nums slashed-zero">
+<div class="tb-page">
+
+<header class="tb-nav">
+<div style="display: flex; align-items: center; gap: 20px; min-width: 0">
+<a href="#top" style="display: inline-flex; align-items: center; gap: 10px; min-height: 44px; color: #f0f0f0; text-decoration: none; font-weight: 600; font-size: 18px; line-height: 24px"><span class="tb-mark" aria-hidden="true"><span class="tb-mark-a"></span><span class="tb-mark-b"></span></span><span>{{name}}</span></a>
+<nav class="tb-navlinks" aria-label="On this page">
+<a class="tb-navlink" href="#how">How it works</a>
+<a class="tb-navlink" href="#story">The 1930 trick</a>
+<a class="tb-navlink" href="#limits">Its limits</a>
+</nav>
+</div>
+<a class="tb-btn-s" href="{{toolUrl}}">Look at the sky</a>
+</header>
+
+<main>
+
+<section id="top" class="tb-hero">
+<div class="tb-hero-a">
+<h1 class="tb-h1"><span style="display: block">Spot the</span><span style="display: block">difference</span><span style="display: block">in the sky<span class="tb-px" aria-hidden="true"><span class="tb-px-a"></span><span class="tb-px-b"></span></span></span></h1>
+<p style="margin: 28px 0 0; max-width: 520px; font-size: clamp(1.125rem, 1.65cqw, 1.375rem); line-height: 1.45; color: #f0f0f0; text-wrap: pretty">Pick a spot. Flip between real pictures of it, taken months apart by NASA's SPHEREx space telescope. Anything that moved or changed jumps out.</p>
+</div>
+
+<figure class="tb-unit">
+<div class="tb-aura" aria-hidden="true" style="opacity: {{glow}}"><div class="tb-glow tb-glow-a"></div><div class="tb-glow tb-glow-b"></div><div class="tb-spike tb-spike-v"></div><div class="tb-spike tb-spike-h"></div></div>
+<div class="tb-lightbox">
+<img class="tb-frame tb-frame-a" src="/_blob/e92f014de487c58e2919837d97613a91" width="548" height="548" alt="Infrared picture of the sky around Barnard's Star, August 2025. One bright star sits in the middle of a field of fainter ones.">
+<img class="tb-frame tb-frame-b" src="/_blob/a54efb48a0ac9364a8de247d60ecfa1a" width="548" height="548" alt="The same patch of sky in September 2026. The bright star in the middle sits a little further north.">
+</div>
+<figcaption class="tb-capt">
+<div class="tb-bar">
+<span style="margin-right: auto; font-weight: 600; font-size: 16px; line-height: 24px">Barnard's Star</span>
+<div class="tb-epochs" role="group" aria-label="Which picture is showing">
+<button type="button" class="tb-epoch" aria-pressed="{{heroIsA}}" onClick="{{heroShowA}}"><span class="tb-sw tb-sw-a" aria-hidden="true"><span></span></span><span class="tb-mono">Aug 2025</span><span class="tb-vh">, the earlier picture</span></button>
+<button type="button" class="tb-epoch" aria-pressed="{{heroIsB}}" onClick="{{heroShowB}}"><span class="tb-sw tb-sw-b" aria-hidden="true"><span></span></span><span class="tb-mono">Sep 2026</span><span class="tb-vh">, the later picture</span></button>
+</div>
+<button type="button" class="tb-iconbtn" aria-label="{{playLabel}}" onClick="{{heroToggle}}">
+<sc-if value="{{playing}}" hint-placeholder-val="{{true}}"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" aria-hidden="true"><path d="M7 4.5v11"></path><path d="M13 4.5v11"></path></svg></sc-if>
+<sc-if value="{{paused}}" hint-placeholder-val="{{false}}"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="miter" aria-hidden="true"><path d="M6.5 4.5l8.5 5.5-8.5 5.5z"></path></svg></sc-if>
+</button>
+</div>
+<p style="margin: 0; padding: 12px 16px 16px; border-top: 1px solid #333333; font-size: 14px; line-height: 20px; color: #b4b4b4; text-wrap: pretty">The bright star in the middle is Barnard's Star. No star crosses our sky faster. Between these two pictures it moved north, and nothing else did.</p>
+</figcaption>
+</figure>
+
+<div class="tb-hero-b">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px 28px">
+<a class="tb-btn" href="{{toolUrl}}"><span>Look at the sky</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" aria-hidden="true"><path d="M3.5 10h12"></path><path d="M11 5.5l4.5 4.5-4.5 4.5"></path></svg></a>
+<a class="tb-link" href="#how">See how it works</a>
+</div>
+<p style="margin: 20px 0 0; font-size: 15px; line-height: 22px; color: #f0f0f0">Free. No login. Works on your phone.</p>
+</div>
+</section>
+
+<section id="how" class="tb-sec">
+<h2 class="tb-h2">How it works</h2>
+<ol class="tb-steps">
+<li class="tb-step">
+<svg class="tb-glyph" viewBox="0 0 96 96" fill="none" stroke="#f0f0f0" stroke-width="1.5" stroke-linecap="square" aria-hidden="true"><circle cx="48" cy="48" r="22"></circle><path d="M48 8v14"></path><path d="M48 74v14"></path><path d="M8 48h14"></path><path d="M74 48h14"></path><rect x="44" y="44" width="8" height="8" fill="#f0f0f0" stroke="none"></rect></svg>
+<div>
+<p class="tb-mono" aria-hidden="true" style="margin: 0; font-size: 14px; line-height: 20px; color: #b4b4b4">1</p>
+<h3 style="margin: 4px 0 8px; font-size: 22px; line-height: 28px; font-weight: 600">Pick a spot</h3>
+<p style="margin: 0; max-width: 34ch; font-size: 17px; line-height: 26px; color: #b4b4b4; text-wrap: pretty">Type a place in the sky or a name. Or start with a famous object, like Barnard's Star.</p>
+</div>
+</li>
+<li class="tb-step">
+<svg class="tb-glyph" viewBox="0 0 96 96" fill="none" stroke-width="1.5" stroke-linecap="square" aria-hidden="true"><rect class="ga" x="14.75" y="30.75" width="50.5" height="50.5" stroke="#ff6600"></rect><rect class="gb" x="30.75" y="14.75" width="50.5" height="50.5" stroke="#0099ff"></rect></svg>
+<div>
+<p class="tb-mono" aria-hidden="true" style="margin: 0; font-size: 14px; line-height: 20px; color: #b4b4b4">2</p>
+<h3 style="margin: 4px 0 8px; font-size: 22px; line-height: 28px; font-weight: 600">Flip</h3>
+<p style="margin: 0; max-width: 34ch; font-size: 17px; line-height: 26px; color: #b4b4b4; text-wrap: pretty">Hold one key. The picture switches between two dates, months apart.</p>
+</div>
+</li>
+<li class="tb-step">
+<svg class="tb-glyph" viewBox="0 0 96 96" fill="#f0f0f0" stroke="none" aria-hidden="true"><rect x="14" y="20" width="6" height="6"></rect><rect x="70" y="12" width="6" height="6"></rect><rect x="80" y="60" width="6" height="6"></rect><rect x="22" y="74" width="6" height="6"></rect><rect x="60" y="82" width="4" height="4"></rect><rect x="8" y="48" width="4" height="4"></rect><rect x="86" y="32" width="4" height="4"></rect><rect class="ga" x="38" y="48" width="10" height="10" fill="#ff6600"></rect><rect class="gb" x="48" y="38" width="10" height="10" fill="#0099ff"></rect></svg>
+<div>
+<p class="tb-mono" aria-hidden="true" style="margin: 0; font-size: 14px; line-height: 20px; color: #b4b4b4">3</p>
+<h3 style="margin: 4px 0 8px; font-size: 22px; line-height: 28px; font-weight: 600">See what jumps</h3>
+<p style="margin: 0; max-width: 34ch; font-size: 17px; line-height: 26px; color: #b4b4b4; text-wrap: pretty">Whatever stayed put looks frozen. Anything that moved or changed catches your eye.</p>
+</div>
+</li>
+</ol>
+</section>
+
+<section id="story" class="tb-sec">
+<h2 class="tb-h2">The same trick found Pluto</h2>
+<div class="tb-eras">
+<div class="tb-era">
+<div class="tb-bloom tb-bloom-a" aria-hidden="true" style="opacity: {{glow}}"></div>
+<p style="display: flex; align-items: center; gap: 8px; margin: 0 0 6px; font-size: 14px; line-height: 20px; color: #f0f0f0"><span class="tb-swatch" aria-hidden="true" style="background: #ff6600"></span><span>Earlier</span></p>
+<p class="tb-era-word" style="color: #ff6600; text-shadow: 0 0 0.45em rgba(255, 102, 0, 0.38), 0 0 1.4em rgba(255, 102, 0, 0.26)">1930</p>
+<p style="margin: 24px 0 0; max-width: 30em; font-size: clamp(1.0625rem, 1.5cqw, 1.25rem); line-height: 1.5; color: #f0f0f0; text-wrap: pretty">Clyde Tombaugh flipped back and forth between two photographs of the same patch of sky, taken six nights apart. One faint dot jumped. It was Pluto.</p>
+</div>
+<div class="tb-era">
+<div class="tb-bloom tb-bloom-b" aria-hidden="true" style="opacity: {{glow}}"></div>
+<p style="display: flex; align-items: center; gap: 8px; margin: 0 0 6px; font-size: 14px; line-height: 20px; color: #f0f0f0"><span class="tb-swatch" aria-hidden="true" style="background: #0099ff"></span><span>Later</span></p>
+<p class="tb-era-word" style="color: #0099ff; text-shadow: 0 0 0.45em rgba(0, 153, 255, 0.38), 0 0 1.4em rgba(0, 153, 255, 0.26)">Now</p>
+<p style="margin: 24px 0 0; max-width: 30em; font-size: clamp(1.0625rem, 1.5cqw, 1.25rem); line-height: 1.5; color: #f0f0f0; text-wrap: pretty">You flip between two pictures from a space telescope, taken months apart. It is the same trick, and it is where this site gets its name.</p>
+</div>
+</div>
+</section>
+
+<section id="try" class="tb-sec">
+<div class="tb-try">
+<div class="tb-try-a">
+<p style="margin: 0 0 12px; font-size: 16px; line-height: 24px; font-weight: 600; color: #b4b4b4">Your turn</p>
+<h2 class="tb-h2" style="margin-bottom: 24px">Now a harder one</h2>
+<p style="margin: 0; max-width: 31em; font-size: clamp(1.0625rem, 1.5cqw, 1.25rem); line-height: 1.5; color: #f0f0f0; text-wrap: pretty">This is WISE 0855−0714. It is a brown dwarf, too small to shine like a star, and the coldest one known. It is also one of the Sun's nearest neighbours.</p>
+<p style="margin: 16px 0 0; max-width: 31em; font-size: clamp(1.0625rem, 1.5cqw, 1.25rem); line-height: 1.5; color: #f0f0f0; text-wrap: pretty">Hold the key and watch the faint dot in the very middle. In six months it slid a little to the west, which is to the right.</p>
+</div>
+<figure class="tb-unit">
+<div class="tb-aura" aria-hidden="true" style="opacity: {{glow}}"><div class="tb-glow tb-glow-a"></div><div class="tb-glow tb-glow-b"></div></div>
+<div class="tb-lightbox">
+<img class="tb-frame tb-frame-a" src="/_blob/cec938afd1b1e6b26c424cd7c82546d5" width="548" height="548" alt="Infrared picture of the sky around WISE 0855−0714, November 2025. A field of faint stars with one faint dot in the very middle.">
+<img class="tb-frame tb-frame-b" src="/_blob/d3aeaea53317a3f1c7ab69b9b61b6bf4" width="548" height="548" alt="The same patch of sky in May 2026. The faint dot in the middle sits slightly further west.">
+</div>
+<figcaption class="tb-capt">
+<div class="tb-bar">
+<span style="margin-right: auto; font-weight: 600; font-size: 16px; line-height: 24px">WISE 0855−0714</span>
+<div class="tb-epochs" role="group" aria-label="Which picture is showing">
+<button type="button" class="tb-epoch" aria-pressed="{{tryIsA}}" onClick="{{tryShowA}}"><span class="tb-sw tb-sw-a" aria-hidden="true"><span></span></span><span class="tb-mono">Nov 2025</span><span class="tb-vh">, the earlier picture</span></button>
+<button type="button" class="tb-epoch" aria-pressed="{{tryIsB}}" onClick="{{tryShowB}}"><span class="tb-sw tb-sw-b" aria-hidden="true"><span></span></span><span class="tb-mono">May 2026</span><span class="tb-vh">, the later picture</span></button>
+</div>
+</div>
+<button type="button" class="tb-key" onPointerDown="{{holdStart}}" onPointerUp="{{holdEnd}}" onPointerLeave="{{holdEnd}}" onPointerCancel="{{holdEnd}}" onBlur="{{holdEnd}}" onKeyDown="{{keyDown}}" onKeyUp="{{keyUp}}" onContextMenu="{{noMenu}}">Hold to flip</button>
+</figcaption>
+</figure>
+<div class="tb-try-b">
+<a class="tb-link" href="{{toolUrl}}"><span>Pick your own spot</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" aria-hidden="true"><path d="M3.5 10h12"></path><path d="M11 5.5l4.5 4.5-4.5 4.5"></path></svg></a>
+</div>
+</div>
+</section>
+
+<section id="limits" class="tb-sec">
+<h2 class="tb-h2" style="font-size: clamp(2.5rem, 6.4cqw, 5.25rem); line-height: 1; letter-spacing: -0.022em">It will not find <span style="white-space: nowrap">Planet X.</span></h2>
+<div class="tb-facts">
+<div class="tb-fact">
+<h3 style="margin: 0 0 8px; font-size: 22px; line-height: 28px; font-weight: 600">What it shows</h3>
+<p style="margin: 0; max-width: 34ch; font-size: 17px; line-height: 26px; color: #b4b4b4; text-wrap: pretty">Nearby stars that move or change from one picture to the next. That is all it claims.</p>
+</div>
+<div class="tb-fact">
+<h3 style="margin: 0 0 8px; font-size: 22px; line-height: 28px; font-weight: 600">Real pictures</h3>
+<p style="margin: 0; max-width: 34ch; font-size: 17px; line-height: 26px; color: #b4b4b4; text-wrap: pretty">Every image comes from SPHEREx, a NASA space telescope that photographs the whole sky every six months. They look small and coarse because that is what the telescope really sees.</p>
+</div>
+<div class="tb-fact">
+<h3 style="margin: 0 0 12px; font-size: 22px; line-height: 28px; font-weight: 600">Good to know</h3>
+<ul class="tb-chips">
+<li class="tb-chip">Free</li>
+<li class="tb-chip">No login</li>
+<li class="tb-chip">Works on a phone</li>
+<li class="tb-chip">Open source</li>
+<li class="tb-chip tb-chip-q">Not an official NASA product</li>
+</ul>
+</div>
+</div>
+</section>
+
+<section class="tb-final">
+<div class="tb-aura" aria-hidden="true" style="opacity: {{glow}}"><div class="tb-glow tb-glow-a"></div><div class="tb-glow tb-glow-b"></div></div>
+<h2 class="tb-h1">Go and look.</h2>
+<p style="margin: 20px 0 0; font-size: clamp(1.125rem, 1.65cqw, 1.375rem); line-height: 1.45; color: #f0f0f0">Free. No login. Works on your phone.</p>
+<div style="display: flex; justify-content: center; margin-top: 36px">
+<a class="tb-btn" href="{{toolUrl}}"><span>Look at the sky</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" aria-hidden="true"><path d="M3.5 10h12"></path><path d="M11 5.5l4.5 4.5-4.5 4.5"></path></svg></a>
+</div>
+</section>
+
+</main>
+
+<footer class="tb-foot">
+<div style="min-width: 0; max-width: 34em">
+<p style="margin: 0; font-weight: 600; font-size: 16px; line-height: 24px">{{name}}</p>
+<p style="margin: 4px 0 0; font-size: 15px; line-height: 22px; color: #b4b4b4">Made by students at NASA Space Apps 2026 in Athlone, Ireland. Not an official NASA product.</p>
+</div>
+<div style="display: flex; flex-direction: column; align-items: flex-start; gap: 4px; min-width: 0">
+<p style="margin: 0; font-size: 15px; line-height: 22px; color: #b4b4b4">Images: NASA's SPHEREx space telescope.</p>
+<a class="tb-link" href="{{repoUrl}}" style="font-size: 15px; line-height: 22px">Source code</a>
+</div>
+</footer>
+
+</div>
+<div class="tb-grain" aria-hidden="true"></div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"siteName":{"editor":"text","default":"Tombaugh","section":"Name and links"},"toolUrl":{"editor":"text","default":"#","section":"Name and links"},"repoUrl":{"editor":"text","default":"#","section":"Name and links"},"autoFlip":{"editor":"boolean","default":true,"section":"Light and motion"},"speed":{"editor":"enum","options":["slow","steady","quick"],"default":"steady","section":"Light and motion"},"glow":{"editor":"range","default":1,"min":0,"max":1,"step":0.05,"section":"Light and motion"},"$preview":{"width":1280,"height":3840}}'>
+class Component extends DCLogic {
+state = { heroFrame: 'a', heroGlow: 'ab', playing: false, tryBase: 'a', tryHeld: false };
+
+componentDidMount() {
+this._reduce = false;
+try { this._reduce = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches); } catch (e) {}
+if (this.wantsAuto() && !this._reduce) this.play();
+}
+
+componentDidUpdate(prevProps) {
+var p = this.props || {};
+var q = prevProps || {};
+if (p.autoFlip !== q.autoFlip) {
+if (this.wantsAuto() && !this._reduce) this.play(); else this.pause();
+} else if (p.speed !== q.speed && this.state.playing) {
+this._t0 = Date.now();
+}
+}
+
+wantsAuto() {
+var v = (this.props || {}).autoFlip;
+return v === undefined || v === null ? true : !!v;
+}
+
+speed() {
+var v = (this.props || {}).speed;
+return v === 'slow' || v === 'quick' ? v : 'steady';
+}
+
+period() {
+return { slow: 3600, steady: 2400, quick: 1600 }[this.speed()];
+}
+
+/* The flipping itself is a CSS animation, so nothing re-renders while it runs. */
+play() {
+this._t0 = Date.now();
+this.setState({ playing: true, heroGlow: this._reduce ? 'ab' : this.state.heroFrame });
+}
+
+frameNow() {
+if (!this.state.playing || !this._t0) return this.state.heroFrame;
+var d = this.period();
+return ((Date.now() - this._t0) % d) < d / 2 ? 'a' : 'b';
+}
+
+pause() {
+var f = this.frameNow();
+this.setState({ playing: false, heroFrame: f, heroGlow: f });
+}
+
+pick(f) {
+this.setState({ playing: false, heroFrame: f, heroGlow: f });
+}
+
+renderVals() {
+var self = this;
+var s = this.state || {};
+var p = this.props || {};
+var base = s.tryBase === 'b' ? 'b' : 'a';
+var tryFrame = s.tryHeld ? (base === 'a' ? 'b' : 'a') : base;
+var glow = Number(p.glow);
+if (!(glow >= 0 && glow <= 1)) glow = 1;
+var playing = !!s.playing;
+return {
+name: p.siteName || 'Tombaugh',
+toolUrl: p.toolUrl || '#',
+repoUrl: p.repoUrl || '#',
+glow: glow,
+speed: this.speed(),
+heroFrame: s.heroFrame === 'b' ? 'b' : 'a',
+heroGlow: s.heroGlow || 'ab',
+tryFrame: tryFrame,
+playClass: playing ? 'tb-play' : 'tb-still',
+playing: playing,
+paused: !playing,
+playLabel: playing ? 'Stop the pictures flipping' : 'Flip the pictures automatically',
+heroIsA: !playing && s.heroFrame !== 'b',
+heroIsB: !playing && s.heroFrame === 'b',
+tryIsA: tryFrame === 'a',
+tryIsB: tryFrame === 'b',
+heroShowA: function () { self.pick('a'); },
+heroShowB: function () { self.pick('b'); },
+heroToggle: function () { if (self.state.playing) self.pause(); else self.play(); },
+tryShowA: function () { self.setState({ tryBase: 'a', tryHeld: false }); },
+tryShowB: function () { self.setState({ tryBase: 'b', tryHeld: false }); },
+holdStart: function () { self.setState({ tryHeld: true }); },
+holdEnd: function () { if (self.state.tryHeld) self.setState({ tryHeld: false }); },
+keyDown: function (e) {
+if (e.key === ' ' || e.key === 'Enter') {
+if (e.key === ' ') e.preventDefault();
+if (!e.repeat) self.setState({ tryHeld: true });
+}
+},
+keyUp: function (e) {
+if (e.key === ' ' || e.key === 'Enter') self.setState({ tryHeld: false });
+},
+noMenu: function (e) { e.preventDefault(); }
+};
+}
+}
+</script>
+</body>
+</html>

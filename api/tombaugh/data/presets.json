@@ -1,0 +1,38 @@
+{
+  "contract": "1.0",
+  "sub_bins_per_detector": 4,
+  "detectors": [
+    { "det": 1, "lam_min": 0.744, "lam_max": 1.116 },
+    { "det": 2, "lam_min": 1.099, "lam_max": 1.651 },
+    { "det": 3, "lam_min": 1.636, "lam_max": 2.421 },
+    { "det": 4, "lam_min": 2.423, "lam_max": 3.822 },
+    { "det": 5, "lam_min": 3.809, "lam_max": 4.42 },
+    { "det": 6, "lam_min": 4.412, "lam_max": 5.002 }
+  ],
+  "weighting": { "default": "uniform", "options": ["uniform", "ivar"] },
+  "presets": [
+    { "id": "all", "label": "All bands", "short": "All", "kind": "mono", "lam_min": 0.744, "lam_max": 5.002,
+      "note": "0.75-5.0 um, every detector weighted equally" },
+    { "id": "d1", "label": "D1 · 0.74-1.12 um", "short": "D1", "kind": "mono", "detectors": [1] },
+    { "id": "d2", "label": "D2 · 1.10-1.65 um", "short": "D2", "kind": "mono", "detectors": [2],
+      "note": "near 2MASS J and H" },
+    { "id": "d3", "label": "D3 · 1.64-2.42 um", "short": "D3", "kind": "mono", "detectors": [3],
+      "note": "near 2MASS Ks" },
+    { "id": "d4", "label": "D4 · 2.42-3.82 um", "short": "D4", "kind": "mono", "detectors": [4],
+      "note": "near WISE W1" },
+    { "id": "d5", "label": "D5 · 3.81-4.42 um", "short": "D5", "kind": "mono", "detectors": [5] },
+    { "id": "d6", "label": "D6 · 4.41-5.00 um", "short": "D6", "kind": "mono", "detectors": [6] },
+    { "id": "cold", "label": "Cold objects · 4.0-5.0 um", "short": "Cold", "kind": "mono", "lam_min": 4.0, "lam_max": 5.002,
+      "note": "near WISE W2 (which reaches 5.3 um); where cold brown dwarfs are brightest" },
+    { "id": "rgb", "label": "Three-colour", "short": "RGB", "kind": "rgb",
+      "r": { "detectors": [5, 6] }, "g": { "detectors": [3, 4] }, "b": { "detectors": [1, 2] },
+      "note": "red = 3.8-5.0 um, green = 1.6-3.8 um, blue = 0.74-1.65 um; cold objects appear red" }
+  ],
+  "legacy_pairs": [
+    { "mission": "AllWISE", "band": "W1", "lam_min": 2.8, "lam_max": 3.8, "spherex_preset": "d4" },
+    { "mission": "AllWISE", "band": "W2", "lam_min": 4.0, "lam_max": 5.3, "spherex_preset": "cold" },
+    { "mission": "2MASS", "band": "J", "lam_min": 1.1, "lam_max": 1.4, "spherex_preset": "d2" },
+    { "mission": "2MASS", "band": "H", "lam_min": 1.5, "lam_max": 1.8, "spherex_preset": "d2" },
+    { "mission": "2MASS", "band": "Ks", "lam_min": 2.0, "lam_max": 2.3, "spherex_preset": "d3" }
+  ]
+}

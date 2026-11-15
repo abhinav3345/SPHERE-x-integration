@@ -1,0 +1,179 @@
+/* ==========================================================================
+   Image lane: the image column (Main.dc.html 160–348, Phone.dc.html 65–257).
+   Tokens and bc- classes only. At 1280 and 1440 the design zeroes the 16px gutters the bc-
+   components bring for a phone; scoped by the root's class.
+   ========================================================================== */
+
+/* ---------------------------------------------------------------- the plate */
+/* The plate clips the marks that reach past its edge; the image keeps hard pixels. */
+.img-plate {
+  overflow: hidden;
+  cursor: crosshair;
+  touch-action: manipulation;
+}
+
+.img-plate > .bc-frame__image {
+  image-rendering: pixelated;
+}
+
+/* A CatWISE track in the CatWISE colour (the system's track is Gaia's). */
+.img-track--catwise .bc-mk__ink {
+  stroke: var(--marker-catwise);
+}
+
+/* ---------------------------------------------------------------- two squares */
+/* 1280 and 1440: side by side, 16 px apart, in a grid 16 px wider than the column. */
+.img-two {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4);
+  margin: 0 calc(-1 * var(--space-2));
+}
+
+/* Phone and rail: A above B, 16 px apart, A's label between them. */
+.img-two--stack {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
+  margin: 0;
+}
+
+.img-two--stack > [data-square="b"] {
+  margin-top: var(--space-4);
+}
+
+/* ---------------------------------------------------------------- margin and readout */
+.cmp--three .img-margin,
+.cmp--wide .img-margin {
+  padding: 0;
+}
+
+/* 248 px wide, two lines high, between the scale bar and the compass (Main.dc.html 268). */
+.img-readout--margin {
+  width: calc(var(--space-7) * 5 + var(--space-2));
+  min-height: calc(var(--leading-label) * 2);
+  padding: 0;
+  align-content: center;
+}
+
+/* ---------------------------------------------------------------- difference scale */
+.img-diffscale {
+  margin: 0 var(--size-gutter) var(--space-2);
+}
+
+.cmp--wide .img-diffscale {
+  margin: var(--space-1) 0;
+}
+
+/* 1280 × 720: the note shares the ends' line (DiffScale), so the column fits the screen. */
+.cmp--three .img-diffscale {
+  margin: 0 0 var(--space-1);
+}
+
+.img-diffscale__note {
+  text-align: center;
+}
+
+/* ---------------------------------------------------------------- ring buttons */
+/* Always 44 px, even with nothing in it. */
+.img-ringbar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--size-control);
+}
+
+.img-ringbar__hint {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+/* Phone and rail: equal cells, no hint. */
+.img-ringbar--cells {
+  display: grid;
+  grid-template-columns: repeat(var(--img-cells, 3), minmax(0, 1fr));
+  padding: 0 var(--size-gutter);
+}
+
+.cmp--phone .img-ringbar,
+.cmp--rail .img-ringbar {
+  padding: 0 var(--size-gutter);
+}
+
+/* Recentre's place, kept while the ring is at the centre. */
+.img-ringbar__kept {
+  visibility: hidden;
+}
+
+.img-tooltip--end {
+  left: auto;
+  right: 0;
+}
+
+/* ---------------------------------------------------------------- frame labels */
+.img-label {
+  margin-top: var(--space-2);
+}
+
+.cmp--three .img-label,
+.cmp--wide .img-label {
+  padding: var(--space-2) 0 0;
+}
+
+/* Two labels side by side at 1280, under two squares. */
+.img-labels {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4);
+  margin: var(--space-2) calc(-1 * var(--space-2)) 0;
+}
+
+.img-labels > .img-label {
+  margin-top: 0;
+}
+
+.img-difflabel {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1) var(--space-3);
+}
+
+/* ---------------------------------------------------------------- legend */
+.img-legend {
+  min-height: var(--leading-caption);
+  margin-bottom: var(--space-1);
+  padding: 0 var(--size-gutter);
+}
+
+.cmp--three .img-legend,
+.cmp--wide .img-legend {
+  margin: var(--space-1) 0 0;
+  padding: 0;
+}
+
+/* 1280 × 720 leaves 8 px under a one-line legend (Plan-1280: "22, then 24 spare"). A longer
+   legend takes the frame label's top margin and its own (12 px), and its lines sit 2 px apart:
+   two lines then end at the foot of the column (704). Three lines (three-colour with catalogue
+   marks, the most the 476 px line ever needs) also close the gap and take the 16 px leading, the
+   height of a key, and end 6 px above the edge of the screen. Nothing is dropped: a legend is
+   never removed to save space. It changes only with what the legend keys, never at a flip. */
+.cmp--three .img-legend {
+  row-gap: var(--space-half);
+}
+
+.cmp--three .cmp-imagecol:has(.img-legend:not([data-lines="1"])) .img-label {
+  margin-top: 0;
+}
+
+.cmp--three .img-legend:not([data-lines="1"]) {
+  margin-top: 0;
+}
+
+.cmp--three .img-legend[data-lines="3"] {
+  row-gap: 0;
+  line-height: var(--leading-micro);
+}
+
+.img-legend__note {
+  color: var(--color-text-muted);
+}

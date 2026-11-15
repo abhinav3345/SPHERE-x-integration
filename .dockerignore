@@ -1,0 +1,30 @@
+# Build context for the API image (see Dockerfile). The image copies only api/pyproject.toml,
+# api/uv.lock, api/README.md, api/tombaugh and cache/fixtures.
+
+# Not part of the API image
+web
+science
+.git
+.github
+.claude
+
+# Dependencies and environments that are installed inside the image instead
+**/node_modules
+**/.venv
+
+# Caches
+**/__pycache__
+**/*.py[cod]
+**/.pytest_cache
+**/.ruff_cache
+**/.mypy_cache
+**/.cache
+
+# Runtime cache: only the recorded fixtures go into the image
+cache/*
+!cache/fixtures
+
+# Local files that must never reach an image
+.env
+.env.*
+**/.DS_Store
