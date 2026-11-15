@@ -28,7 +28,9 @@ import {
 import { palette } from "./palette";
 import { type Painted, type Picture, paintPicture } from "./picture";
 import { setPointer } from "./pointer";
+import { useSmoothDisplay } from "./SmoothDisplay";
 import { type DrawnMarker, imageSize, marksOf, pixelOf, type SquareModel, wasOf } from "./scene";
+import { paintPlateSmooth } from "./smooth";
 
 /** What a picture shows, as eight fixed slots: its kind, arrays, limits and flags. */
 function contentsOf(picture: Picture | null): readonly unknown[] {
@@ -147,6 +149,7 @@ export function Plate({ vm, square, fit, crop }: PlateProps) {
   const k = fit.devicePerPixel;
   const side = crop.size * crop.scale;
   const painted = usePainted(square.picture, nx);
+  const smooth = useSmoothDisplay();
 
   // The bytes, at device resolution. Runs before the browser paints, with the label's glyphs.
   useLayoutEffect(() => {
@@ -162,9 +165,10 @@ export function Plate({ vm, square, fit, crop }: PlateProps) {
       return;
     }
     const crop2 = { x0: crop.x0, y0: crop.y0, size: crop.size };
-    const bytes = paintPlate(painted.rgba, painted.noData, nx, ny, k, crop2, palette().hatch);
+    const painter = smooth ? paintPlateSmooth : paintPlate;
+    const bytes = painter(painted.rgba, painted.noData, nx, ny, k, crop2, palette().hatch);
     context.putImageData(new ImageData(bytes, pixels, pixels), 0, 0);
-  }, [painted, k, crop.x0, crop.y0, crop.size, nx, ny]);
+  }, [painted, k, crop.x0, crop.y0, crop.size, nx, ny, smooth]);
 
   // Land the plate's corner on the device-pixel grid. Layout only: the plate's size, the screen's
   // density or the square's size changed; never on a frame change. The nudge is a layout offset

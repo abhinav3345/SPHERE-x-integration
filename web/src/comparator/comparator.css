@@ -140,3 +140,22 @@
     margin-inline: calc(-1 * (var(--focus-width) + var(--focus-gap)));
   }
 }
+
+/* Optional display-only interpolation control. Fixed positioning avoids changing rail heights. */
+.cmp-smooth-toggle {
+  position: fixed;
+  z-index: 30;
+  right: 1rem;
+  bottom: 1rem;
+  padding: 0.65rem 0.9rem;
+  border: 1px solid var(--color-border, #777);
+  border-radius: 0.5rem;
+  background: var(--color-surface, #181818);
+  color: var(--color-text, #fff);
+  font: inherit;
+  cursor: pointer;
+}
+.cmp-smooth-toggle:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
