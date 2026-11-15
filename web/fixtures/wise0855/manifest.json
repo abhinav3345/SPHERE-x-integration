@@ -36,14 +36,7 @@
       "date_start": "2025-05-05",
       "date_end": "2025-05-06",
       "n_exposures": 29,
-      "detectors": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6
-      ]
+      "detectors": [1, 2, 3, 4, 5, 6]
     },
     {
       "id": 1,
@@ -53,14 +46,7 @@
       "date_start": "2025-10-31",
       "date_end": "2025-11-14",
       "n_exposures": 107,
-      "detectors": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6
-      ]
+      "detectors": [1, 2, 3, 4, 5, 6]
     },
     {
       "id": 2,
@@ -70,12 +56,7 @@
       "date_start": "2025-12-11",
       "date_end": "2025-12-13",
       "n_exposures": 18,
-      "detectors": [
-        2,
-        3,
-        5,
-        6
-      ]
+      "detectors": [2, 3, 5, 6]
     },
     {
       "id": 3,
@@ -85,14 +66,7 @@
       "date_start": "2026-04-21",
       "date_end": "2026-05-14",
       "n_exposures": 100,
-      "detectors": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6
-      ]
+      "detectors": [1, 2, 3, 4, 5, 6]
     }
   ],
   "wave_bins": [
@@ -1509,10 +1483,7 @@
   "provenance": {
     "pipeline_version": "0.3.0",
     "built_at": "2026-11-14T22:19:29Z",
-    "data_dois": [
-      "10.26131/IRSA678",
-      "10.26131/IRSA662"
-    ],
+    "data_dois": ["10.26131/IRSA678", "10.26131/IRSA662"],
     "notes": [
       "resampled to 3.075\"/px; native pixel 6.15\"; resolution about 10\"",
       "each plane is the inverse-variance mean of the exposures of one time bin and wave bin after a local background was subtracted; outliers are rejected only within one time bin and detector; for display, not for photometry",
