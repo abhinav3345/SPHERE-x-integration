@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>State: reduced motion</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/comparator/assets/Hand-off/tokens.css">
+<link rel="stylesheet" href="ds/comparator/components/bundle.css">
+<script src="ds/comparator/components/bundle.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400&amp;family=Source+Sans+3:wght@400;600&amp;display=swap">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="width: 390px; min-height: 2900px; background: var(--color-bg)">
+<dc-import name="Phone" mode="page" minh="2900" cond="reduced" hint-size="390px,2900px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":2900}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

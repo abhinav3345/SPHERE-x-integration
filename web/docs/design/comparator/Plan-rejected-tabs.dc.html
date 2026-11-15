@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Rejected layout: tabs and a filmstrip</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/comparator/assets/Hand-off/tokens.css">
+<link rel="stylesheet" href="ds/comparator/components/bundle.css">
+<script src="ds/comparator/components/bundle.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400&amp;family=Source+Sans+3:wght@400;600&amp;display=swap">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="width: 640px; height: 400px; box-sizing: border-box; display: flex; flex-direction: column; background: var(--color-bg); color: var(--color-text-muted); font-family: var(--font-ui); font-size: 12px; line-height: 16px; font-variant-numeric: var(--numeric)">
+
+<div style="height: 360px; box-sizing: border-box; padding: 8px; display: grid; grid-template-columns: 238px minmax(0, 1fr); column-gap: 12px">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<div style="box-sizing: border-box; height: 238px; padding: 6px 8px; background: var(--color-surface); border: 1px solid var(--color-line)">Image, 476 × 476</div>
+<div style="box-sizing: border-box; height: 28px; padding: 5px 8px; border: 1px solid var(--color-line-strong)">Flip, Previous, Play, Next, against the image edge</div>
+<div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px">
+<div style="box-sizing: border-box; height: 56px; padding: 3px 4px; background: var(--color-surface); border: 1px solid var(--color-line)">Frame 1, small</div>
+<div style="box-sizing: border-box; height: 56px; padding: 3px 4px; background: var(--color-surface); border: 1px solid var(--color-line)">Frame 2, small</div>
+<div style="box-sizing: border-box; height: 56px; padding: 3px 4px; background: var(--color-surface); border: 1px solid var(--color-line)">Frame 3, small</div>
+<div style="box-sizing: border-box; height: 56px; padding: 3px 4px; background: var(--color-surface); border: 1px solid var(--color-text)">Frame 4, small</div>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<div style="box-sizing: border-box; height: 27px; padding: 5px 8px; border-bottom: 1px solid var(--color-line-strong); display: flex; justify-content: space-between; gap: 8px"><span>Tombaugh</span><span>Search</span><span>Copy link</span></div>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px">
+<div style="box-sizing: border-box; height: 24px; padding: 3px 8px; border: 1px solid var(--color-text); color: var(--color-text)">Frames</div>
+<div style="box-sizing: border-box; height: 24px; padding: 3px 8px; border: 1px solid var(--color-line-strong)">View and band</div>
+<div style="box-sizing: border-box; height: 24px; padding: 3px 8px; border: 1px solid var(--color-line-strong)">Display</div>
+</div>
+<div style="box-sizing: border-box; height: 275px; padding: 6px 8px; border: 1px solid var(--color-line-strong)">One tab at a time. The band selector, the view switch and the caveats are each one click away from the timeline.</div>
+</div>
+</div>
+
+<div style="box-sizing: border-box; height: 40px; padding: 4px 8px; border-top: 1px solid var(--color-line); color: var(--color-text)">Rejected. Tabs put the band or a caveat behind a click in the middle of a demonstration. A filmstrip shows sky at a scale that is not a whole number. A bar under the image presses lit controls against its edge.</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":640,"height":400}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

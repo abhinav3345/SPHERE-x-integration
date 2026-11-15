@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Hand-off: removable parts</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/comparator/assets/Hand-off/tokens.css">
+<link rel="stylesheet" href="ds/comparator/components/bundle.css">
+<script src="ds/comparator/components/bundle.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400&amp;family=Source+Sans+3:wght@400;600&amp;display=swap">
+<style>
+body{margin:0}
+.ho-t{table-layout:fixed;width:100%}
+.ho-t td,.ho-t th{text-align:left !important;white-space:normal !important;vertical-align:top;font-family:var(--font-ui) !important;overflow-wrap:anywhere}
+</style>
+</helmet>
+<div style="width: 1200px; min-height: 2500px; box-sizing: border-box; padding: 48px; display: flex; flex-direction: column; gap: 24px; background: var(--color-bg); color: var(--color-text); font-family: var(--font-ui); font-size: 14px; line-height: 20px; font-variant-numeric: var(--numeric)">
+
+<div style="display: flex; flex-direction: column; gap: 8px; max-width: 820px">
+<h1 class="bc-title">Removable parts</h1>
+<p>The twelve things being built tonight. Each is one whole child of a column or one cell of a row, so leaving it out is a matter of not rendering it. Nothing else has to be restyled.</p>
+</div>
+
+<section class="bc-panel" style="max-width: 820px">
+<h2 class="bc-heading">How a gap closes</h2>
+<ul style="margin: 0; padding-left: 20px; list-style: disc; display: flex; flex-direction: column; gap: 6px">
+<li>A group that goes from a rail lets the groups under it move up. Groups keep their order and their 12px gaps.</li>
+<li>At 1280 the timeline is the one part that stretches. It takes whatever height a removed part gives back.</li>
+<li>A cell that goes from a row lets the others share the row equally.</li>
+<li>Three rows keep their height when they are empty, so nothing jumps later: the ring row (44px), the legend line (18px) and the chip row of the frame label (24px).</li>
+<li>A link that names a part that is not there opens Blink with the rest of the link honoured.</li>
+</ul>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 8px">
+<h2 class="bc-heading">The twelve parts</h2>
+<div class="bc-tablewrap"><table class="bc-table ho-t">
+<colgroup><col style="width: 15%"><col style="width: 27%"><col style="width: 33%"><col style="width: 25%"></colgroup>
+<thead><tr><th scope="col">Part</th><th scope="col">Where it sits</th><th scope="col">When it goes, what closes the gap</th><th scope="col">Goes with it</th></tr></thead>
+<tbody>
+<tr><td>Search by name, or by hours and degrees</td><td>The same search field that takes decimal degrees today.</td><td>No gap. Only the hint changes: it offers the forms that work. With decimal degrees alone that is "Try 133.7599 -7.2418."</td><td>The message "Looking up the name." and the error for a name that was not found. Nobody arrives at a catalogue position, so the banner never carries its button.</td></tr>
+<tr><td>Moved-object banner</td><td>1280: a notice in the time rail, above the playback. Phone: above the image while it carries its button, under the playback after the jump.</td><td>The notice is not rendered. At 1280 the playback moves up and the timeline takes the height. On a phone the image moves up to the title strip.</td><td>The button "Go to where it is now" and the arrival through it.</td></tr>
+<tr><td>Hold to flip</td><td>1280: the flip key, first in the playback. Phone: the dock at the foot of the image section.</td><td>The key is not rendered. At 1280 the transport is first in the playback. On a phone the dock goes and the transport, next in the flow, sits directly under the frame label.</td><td>Nothing. The pair is still kept for Side by side and Difference.</td></tr>
+<tr><td>Side by side</td><td>A cell of the view switch. In the view: two squares, two labels, the pair block.</td><td>The cell is not rendered and the others share the row: four cells, three or two at 1280; on a phone 2 × 2 becomes one row of three or two.</td><td>The readout form with a brightness for each frame.</td></tr>
+<tr><td>Difference image</td><td>A cell of the view switch. In the view: the difference scale under the image, the pair block.</td><td>As Side by side.</td><td>The difference scale, the label "B … minus A …", and the line "Greyed frames cannot be subtracted."</td></tr>
+<tr><td>Then and now</td><td>A cell of the view switch. In the view: two squares and the survey labels.</td><td>As Side by side. With Blink alone left, the View group is not rendered and the groups under it move up.</td><td>The survey label, the chip "Its own brightness scale", and the A and B tags once Side by side and Difference are gone too.</td></tr>
+<tr><td>Contrast and invert</td><td>The Display group: a slider, then a row of toggles.</td><td>Contrast: the slider and its label go, and the note becomes the group's first line. Invert: its toggle goes and Markers starts the row.</td><td>Nothing. The note "Same brightness scale for every frame" always stays, and so does the Markers toggle, which also hides the ring.</td></tr>
+<tr><td>Spotlight zoom</td><td>A button in the ring row.</td><td>The button is not rendered. At 1280 the hint takes the room. On a phone the remaining cells share the row.</td><td>Esc then only stops playback. The scale beside the scale bar stays.</td></tr>
+<tr><td>Three-colour</td><td>The ninth band option.</td><td>The option is not rendered and "Cold objects" spans two columns, so the grid stays 3 × 3 with no empty cell.</td><td>The three channel items in the legend, and the R, G and B bars on the rule, which then keeps its 58px.</td></tr>
+<tr><td>Spectrum panel</td><td>A button in the ring row. The panel opens in the view rail at 1280 and under the playback on a phone.</td><td>The button is not rendered and the panel never opens. Band, Field of view and Display never give up their place.</td><td>The message "Saturated: no reliable brightness", the table and Download CSV.</td></tr>
+<tr><td>Catalogue markers</td><td>Over the image only: the dashed square for 2010, and the system's Gaia cross and CatWISE diamond.</td><td>They are not drawn. Their legend items go; the legend line keeps its 18px.</td><td>Nothing. The ring is not a catalogue marker: it stays, with the Markers toggle.</td></tr>
+<tr><td>Copy link</td><td>An icon button and its status in the header: the view rail at 1280, the app bar on a phone.</td><td>Both are not rendered. The chip "Recorded field" or "Live data" moves to the end of the header.</td><td>The status "Link copied".</td></tr>
+</tbody></table></div>
+<p class="bc-note">Gaia and CatWISE markers are on no board: the brief and the system give no positions for them at these fields. Their shapes, sizes and colours are in the system's Markers card.</p>
+</section>
+
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; align-items: start">
+
+<section class="bc-panel">
+<h2 class="bc-heading">With all twelve gone</h2>
+<p>The screen is what works today, in the same layout.</p>
+<ul style="margin: 0; padding-left: 20px; list-style: disc; display: flex; flex-direction: column; gap: 6px">
+<li>Time rail: search by decimal degrees, the transport and speed, Frames, the caveat list.</li>
+<li>Image column: the square, the scale bar, readout and compass, the ring row with its hint, the frame label, the legend.</li>
+<li>View rail: the name and the chip, Band with eight options, Field of view, the note and the Markers toggle, provenance.</li>
+</ul>
+<p class="bc-note">Recentre is not one of the twelve. It builds a position in decimal degrees, which works today, so the ring row is never empty once the ring has moved.</p>
+</section>
+
+<section class="bc-panel">
+<h2 class="bc-heading">Never removed with a feature</h2>
+<ul style="margin: 0; padding-left: 20px; list-style: disc; display: flex; flex-direction: column; gap: 6px">
+<li>The frame label, with its reserved chip row.</li>
+<li>The scale bar and the compass.</li>
+<li>The hatch, and "No data" in the legend whenever a frame in the sequence has hatched pixels.</li>
+<li>The caveat list and the greyed, labelled partial and thin rows.</li>
+<li>The note "Same brightness scale for every frame".</li>
+<li>The chip "Recorded field" or "Live data".</li>
+<li>The provenance line and the two DOIs.</li>
+</ul>
+</section>
+
+</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1200,"height":2500}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

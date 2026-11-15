@@ -1,0 +1,256 @@
+<!-- @dsCard group="Proof" height=720 width=1280 subtitle="Proof at 1280 × 720. Not the site design." -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Proof1280 — preview</title>
+<!-- Reference page only: Source Sans 3 loads from Google Fonts here. The product self-hosts its fonts (see Hand-off). -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400&amp;family=Source+Sans+3:wght@400;600&amp;display=swap">
+<style>
+/* Fallback copy of the tokens, so this card still renders if the system token sheet is not loaded.
+   It sits in a cascade layer, so the system's own tokens always win. Never copy this block into the product. */
+@layer token-fallback {
+:root {
+  --color-bg: #0e0e0e;
+  --color-surround: var(--color-bg);
+  --color-surface: #1c1c1c;
+  --color-surface-raised: #262626;
+  --color-pressed: #3a3a3a;
+  --color-line: #333333;
+  --color-line-strong: #767676;
+  --color-text: #f0f0f0;
+  --color-text-muted: #b4b4b4;
+  --color-text-disabled: #767676;
+  --color-accent: #f0f0f0;
+  --color-accent-hover: #ffffff;
+  --color-accent-pressed: #c8c8c8;
+  --color-on-accent: #0e0e0e;
+  --color-focus: #ffffff;
+  --ramp-black: #000000;
+  --ramp-white: #ffffff;
+  --nodata-a: #2b2b2b;
+  --nodata-b: #a3a3a3;
+  --epoch-a: #ff6600;
+  --epoch-b: #0099ff;
+  --diff-earlier-5: #fea578;
+  --diff-earlier-4: #f46e0e;
+  --diff-earlier-3: #c25508;
+  --diff-earlier-2: #8f4111;
+  --diff-earlier-1: #5b301a;
+  --diff-zero: #222222;
+  --diff-later-1: #1d3f60;
+  --diff-later-2: #175d9b;
+  --diff-later-3: #0d7dd4;
+  --diff-later-4: #39a0fd;
+  --diff-later-5: #8ac3fe;
+  --series-1: #ff6600;
+  --series-2: #fea578;
+  --series-3: #d4d4d4;
+  --series-4: #8ac3fe;
+  --series-5: #0099ff;
+  --marker-position: #ffffff;
+  --marker-gaia: #3ce074;
+  --marker-catwise: #fe6ec7;
+  --marker-was: #fce343;
+  --marker-casing: #000000;
+  --spotlight-dim: rgba(0, 0, 0, 0.62);
+  --channel-r: #ff0000;
+  --channel-g: #00ff00;
+  --channel-b: #0000ff;
+  --space-half: 2px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --radius-0: 0;
+  --radius-1: 2px;
+  --radius-2: 4px;
+  --text-micro: 0.75rem;
+  --text-caption: 0.8125rem;
+  --text-label: 0.875rem;
+  --text-body: 1rem;
+  --text-readout: 1.125rem;
+  --text-title: 1.375rem;
+  --leading-micro: 1rem;
+  --leading-caption: 1.125rem;
+  --leading-label: 1.25rem;
+  --leading-body: 1.5rem;
+  --leading-title: 1.75rem;
+  --weight-regular: 400;
+  --weight-strong: 600;
+  --numeric: tabular-nums lining-nums slashed-zero;
+  --border-hair: 1px;
+  --border-strong: 2px;
+  --focus-width: 2px;
+  --focus-gap: 2px;
+  --size-touch: 44px;
+  --size-control: 44px;
+  --size-flip: 56px;
+  --size-icon: 20px;
+  --icon-stroke: 1.5px;
+  --size-gutter: 16px;
+  --size-column-max: 430px;
+  --size-rail: 320px;
+  --image-default: 119px;
+  --image-max: 197px;
+  --hatch-stripe: 2px;
+  --marker-stroke: 2px;
+  --blink-rate-default: 2;
+  --blink-rate-max: 6;
+  --feedback-duration: 0ms;
+  --font-ui: "Source Sans 3", "Source Sans Pro", system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", sans-serif;
+  --font-mono: "Source Code Pro", ui-monospace, "SF Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+}
+}
+</style>
+<style>
+  body { padding: 0; }
+  .p-screen { width: 1280px; height: 720px; overflow: hidden; display: grid; grid-template-rows: auto auto minmax(0, 1fr); }
+  .p-tag { padding: var(--space-half) var(--size-gutter); border-bottom: var(--border-hair) dashed var(--color-line-strong); font-size: var(--text-micro); line-height: var(--leading-micro); color: var(--color-text-muted); }
+  .p-bar { display: grid; grid-template-columns: auto minmax(0, 30rem) auto; align-items: center; justify-content: space-between; column-gap: var(--space-5); }
+  .p-bar .bc-field { min-width: 0; }
+  .p-main { display: grid; grid-template-columns: 476px minmax(0, 1fr) minmax(0, 1fr); column-gap: var(--space-5); min-height: 0; padding: var(--space-2) var(--size-gutter) 0; }
+  .p-col { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-3); align-content: start; min-width: 0; }
+  .p-col--image { gap: 0; }
+  .p-col--image .bc-framefoot, .p-col--image .bc-readout, .p-col--image .bc-framelabel { padding-inline: 0; }
+  .p-col--image .bc-framelabel { margin-top: var(--space-2); }
+</style>
+</head>
+<body>
+<div class="p-screen">
+  <p class="p-tag">Proof of the system at 1280 × 720. Not the site design.</p>
+  <header class="bc-appbar p-bar">
+    <a class="bc-wordmark" href="#top">Tombaugh</a>
+    <form class="bc-field bc-field--inline" role="search" onsubmit="return false">
+      <label class="bc-sr" for="p1280-q">Sky position or name</label>
+      <input class="bc-input" id="p1280-q" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" value="08h55m10.831s -07d14m42.53s">
+      <button class="bc-button" type="submit">Search</button>
+    </form>
+    <span class="bc-appbar__end">
+      <span class="bc-copy__status" id="p1280-copy" role="status" aria-live="polite" data-done="Link copied"></span>
+      <span class="bc-chip"><span class="bc-mark bc-mark--full"></span>Live data</span>
+      <button class="bc-button bc-button--quiet" type="button" data-copy="p1280-copy"><i data-icon="copy-link"></i>Copy link</button>
+    </span>
+  </header>
+  <main class="p-main">
+    <section class="p-col p-col--image" aria-label="Image">
+      <div class="bc-frame" tabindex="0" role="group" aria-label="Sky image, 31 Oct to 14 Nov 2025, 4.41 to 5.00 micrometres. Arrow keys move the readout by one pixel.">
+        <div class="bc-frame__stage"><div class="bc-frame__plate">
+          <canvas class="bc-frame__image" id="p1280-frame" data-frame="119" data-fill="52"></canvas>
+          <svg class="bc-frame__overlay" aria-hidden="true" data-markers='[["was",0.5,0.5,"2010"],["position",0.5,0.5],["catwise",0.26,0.30,"CatWISE"]]'></svg>
+          <span class="bc-frame__label"><span>real frame, 119 × 119 px</span></span>
+        </div></div>
+      </div>
+      <div class="bc-framefoot">
+        <span class="bc-scalebar" data-scalebar="60" data-for="p1280-frame"></span>
+        <i data-compass></i>
+      </div>
+      <p class="bc-readout bc-readout--line">
+        <span class="bc-readout__field" style="--bc-ch: 14"><span class="bc-readout__key">RA </span>133.75977°</span>
+        <span class="bc-readout__field" style="--bc-ch: 13"><span class="bc-readout__key">Dec </span>−7.24183°</span>
+        <span class="bc-readout__field" style="--bc-ch: 12">0.142 MJy/sr</span>
+      </p>
+      <div class="bc-framelabel">
+        <div class="bc-framelabel__chips"></div>
+      <p class="bc-framelabel__when">31 Oct to 14 Nov 2025</p>
+        <p class="bc-framelabel__facts"><span>4.41 to 5.00 µm</span><span> 19 exposures</span></p>
+        </div>
+    </section>
+
+    <section class="p-col" aria-label="Frames and playback">
+      <div class="bc-notice" role="status">
+        <i data-icon="information"></i>
+        <div>
+          <p>WISE 0855-0714 was here in 2010. It is now 126″ to the west.</p>
+          <div class="bc-notice__actions"><button class="bc-button bc-button--primary" type="button">Go to where it is now</button></div>
+        </div>
+      </div>
+      <div class="bc-playback">
+        <button class="bc-flip" type="button" aria-pressed="false"><i data-icon="flip"></i>Hold to flip</button>
+        <div class="bc-transport">
+          <button class="bc-button bc-button--icon" type="button" aria-label="Previous frame"><i data-icon="previous"></i></button>
+          <button class="bc-button bc-button--icon" type="button" aria-label="Play" aria-pressed="false"><i data-icon="play"></i></button>
+          <button class="bc-button bc-button--icon" type="button" aria-label="Next frame"><i data-icon="next"></i></button>
+          <span class="bc-transport__count">Frame 2 of 4</span>
+        </div>
+        <div class="bc-speed">
+          <label for="p1280-speed">Speed</label>
+          <div>
+            <input class="bc-slider" id="p1280-speed" type="range" min="1" max="6" step="1" value="2" data-output="p1280-speed-out" data-unit=" per second">
+            <div class="bc-ticks bc-ticks--labelled" aria-hidden="true"><span><i>1</i></span><span><i>2</i></span><span><i>3</i></span><span><i>4</i></span><span><i>5</i></span><span><i>6</i></span></div>
+          </div>
+          <output class="bc-fixed" style="--bc-ch: 12" id="p1280-speed-out" for="p1280-speed">2 per second</output>
+        </div>
+      </div>
+      <ol class="bc-timeline" aria-label="Frames, oldest first">
+        <li><button class="bc-visit bc-visit--survey" type="button"><span class="bc-mark"></span><span class="bc-visit__when">2MASS, 1999</span><span class="bc-visit__count">Other survey</span></button></li>
+        <li><button class="bc-visit bc-visit--survey" type="button"><span class="bc-mark"></span><span class="bc-visit__when">WISE, 2010</span><span class="bc-visit__count">Other survey</span></button></li>
+        <li><button class="bc-visit bc-visit--qualified" type="button"><span class="bc-mark"></span><span class="bc-visit__when">5–6 May 2025</span><span class="bc-visit__count">4 exposures, thin</span></button></li>
+        <li><button class="bc-visit" type="button" aria-current="true"><span class="bc-mark"></span><span class="bc-visit__when">31 Oct–14 Nov 2025</span><span class="bc-visit__count">19 exposures</span></button></li>
+        <li><button class="bc-visit bc-visit--qualified" type="button"><span class="bc-mark"></span><span class="bc-visit__when">11–13 Dec 2025</span><span class="bc-visit__count">3 exposures, thin</span></button></li>
+        <li><button class="bc-visit" type="button"><span class="bc-mark"></span><span class="bc-visit__when">21 Apr–14 May 2026</span><span class="bc-visit__count">21 exposures</span></button></li>
+      </ol>
+    </section>
+
+    <section class="p-col" aria-label="View and display">
+      <div class="bc-group">
+        <span class="bc-group__label" id="p1280-view">View</span>
+        <div class="bc-segmented bc-segmented--wrap" style="--bc-cols: 4" role="radiogroup" aria-labelledby="p1280-view">
+          <button class="bc-option" type="button" role="radio" aria-checked="true" data-value="blink">Blink</button>
+          <button class="bc-option" type="button" role="radio" aria-checked="false" data-value="side">Side by side</button>
+          <button class="bc-option" type="button" role="radio" aria-checked="false" data-value="difference">Difference</button>
+          <button class="bc-option" type="button" role="radio" aria-checked="false" data-value="then">Then and now</button>
+        </div>
+      </div>
+      <div class="bc-group">
+        <span class="bc-group__label" id="p1280-band">Band</span>
+        <div data-rule="D6" data-rule-for="p1280-band-options"></div>
+        <div class="bc-segmented bc-segmented--wrap" style="--bc-cols: 3" role="radiogroup" id="p1280-band-options" aria-labelledby="p1280-band">
+          <button class="bc-option" type="button" role="radio" aria-checked="false" data-value="D1"><span>D1</span><span class="bc-option__meta">0.74–1.12 µm</span></button>
+          <button class="bc-option" type="button" role="radio" aria-checked="false" data-value="D2"><span>D2</span><span class="bc-option__meta">1.10–1.65 µm</span></button>
+          <button class="bc-option" type="button" role="radio" aria-checked="false" data-value="D3"><span>D3</span><span class="bc-option__meta">1.64–2.42 µm</span></button>
+          <button class="bc-option" type="button" role="radio" aria-checked="false" data-value="D4"><span>D4</span><span class="bc-option__meta">2.42–3.82 µm</span></button>
+          <button class="bc-option" type="button" role="radio" aria-checked="false" data-value="D5"><span>D5</span><span class="bc-option__meta">3.81–4.42 µm</span></button>
+          <button class="bc-option" type="button" role="radio" aria-checked="true" data-value="D6"><span>D6</span><span class="bc-option__meta">4.41–5.00 µm</span></button>
+          <button class="bc-option" type="button" role="radio" aria-checked="false" data-value="all"><span>All</span><span class="bc-option__meta">0.74–5.00 µm</span></button>
+          <button class="bc-option" type="button" role="radio" aria-checked="false" data-value="cold"><span>Cold objects</span><span class="bc-option__meta">4.0–5.0 µm</span></button>
+          <button class="bc-option" type="button" role="radio" aria-checked="false" data-value="rgb"><span>Three-colour</span><span class="bc-option__meta">R · G · B</span></button>
+        </div>
+      </div>
+      <div class="bc-group">
+        <span class="bc-group__label" id="p1280-fov">Field of view</span>
+        <div class="bc-segmented" role="radiogroup" aria-labelledby="p1280-fov">
+          <button class="bc-option" type="button" role="radio" aria-checked="false" data-value="3">3′</button>
+          <button class="bc-option" type="button" role="radio" aria-checked="false" data-value="4">4′</button>
+          <button class="bc-option" type="button" role="radio" aria-checked="false" data-value="5">5′</button>
+          <button class="bc-option" type="button" role="radio" aria-checked="true" data-value="6">6′</button>
+          <button class="bc-option" type="button" role="radio" aria-checked="false" data-value="8">8′</button>
+          <button class="bc-option" type="button" role="radio" aria-checked="false" data-value="10">10′</button>
+        </div>
+      </div>
+      <div class="bc-group">
+        <label class="bc-group__label" for="p1280-contrast">Contrast</label>
+        <div>
+          <input class="bc-slider" id="p1280-contrast" type="range" min="0" max="8" step="1" value="5">
+          <div class="bc-ticks" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        </div>
+      </div>
+      <div class="bc-stack">
+        <button class="bc-toggle" type="button" role="switch" aria-checked="false" data-inverts="#p1280-frame"><span class="bc-toggle__track"><span class="bc-toggle__knob"></span></span><span>Invert</span><span class="bc-toggle__state">Off</span></button>
+        <p class="bc-note">Same brightness scale for every frame</p>
+        <p class="bc-provenance"><span class="bc-value">258 of 258</span> exposures used. SPHEREx Quick Release 2.</p>
+      </div>
+    </section>
+  </main>
+</div>
+<script>
+if (window.Comparator) { Comparator.enhance(document); }
+</script>
+</body>
+</html>
